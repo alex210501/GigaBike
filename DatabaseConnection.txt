@@ -1,0 +1,4 @@
+ * Hostname : pat.infolab.ecam.be
+ * Port : 63313
+ * Username : gigabike
+ * Password : 0123456789
