@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GigaBike {
     public class GigaBikeSolution {
         Controller Controller;
-        GigaBikeWindow Display;
+        Window Display;
 
         public GigaBikeSolution() {
             Controller = new Controller();
-            Display = new GigaBikeWindow();
+            Display = new Window();
         }
 
         public void Initialize() {

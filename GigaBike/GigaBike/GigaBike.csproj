@@ -12,4 +12,10 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="GUI\LoginWindow.xaml">
+      <CustomToolNamespace>Lo</CustomToolNamespace>
+    </Page>
+  </ItemGroup>
+
 </Project>
