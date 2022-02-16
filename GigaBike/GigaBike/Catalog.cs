@@ -5,20 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GigaBike {
-    class Catalog {
+    public class Catalog {
         private List<Bike> bikes;
 
-        Catalog() {
+        public Catalog() {
             bikes = new List<Bike>();
         }
 
-        List<Bike> Bikes {
+        public List<Bike> Bikes {
             get {
                 return new List<Bike>(bikes);
             }
         }
 
-        void RefreshModels () { 
+        public void RefreshModels () { 
             // Refresh the models from the database
         }
     }

@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GigaBike {
-    class Login {
+    public class Login {
         private string Username { get; set; }
         private string Password { get; set; }
+
+        public Login() { }
 
         public bool CheckUser(string username, string password) {
             // Faire une requête en DB ici pour obtenir le mot de passe

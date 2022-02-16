@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GigaBike {
-    class Controller {
+    public class Controller {
         public Login Login { get; }
         public Catalog Catalog { get; }
         public Order Order { get; }

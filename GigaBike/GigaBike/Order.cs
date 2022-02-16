@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GigaBike {
-    class Order {
+    public class Order {
         // public List<Bike> Bikes;
         public int Price { get; }
         public DateTime DateDelivery { get; }
-        int Duration { get; set; }
+        public int Duration { get; set; }
 
-        Order() { }
+        public Order() { }
 
-        void Save(Customer customer) {
+        public void Save(Customer customer) {
             return;
         }
 

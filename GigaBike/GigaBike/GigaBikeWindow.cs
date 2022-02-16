@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GigaBike {
-    class GigaBikeWindow {
-        void InitializeComponent() {
+    public class GigaBikeWindow {
+        public void InitializeComponent() {
             
         }
     }
