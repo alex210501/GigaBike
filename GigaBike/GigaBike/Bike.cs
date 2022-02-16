@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace GigaBike {
     public class Bike {
+        public int IdBike { get; }
         public string Name { get; }
         public int Price { get; }
-        public string Color { get; }
-        public string Size { get; }
+        public Color Color { get; }
+        public Size Size { get; }
 
-        public Bike (string name, int price, string color, string size) {
+        public Bike (int IdBike, string name, int price, Color color, Size size) {
+            this.IdBike = IdBike;
             this.Name = name;
             this.Price = price;
             this.Color = color;
