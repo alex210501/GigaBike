@@ -14,24 +14,18 @@ using System.Windows.Shapes;
 
 namespace GigaBike {
     public partial class BikeModelWindow : Window {
-        public BikeModelWindow() {
-            InitializeComponent();
-            //Here put command DB size
-            //For element in DB LIST (BikeSize.Items.Add("element");
-            BikeSize.Items.Add("26");
-            BikeSize.Items.Add("28");
-            //Here put command DB color
-            //For element in DB LIST (BikeColor.Items.Add("element");
-            BikeColor.Items.Add("Blue");
-            BikeColor.Items.Add("Red");
-            BikeColor.Items.Add("Green");
+        private Action backToCatalogCallback = null;
+        private CatalogModel currentCatalogModel = null;
 
+        public BikeModelWindow(CatalogModel currentCatalogModel) {
+            InitializeComponent();
+
+            this.currentCatalogModel = currentCatalogModel;
+            RefreshModel();
         }
 
         private void ButtonBackToCatalog(object sender, RoutedEventArgs e) {
-            CatalogWindow cat = new CatalogWindow();
-            cat.Show();
-            this.Hide();
+            if (backToCatalogCallback is not null) backToCatalogCallback();
         }
 
         private void ListSize1(object sender, RoutedEventArgs e) {
@@ -58,9 +52,25 @@ namespace GigaBike {
 
         private void ListBoxItem_Selected(object sender, RoutedEventArgs e) {
         }
-    }
 
-    public class TodoItem {
-        public string Color { get; set; }
+        private void RefreshModel() {
+            AddColor(currentCatalogModel.Color);
+            AddSize(currentCatalogModel.Size);
+            BikeName.Content = currentCatalogModel.Name;
+        }
+
+        private void AddColor(List<Color> colors) {
+            foreach (Color colorModel in colors) BikeColor.Items.Add(colorModel.Name);
+        }
+
+        private void AddSize(List<Size> sizes) {
+            foreach (Size sizeModel in sizes) BikeSize.Items.Add(sizeModel.Name);
+        }
+
+        public Action BackToCatalogCallback {
+            set {
+                backToCatalogCallback = value;
+            }
+        }
     }
 }

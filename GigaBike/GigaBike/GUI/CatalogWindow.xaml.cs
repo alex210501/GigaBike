@@ -18,6 +18,7 @@ namespace GigaBike {
         Func<CatalogModel> nextModelCallback = null;
         Func<CatalogModel> previousModelCallback = null;
         Action backToChoosePathCallback = null;
+        Action checkModelCallback = null;
 
         CatalogModel catalogModel = null;
 
@@ -43,9 +44,7 @@ namespace GigaBike {
         }
 
         private void ButtonCheck1(object sender, RoutedEventArgs e) {
-            /*BikeModelWindow cb1 = new BikeModelWindow(); // a changer lorsque l'on va appeler la base ==> création de form automatique avec les informations => besoin création template
-            cb1.Show();
-            this.Hide();*/
+            if (checkModelCallback is not null) checkModelCallback();
         }
 
         public void SetCurrentModel(CatalogModel currentModel) {
@@ -71,6 +70,12 @@ namespace GigaBike {
         public Action BackToChoosePathCallback {
             set {
                 backToChoosePathCallback = value;
+            }
+        }
+
+        public Action CheckModelCallback {
+            set {
+                checkModelCallback = value;
             }
         }
     }

@@ -52,15 +52,21 @@ namespace GigaBike {
 
             // Define Callbacks
             (Current.MainWindow as CatalogWindow).BackToChoosePathCallback = GoToChoosePathWindow;
+            (Current.MainWindow as CatalogWindow).CheckModelCallback = GoToBikeModelWindow;
             (Current.MainWindow as CatalogWindow).NextModelCallback = CatalogWindowNextModelCallback;
             (Current.MainWindow as CatalogWindow).PreviousModelCallback = CatalogWindowPreviousModelCallback;
 
             Current.MainWindow.Show();
         }
 
-        public void GoToBikeModelWindow(Bike bike) {
+        public void GoToBikeModelWindow() {
             Current.MainWindow.Hide();
-            Current.MainWindow = new BikeModelWindow();
+
+            // Create BikeModelWindow instance with a CatalogModel as parameter
+            Current.MainWindow = new BikeModelWindow(controller.Catalog.GetCurrentModel());
+
+            // Define callback
+            (Current.MainWindow as BikeModelWindow).BackToCatalogCallback = GoToCatalogWindow;
             Current.MainWindow.Show();
         }
 

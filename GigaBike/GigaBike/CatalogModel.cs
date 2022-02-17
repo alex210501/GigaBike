@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace GigaBike {
     public class CatalogModel {
@@ -23,33 +24,33 @@ namespace GigaBike {
             Price = bike.Price;
         }
 
-        bool IsBikeRegistered(Bike bike) {
-            foreach(Bike bikeRegistered in bikes) {
-                if (bikeRegistered.IdBike == bike.IdBike) 
-                    return true;
-            }
-
-            return false;
-        }
-
         public List<Color> Color {
             get {
-                HashSet<Color> colors = new HashSet<Color>();
+                Dictionary<int, Color> colors = new Dictionary<int, Color>();
 
-                foreach (Bike bike in bikes) colors.Add(bike.Color);
+                foreach (Bike bike in bikes) colors[bike.Color.IdColor] = bike.Color;
 
-                return new List<Color>(colors.ToList());
+                return new List<Color>(colors.Values);
             }
         }
 
         public List<Size> Size{
             get {
-                HashSet<Size> sizes = new HashSet<Size>();
+                Dictionary<int, Size> sizes = new Dictionary<int, Size>();
 
-                foreach (Bike bike in bikes) sizes.Add(bike.Size);
+                foreach (Bike bike in bikes) sizes[bike.Size.IdSize] = bike.Size;
 
-                return new List<Size>(sizes.ToList());
+                return new List<Size>(sizes.Values);
             }
+        }
+
+        bool IsBikeRegistered(Bike bike) {
+            foreach (Bike bikeRegistered in bikes) {
+                if (bikeRegistered.IdBike == bike.IdBike)
+                    return true;
+            }
+
+            return false;
         }
     }
 }
