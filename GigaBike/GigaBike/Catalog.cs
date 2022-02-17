@@ -24,6 +24,9 @@ namespace GigaBike {
             // Refresh the models from the database
 
             // Test: Create model while waiting the database management
+            // Clear the model list to create a new one
+            models.Clear();
+
             Bike bike1 = new Bike(1, "Explorer", 100, new Color(1, "Green"), new Size(1, "28''"));
             Bike bike2 = new Bike(2, "Explorer", 100, new Color(2, "Red"), new Size(1, "28''"));
             Bike bike3 = new Bike(3, "Adventure", 100, new Color(2, "Red"), new Size(1, "26''"));
