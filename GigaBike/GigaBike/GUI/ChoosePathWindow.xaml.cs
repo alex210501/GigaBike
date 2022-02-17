@@ -17,6 +17,7 @@ namespace GigaBike {
     /// Interaction logic for ChoosePathWindow.xaml
     /// </summary>
     public partial class ChoosePathWindow : Window {
+        Action goToCatalogCallback = null;
         public ChoosePathWindow() {
             InitializeComponent();
         }
@@ -31,9 +32,13 @@ namespace GigaBike {
         }
 
         private void ButtonToCatalog(object sender, RoutedEventArgs e) {
-            /* CatalogWindow cat = new CatalogWindow();
-            cat.Show();
-            this.Hide(); */
+            if (goToCatalogCallback is not null) goToCatalogCallback();
+        }
+
+        public Action GoToCatalogCallback {
+            set {
+                goToCatalogCallback = value;
+            }
         }
     }
 }

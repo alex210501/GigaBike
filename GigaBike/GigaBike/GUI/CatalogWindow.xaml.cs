@@ -15,8 +15,10 @@ using System.Diagnostics;
 
 namespace GigaBike {
     public partial class CatalogWindow : Window {
-        public Func<CatalogModel> nextModelCallback = null;
-        public Func<CatalogModel> previousModelCallback = null;
+        Func<CatalogModel> nextModelCallback = null;
+        Func<CatalogModel> previousModelCallback = null;
+        Action backToChoosePathCallback = null;
+
         CatalogModel catalogModel = null;
 
         public CatalogWindow() {
@@ -37,9 +39,7 @@ namespace GigaBike {
         }
 
         private void ButtonBackToChoose(object sender, RoutedEventArgs e) {
-            /* ChoosePath path = new ChoosePath();
-            path.Show();
-            this.Hide(); */
+            if (backToChoosePathCallback is not null) backToChoosePathCallback();
         }
 
         private void ButtonCheck1(object sender, RoutedEventArgs e) {
@@ -65,6 +65,12 @@ namespace GigaBike {
         public Func<CatalogModel> PreviousModelCallback {
             set {
                 previousModelCallback = value;
+            }
+        }
+
+        public Action BackToChoosePathCallback {
+            set {
+                backToChoosePathCallback = value;
             }
         }
     }
