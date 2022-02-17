@@ -54,8 +54,8 @@ namespace GigaBike {
         }
 
         private void RefreshModel() {
-            AddColor(currentCatalogModel.Color);
-            AddSize(currentCatalogModel.Size);
+            AddColor(currentCatalogModel.AvailableColor);
+            AddSize(currentCatalogModel.AvailableSize);
             BikeName.Content = currentCatalogModel.Name;
         }
 

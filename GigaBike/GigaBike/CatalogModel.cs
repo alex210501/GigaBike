@@ -24,7 +24,7 @@ namespace GigaBike {
             Price = bike.Price;
         }
 
-        public List<Color> Color {
+        public List<Color> AvailableColor {
             get {
                 Dictionary<int, Color> colors = new Dictionary<int, Color>();
 
@@ -34,7 +34,7 @@ namespace GigaBike {
             }
         }
 
-        public List<Size> Size{
+        public List<Size> AvailableSize{
             get {
                 Dictionary<int, Size> sizes = new Dictionary<int, Size>();
 
