@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 namespace GigaBike {
     public class CatalogModel {
         public int IdModel { get; }
-        public string Name { get; }
+        public string Name { get; private set; }
         public int Price { get; private set; }
         private List<Bike> bikes;
 
-        CatalogModel(int IdModel) {
+        public CatalogModel(int IdModel) {
             this.IdModel = IdModel;
             bikes = new List<Bike>();
         }
 
-        void AddBike(Bike bike) {
+        public void AddBike(Bike bike) {
             if (IsBikeRegistered(bike) == false)
                 bikes.Add(bike);
+            Name = bike.Name;
             Price = bike.Price;
         }
 
