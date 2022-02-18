@@ -67,12 +67,20 @@ namespace GigaBike {
 
             // Define callback
             (Current.MainWindow as BikeModelWindow).BackToCatalogCallback = GoToCatalogWindow;
+            (Current.MainWindow as BikeModelWindow).NextButtonCallback = GoToOrderValidationWindow;
+
             Current.MainWindow.Show();
         }
 
         public void GoToOrderValidationWindow() {
             Current.MainWindow.Hide();
-            Current.MainWindow = new OrderValidationWindow();
+
+            // Create OrderValidationWindow instance
+            Current.MainWindow = new OrderValidationWindow(controller.Catalog.GetCurrentModel());
+
+            // Define callback
+            (Current.MainWindow as OrderValidationWindow).BackToCatalogWindow = GoToCatalogWindow;
+
             Current.MainWindow.Show();
         }
 

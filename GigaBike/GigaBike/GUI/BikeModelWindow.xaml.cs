@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 namespace GigaBike {
     public partial class BikeModelWindow : Window {
         private Action backToCatalogCallback = null;
+        private Action nextButtonCallback = null;
         private CatalogModel currentCatalogModel = null;
 
         public BikeModelWindow(CatalogModel currentCatalogModel) {
@@ -45,9 +46,7 @@ namespace GigaBike {
         }
 
         private void ButtonCommandNext(object sender, RoutedEventArgs e) {
-            OrderValidationWindow OV1 = new OrderValidationWindow();
-            OV1.Show();
-            this.Hide();
+            if (nextButtonCallback is not null) nextButtonCallback();
         }
 
         private void ListBoxItem_Selected(object sender, RoutedEventArgs e) {
@@ -70,6 +69,12 @@ namespace GigaBike {
         public Action BackToCatalogCallback {
             set {
                 backToCatalogCallback = value;
+            }
+        }
+
+        public Action NextButtonCallback {
+            set {
+                nextButtonCallback = value;
             }
         }
     }

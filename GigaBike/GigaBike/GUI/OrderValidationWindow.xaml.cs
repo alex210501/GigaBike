@@ -12,7 +12,9 @@ using System.Windows.Shapes;
 
 namespace GigaBike {
     public partial class OrderValidationWindow : Window {
-        public OrderValidationWindow() {
+        private Action backToCatalogWindow = null;
+
+        public OrderValidationWindow(CatalogModel currentModel) {
             InitializeComponent();
             Text_Box_Estimation_Date.Text = "Estimation Date :";
         }
@@ -40,13 +42,17 @@ namespace GigaBike {
         }
 
         private void ButtonBackToModels(object sender, RoutedEventArgs e) {
-            /* CatalogWindow cat = new CatalogWindow();
-            cat.Show();
-            this.Hide(); */
+            if (backToCatalogWindow is not null) backToCatalogWindow();
         }
 
         private void ButtonCancel(object sender, RoutedEventArgs e) {
 
+        }
+
+        public Action BackToCatalogWindow {
+            set {
+                backToCatalogWindow = value;
+            }
         }
     }
 }
