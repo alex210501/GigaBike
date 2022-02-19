@@ -19,5 +19,13 @@ namespace GigaBike {
             this.Color = color;
             this.Size = size;
         }
+
+        public Bike (Bike otherBike) {
+            this.IdBike = otherBike.IdBike;
+            this.Name = otherBike.Name;
+            this.Price = otherBike.Price;
+            this.Color = otherBike.Color;
+            this.Size = otherBike.Size;
+        }
     }
 }
