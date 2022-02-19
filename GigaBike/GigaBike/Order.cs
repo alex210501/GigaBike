@@ -17,8 +17,8 @@ namespace GigaBike {
             return;
         }
 
-        public void AddBike(Bike bike) {
-            bikes.Add(bike);
+        public void AddBike(Bike bike, int quantity) {
+            for(int i = 0; i < quantity; i++) bikes.Add(new Bike(bike));
         }
 
         public List<Bike> Bikes {

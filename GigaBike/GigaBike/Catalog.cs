@@ -55,5 +55,10 @@ namespace GigaBike {
         public void PreviousModel() {
             if (currentModel > 0) currentModel--;
         }
+
+        /* public Bike GetSelectedBike() {
+            CatalogModel catalogModel = GetCurrentModel();
+
+        } */
     }
 }

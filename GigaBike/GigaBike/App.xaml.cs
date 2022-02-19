@@ -67,7 +67,7 @@ namespace GigaBike {
 
             // Define callback
             (Current.MainWindow as BikeModelWindow).BackToCatalogCallback = GoToCatalogWindow;
-            (Current.MainWindow as BikeModelWindow).NextButtonCallback = GoToOrderValidationWindow;
+            (Current.MainWindow as BikeModelWindow).NextButtonCallback = AddToOrderCallback;
 
             Current.MainWindow.Show();
         }
@@ -94,6 +94,20 @@ namespace GigaBike {
             controller.Catalog.PreviousModel();
 
             return controller.Catalog.GetCurrentModel();
+        }
+
+        public void AddToOrderCallback() {
+            try {
+                // Bike currentBikeModel = controller.Catalog.GetCurrentModel();
+                int quantity = (Current.MainWindow as BikeModelWindow).GetQuantity();
+                // controller.Order.AddBike()
+
+                GoToOrderValidationWindow();
+            }
+            catch (FormatException) {
+                MessageBox.Show("The quantity must be an integer !");
+            }
+
         }
     }
 }

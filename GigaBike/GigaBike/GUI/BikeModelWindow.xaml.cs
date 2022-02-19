@@ -59,11 +59,15 @@ namespace GigaBike {
         }
 
         private void AddColor(List<Color> colors) {
-            foreach (Color colorModel in colors) BikeColor.Items.Add(colorModel.Name);
+            foreach (Color colorModel in colors) BikeColor.Items.Add(colorModel);
         }
 
         private void AddSize(List<Size> sizes) {
-            foreach (Size sizeModel in sizes) BikeSize.Items.Add(sizeModel.Name);
+            foreach (Size sizeModel in sizes) BikeSize.Items.Add(sizeModel);
+        }
+
+        public int GetQuantity() {
+            return Int16.Parse(QuantityText.Text);
         }
 
         public Action BackToCatalogCallback {
