@@ -13,6 +13,8 @@ using System.Windows.Shapes;
 namespace GigaBike {
     public partial class OrderValidationWindow : Window {
         private Action backToCatalogWindow = null;
+        private Action cancelOrderCallback = null;
+        private Action saveOrderCallback = null;
 
         public OrderValidationWindow(CatalogModel currentModel) {
             InitializeComponent();
@@ -38,7 +40,7 @@ namespace GigaBike {
         }
 
         private void ButtonSavePurchase(object sender, RoutedEventArgs e) {
-
+            if (saveOrderCallback is not null) saveOrderCallback();
         }
 
         private void ButtonBackToModels(object sender, RoutedEventArgs e) {
@@ -46,12 +48,24 @@ namespace GigaBike {
         }
 
         private void ButtonCancel(object sender, RoutedEventArgs e) {
-
+            if (cancelOrderCallback is not null) cancelOrderCallback();
         }
 
         public Action BackToCatalogWindow {
             set {
                 backToCatalogWindow = value;
+            }
+        }
+
+        public Action CancelOrderCallback {
+            set {
+                cancelOrderCallback = value;
+            }
+        }
+
+        public Action SaveOrderCallback {
+            set {
+                saveOrderCallback = value;
             }
         }
     }

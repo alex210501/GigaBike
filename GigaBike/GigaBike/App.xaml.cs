@@ -80,6 +80,7 @@ namespace GigaBike {
 
             // Define callback
             (Current.MainWindow as OrderValidationWindow).BackToCatalogWindow = GoToCatalogWindow;
+            (Current.MainWindow as OrderValidationWindow).CancelOrderCallback = CancelOrderCallback;
 
             Current.MainWindow.Show();
         }
@@ -123,7 +124,11 @@ namespace GigaBike {
             catch (BikeNotFoundException e) {
                 MessageBox.Show(e.Message);
             }
+        }
 
+        public void CancelOrderCallback() {
+            controller.Order.Clear();
+            GoToCatalogWindow();
         }
     }
 }

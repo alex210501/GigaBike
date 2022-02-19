@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace GigaBike {
     public class Order {
         private List<BikeOrder> bikes;
-        public int Price { get; }
         public DateTime DateDelivery { get; }
         public int Duration { get; set; }
 
@@ -19,6 +18,10 @@ namespace GigaBike {
             return;
         }
 
+        public void Clear() {
+            bikes.Clear();
+        }
+
         public void AddBike(Bike bike, int quantity) {
             BikeOrder bikeOrder = new BikeOrder(new Bike(bike), quantity);
             bikes.Add(bikeOrder);
@@ -27,6 +30,16 @@ namespace GigaBike {
         public List<BikeOrder> Bikes {
             get {
                 return new List<BikeOrder>(bikes);
+            }
+        }
+
+        public int Price {
+            get {
+                int price = 0;
+
+                foreach (BikeOrder bikeOrder in bikes) price += bikeOrder.Price;
+
+                return price;
             }
         }
     }
