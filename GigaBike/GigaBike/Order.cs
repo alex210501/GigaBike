@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace GigaBike {
     public class Order {
-        private List<Bike> bikes;
+        private List<BikeOrder> bikes;
         public int Price { get; }
         public DateTime DateDelivery { get; }
         public int Duration { get; set; }
 
         public Order() {
-            bikes = new List<Bike>();
+            bikes = new List<BikeOrder>();
         }
 
         public void Save(Customer customer) {
@@ -20,12 +20,13 @@ namespace GigaBike {
         }
 
         public void AddBike(Bike bike, int quantity) {
-            for(int i = 0; i < quantity; i++) bikes.Add(new Bike(bike));
+            BikeOrder bikeOrder = new BikeOrder(new Bike(bike), quantity);
+            bikes.Add(bikeOrder);
         }
 
-        public List<Bike> Bikes {
+        public List<BikeOrder> Bikes {
             get {
-                return new List<Bike>(bikes);
+                return new List<BikeOrder>(bikes);
             }
         }
     }
