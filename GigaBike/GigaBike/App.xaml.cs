@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.IO;
 using System.Diagnostics;
 
 namespace GigaBike {
@@ -48,7 +49,7 @@ namespace GigaBike {
             // Create CatalogWindow instance
             Current.MainWindow = new CatalogWindow();
             (Current.MainWindow as CatalogWindow).SetCurrentModel(controller.Catalog.GetCurrentModel());
-            (Current.MainWindow as CatalogWindow).RefresModel();
+            (Current.MainWindow as CatalogWindow).RefreshModel();
 
             // Define Callbacks
             (Current.MainWindow as CatalogWindow).BackToChoosePathCallback = GoToChoosePathWindow;

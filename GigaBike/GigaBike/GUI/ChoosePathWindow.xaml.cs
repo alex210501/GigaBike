@@ -24,7 +24,7 @@ namespace GigaBike {
         private void ButtonBackToLogin(object sender, RoutedEventArgs e) {
             /* LoginWindow log = new LoginWindow();
             log.Show();
-            this.Hide(); */
+            this.Hide();*/
         }
 
         private void ButtonToRessource(object sender, RoutedEventArgs e) {

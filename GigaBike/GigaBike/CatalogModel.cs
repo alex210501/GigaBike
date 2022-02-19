@@ -53,7 +53,6 @@ namespace GigaBike {
             return false;
         }
 
-        // TODO: Raise exception if bike not found
         public Bike GetBike(Color color, Size size) {
             foreach (Bike bike in bikes) {
                 if ((bike.Color.IdColor == color.IdColor) && (bike.Size.IdSize == size.IdSize))
@@ -61,6 +60,10 @@ namespace GigaBike {
             }
 
             throw new BikeNotFoundException(string.Format("The bike with the color {0} and the size {1} is not found !", color.Name, size.Name));
+        }
+
+        public Bike GetFirstBike() {
+            return bikes[0];
         }
     }
 }

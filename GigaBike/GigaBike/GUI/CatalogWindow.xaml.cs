@@ -19,24 +19,24 @@ namespace GigaBike {
         Func<CatalogModel> previousModelCallback = null;
         Action backToChoosePathCallback = null;
         Action checkModelCallback = null;
+        private static string imageFolder = "/GUI/Pictures/";
 
         CatalogModel catalogModel = null;
 
         public CatalogWindow() {
             InitializeComponent();
-            NameBike.Text = "City Bike";
         }
 
         private void ButtonLeft_Click(object sender, RoutedEventArgs e) {
             if (previousModelCallback is not null) catalogModel = previousModelCallback();
 
-            RefresModel();
+            RefreshModel();
         }
 
         private void ButtonRight_Click(object sender, RoutedEventArgs e) {
             if (nextModelCallback is not null) catalogModel = nextModelCallback();
 
-            RefresModel();
+            RefreshModel();
         }
 
         private void ButtonBackToChoose(object sender, RoutedEventArgs e) {
@@ -51,8 +51,14 @@ namespace GigaBike {
             catalogModel = currentModel;
         }
 
-        public void RefresModel() {
+        public void RefreshModel() {
             NameBike.Text = catalogModel.Name;
+
+            // Refresh the bike picture
+            Uri uriImage = new Uri(string.Format("{0}{1}", imageFolder, catalogModel.GetFirstBike().ImagePath), UriKind.Relative);
+            BikePicture.Source = new BitmapImage(uriImage);
+
+            Trace.WriteLine(BikePicture.Source);
         }
 
         public Func<CatalogModel> NextModelCallback {

@@ -28,19 +28,23 @@ namespace GigaBike {
             // Clear the model list to create a new one
             models.Clear();
 
-            Bike bike1 = new Bike(1, "Explorer", 100, new Color(1, "Green"), new Size(1, "28''"));
-            Bike bike2 = new Bike(2, "Explorer", 100, new Color(2, "Red"), new Size(1, "28''"));
-            Bike bike3 = new Bike(3, "Adventure", 100, new Color(2, "Red"), new Size(1, "26''"));
+            Bike bike1 = new Bike(1, "Explorer", 100, new Color(1, "Green"), new Size(1, "28''"), "Explorer.png");
+            Bike bike2 = new Bike(2, "Explorer", 100, new Color(2, "Red"), new Size(1, "28''"), "Explorer.png");
+            Bike bike3 = new Bike(3, "Adventure", 100, new Color(2, "Red"), new Size(1, "26''"), "Adventure.jpg");
+            Bike bike4 = new Bike(4, "City", 100, new Color(1, "Green"), new Size(1, "28''"), "City.jpg");
 
             CatalogModel catalogModel1 = new CatalogModel(1);
             CatalogModel catalogModel2 = new CatalogModel(2);
+            CatalogModel catalogModel3 = new CatalogModel(4);
 
             catalogModel1.AddBike(bike1);
             catalogModel1.AddBike(bike2);
             catalogModel2.AddBike(bike3);
+            catalogModel3.AddBike(bike4);
 
             models.Add(catalogModel1);
             models.Add(catalogModel2);
+            models.Add(catalogModel3);
 
             numberModels = models.Count;
         }
