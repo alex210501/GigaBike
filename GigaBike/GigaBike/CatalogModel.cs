@@ -52,5 +52,15 @@ namespace GigaBike {
 
             return false;
         }
+
+        // TODO: Raise exception if bike not found
+        public Bike GetBike(Color color, Size size) {
+            foreach (Bike bike in bikes) {
+                if ((bike.Color.IdColor == color.IdColor) && (bike.Size.IdSize == size.IdSize))
+                    return bike;
+            }
+
+            return null;
+        }
     }
 }

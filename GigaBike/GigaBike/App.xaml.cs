@@ -98,11 +98,26 @@ namespace GigaBike {
 
         public void AddToOrderCallback() {
             try {
-                // Bike currentBikeModel = controller.Catalog.GetCurrentModel();
+                // Get information from the display
+                Color colorBike = (Current.MainWindow as BikeModelWindow).GetColor();
+                Size sizeBike = (Current.MainWindow as BikeModelWindow).GetSize();
                 int quantity = (Current.MainWindow as BikeModelWindow).GetQuantity();
-                // controller.Order.AddBike()
 
+                Trace.WriteLine(colorBike.Name);
+                Trace.WriteLine(sizeBike.Name);
+
+                // Get the bike selected
+                Bike currentBikeModel = controller.Catalog.GetSelectedBike(colorBike, sizeBike);
+
+                // Add the bike to the order list
+                controller.Order.AddBike(new Bike(currentBikeModel), quantity);
+
+                // Go to the Order Window
                 GoToOrderValidationWindow();
+
+                foreach (Bike bike in controller.Order.Bikes) {
+                    Trace.WriteLine(string.Format("Bike : {0}, color : {1}, size: {2}", bike.Name, bike.Color.Name, bike.Size.Name));
+                }
             }
             catch (FormatException) {
                 MessageBox.Show("The quantity must be an integer !");

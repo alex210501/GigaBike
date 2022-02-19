@@ -67,7 +67,15 @@ namespace GigaBike {
         }
 
         public int GetQuantity() {
-            return Int16.Parse(QuantityText.Text);
+            return short.Parse(QuantityText.Text);
+        }
+
+        public Color GetColor() {
+            return (BikeColor.SelectedItem as Color);
+        }
+
+        public Size GetSize() {
+            return (BikeSize.SelectedItem as Size);
         }
 
         public Action BackToCatalogCallback {

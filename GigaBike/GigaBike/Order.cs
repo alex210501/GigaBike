@@ -11,7 +11,9 @@ namespace GigaBike {
         public DateTime DateDelivery { get; }
         public int Duration { get; set; }
 
-        public Order() { }
+        public Order() {
+            bikes = new List<Bike>();
+        }
 
         public void Save(Customer customer) {
             return;

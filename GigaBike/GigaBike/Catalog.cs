@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace GigaBike {
     public class Catalog {
@@ -56,9 +57,10 @@ namespace GigaBike {
             if (currentModel > 0) currentModel--;
         }
 
-        /* public Bike GetSelectedBike() {
+        public Bike GetSelectedBike(Color colorBike, Size sizeBike) {
             CatalogModel catalogModel = GetCurrentModel();
 
-        } */
+            return catalogModel.GetBike(colorBike, sizeBike);
+        }
     }
 }
