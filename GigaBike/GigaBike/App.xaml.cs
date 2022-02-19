@@ -103,9 +103,6 @@ namespace GigaBike {
                 Size sizeBike = (Current.MainWindow as BikeModelWindow).GetSize();
                 int quantity = (Current.MainWindow as BikeModelWindow).GetQuantity();
 
-                Trace.WriteLine(colorBike.Name);
-                Trace.WriteLine(sizeBike.Name);
-
                 // Get the bike selected
                 Bike currentBikeModel = controller.Catalog.GetSelectedBike(colorBike, sizeBike);
 
@@ -121,6 +118,9 @@ namespace GigaBike {
             }
             catch (FormatException) {
                 MessageBox.Show("The quantity must be an integer !");
+            }
+            catch (BikeNotFoundException e) {
+                MessageBox.Show(e.Message);
             }
 
         }

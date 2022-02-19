@@ -60,7 +60,7 @@ namespace GigaBike {
                     return bike;
             }
 
-            return null;
+            throw new BikeNotFoundException(string.Format("The bike with the color {0} and the size {1} is not found !", color.Name, size.Name));
         }
     }
 }
