@@ -16,7 +16,8 @@ namespace GigaBike {
     public partial class BikeModelWindow : Window {
         private Action backToCatalogCallback = null;
         private Action nextButtonCallback = null;
-        private CatalogModel currentCatalogModel = null;
+        private CatalogModel currentCatalogModel = null; 
+        private static string imageFolder = "/GUI/Pictures/";
 
         public BikeModelWindow(CatalogModel currentCatalogModel) {
             InitializeComponent();
@@ -49,6 +50,7 @@ namespace GigaBike {
             AddSize(currentCatalogModel.AvailableSize);
             BikeName.Content = currentCatalogModel.Name;
             RefreshBikePrice();
+            RefreshBikePicture();
         }
 
         void RefreshBikePrice() {
@@ -69,6 +71,13 @@ namespace GigaBike {
                 PriceTextBox.Text = "Bike not available";
                 PriceTextBox.Foreground = Brushes.Red;
             }
+        }
+
+        void RefreshBikePicture() {
+            Bike currentBike = currentCatalogModel.GetFirstBike();
+
+            Uri uriImage = new Uri(string.Format("{0}{1}", imageFolder, currentBike.ImagePath), UriKind.Relative);
+            BikePicture.Source = new BitmapImage(uriImage);
         }
 
         private void AddColor(List<Color> colors) {
