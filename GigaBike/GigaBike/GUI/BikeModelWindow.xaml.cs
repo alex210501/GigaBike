@@ -65,11 +65,11 @@ namespace GigaBike {
                 else
                     PriceTextBox.Text = "0";
 
-                PriceTextBox.Foreground = Brushes.Black;
+                PriceTextBox.Foreground = Brushes.Black; // Put text in black
             }
             catch (BikeNotFoundException) {
                 PriceTextBox.Text = "Bike not available";
-                PriceTextBox.Foreground = Brushes.Red;
+                PriceTextBox.Foreground = Brushes.Red; // Put text in red
             }
         }
 
