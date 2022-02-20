@@ -12,14 +12,14 @@ namespace GigaBike {
         public DataBase DataBase { get; }
 
         public Controller() {
-            this.Login = new Login();
-            this.Catalog = new Catalog();
-            this.Order = new Order();
             this.DataBase = new DataBase();
+            this.Login = new Login();
+            this.Catalog = new Catalog(this.DataBase);
+            this.Order = new Order();
         }
 
         public void Init() {
-            // Make the init sequence
+            DataBase.Connect();
         }
 
         public void AddToOrder(Bike bike, int quantity) {

@@ -17,6 +17,13 @@ namespace GigaBike {
 
         App() {
             controller = new Controller();
+
+            try {
+                controller.Init();
+            }
+            catch (MySql.Data.MySqlClient.MySqlException) {
+                Trace.WriteLine("No database connection !");
+            }
         }
 
 		protected override  void OnStartup(StartupEventArgs e) {
