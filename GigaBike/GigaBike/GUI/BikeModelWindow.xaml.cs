@@ -29,17 +29,12 @@ namespace GigaBike {
             if (backToCatalogCallback is not null) backToCatalogCallback();
         }
 
-        private void ListSize1(object sender, RoutedEventArgs e) {
+        private void ColorSelectionChangedCallback(object sender, SelectionChangedEventArgs e) {
+            RefreshBikePrice();
         }
 
-        private void ListSize2(object sender, RoutedEventArgs e) {
-        }
-
-        private void ListColor_All(object sender, SelectionChangedEventArgs e) {
-        }
-
-        private void ListSize_All(object sender, SelectionChangedEventArgs e) {
-
+        private void SizeSelectionChangedCallback(object sender, SelectionChangedEventArgs e) {
+            RefreshBikePrice();
         }
 
         private void Text_Input_Quantity(object sender, TextChangedEventArgs e) {
@@ -49,13 +44,31 @@ namespace GigaBike {
             if (nextButtonCallback is not null) nextButtonCallback();
         }
 
-        private void ListBoxItem_Selected(object sender, RoutedEventArgs e) {
-        }
-
         private void RefreshModel() {
             AddColor(currentCatalogModel.AvailableColor);
             AddSize(currentCatalogModel.AvailableSize);
             BikeName.Content = currentCatalogModel.Name;
+            RefreshBikePrice();
+        }
+
+        void RefreshBikePrice() {
+            try {
+                Color color = GetColor();
+                Size size = GetSize();
+
+                if ((color is not null) && (size is not null)) {
+                    Bike currentBike = currentCatalogModel.GetBike(color, size);
+                    PriceTextBox.Text = currentBike.Price.ToString();
+                }
+                else
+                    PriceTextBox.Text = "0";
+
+                PriceTextBox.Foreground = Brushes.Black;
+            }
+            catch (BikeNotFoundException) {
+                PriceTextBox.Text = "Bike not available";
+                PriceTextBox.Foreground = Brushes.Red;
+            }
         }
 
         private void AddColor(List<Color> colors) {

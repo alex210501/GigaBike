@@ -62,6 +62,11 @@ namespace GigaBike {
             throw new BikeNotFoundException(string.Format("The bike with the color {0} and the size {1} is not found !", color.Name, size.Name));
         }
 
+        public int GetPrice(Color color, Size size) {
+            Bike bike = GetBike(color, size);
+            return bike.Price;
+        }
+
         public Bike GetFirstBike() {
             return bikes[0];
         }
