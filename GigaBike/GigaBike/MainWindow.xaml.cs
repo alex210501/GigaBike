@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 using MySql.Data.MySqlClient;
 
 namespace GigaBike {
@@ -24,6 +25,12 @@ namespace GigaBike {
 
             DataBase db = new DataBase();
             db.Connect();
+
+            MySqlDataReader rdr = db.GetModels();
+
+            while (rdr.Read()) {
+                Trace.WriteLine(string.Format("{0} {1} {2} {3} {4}", rdr.GetInt32(0), rdr.GetInt32(1), rdr.GetString(2), rdr.GetInt32(3), rdr.GetString(4)));
+            }
         }
     }
 }

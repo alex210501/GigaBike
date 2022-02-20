@@ -43,7 +43,7 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetModels() {
-            MySqlCommand command = SendCommand("SELECT BikeModel.IdBike, BikeModel.IdModel, Bike.NameBike, BikeModel.IdColor, Color.NameColor, BikeModel.IdSize, Size.NameSize, BikeModel.Price FROM BikeModel " +
+            MySqlCommand command = SendCommand("SELECT BikeModel.IdModel, BikeModel.IdBike, Bike.NameBike, BikeModel.IdColor, Color.NameColor, BikeModel.IdSize, Size.NameSize, BikeModel.Price FROM BikeModel " +
                                                 "INNER JOIN Bike ON Bike.IdBike = BikeModel.IdBike " +
                                                 "INNER JOIN Color ON Color.IdColor = BikeModel.IdColor " +
                                                 "INNER JOIN Size ON Size.IdSize = BikeModel.IdSize");
