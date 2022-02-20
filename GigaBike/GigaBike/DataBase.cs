@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
+using System.Net;
 
 namespace GigaBike {
     public class DataBase {
         private MySqlConnection connection;
-        private readonly string host = "pat.ecam.infolab.be";
+        private readonly string host = "pat.infolab.ecam.be";
+        private readonly string database = "GigaBike";
         private readonly string username = "gigabike";
         private readonly string password = "0123456789";
         private readonly int port = 63313;
@@ -22,13 +25,15 @@ namespace GigaBike {
 
         public void Connect() {
             // Code to connect to the database
-            // A voir, j'ai pas tester
-            this.connection = new MySqlConnection(string.Format(@"server={0};user id={1};password={2};persistsecurityinfo=True;database=GigaBike;port={3};sharedmemoryname=", host, username, password, port));
+            string connectionString = string.Format(@"server={0};userid={1};pwd={2};persistsecurityinfo=True;database={3};port={4};sharedmemoryname=", host, username, password, database, port);
+            this.connection = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
+            connection.Open();
         }
 
         public MySqlDataReader GetPassword(string username) {
             // Tape la commande pour le mot de passe ici à l'intérieur
-            MySqlCommand command = SendCommand('SELECT Password FROM Login WHERE UserName ="' + username+'"') ;
+            string commandToSend = string.Format("SELECT Password FROM Login WHERE UserName={0}", username);
+            MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
 
@@ -63,12 +68,15 @@ namespace GigaBike {
         }
 
         public MySqlDataReader SetCustomer(Customer customer) {
-            MySqlCommand command = SendCommand("INSERT INTO Customer VALUES ({0},{1},{2},{3})",customer.TVA,'"'+customer.NameCustomer+'"','"'+customer.Address+'"',customer.Phone);
+            /*string command = string.Format("INSERT INTO Customer VALUES ({0},{1},{2},{3})", customer.);
+            MySqlCommand command = SendCommand(,customer.TVA,'"'+customer.NameCustomer+'"','"'+customer.Address+'"',customer.Phone);*/
+            MySqlCommand command = SendCommand("");
             return command.ExecuteReader();
         }
 
         public MySqlDataReader SaveCommand(Order order) {
-            MySqlCommand command = SendCommand("INSERT INTO OrderInfo VALUES (Null,{0},{1},{2},{3})",order.TvaCustomer,"'"+order.DeliveryDate+"'","'"+order.Duration+"'",order.Price);
+            // MySqlCommand command = SeyyndCommand("INSERT INTO OrderInfo VALUES (Null,{0},{1},{2},{3})",order.TvaCustomer,"'"+order.DeliveryDate+"'","'"+order.Duration+"'",order.Price);
+            MySqlCommand command = SendCommand("");
             return command.ExecuteReader();
         }
     }
