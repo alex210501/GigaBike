@@ -32,7 +32,7 @@ namespace GigaBike {
 
         public MySqlDataReader GetPassword(string username) {
             // Tape la commande pour le mot de passe ici à l'intérieur
-            string commandToSend = string.Format("SELECT Password FROM Login WHERE UserName={0}", username);
+            string commandToSend = string.Format("SELECT Password FROM Login WHERE UserName="+'"'+username+'"');
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }

@@ -50,7 +50,7 @@ namespace GigaBike {
 
             reader.Close();
 
-            Bike bike1 = new Bike(1, "Explorer", 100, new Color(1, "Green"), new Size(1, "28''"), "Explorer.png");
+            /* Bike bike1 = new Bike(1, "Explorer", 100, new Color(1, "Green"), new Size(1, "28''"), "Explorer.png");
             Bike bike2 = new Bike(2, "Explorer", 100, new Color(2, "Red"), new Size(1, "28''"), "Explorer.png");
             Bike bike3 = new Bike(3, "Adventure", 100, new Color(2, "Red"), new Size(1, "26''"), "Adventure.jpg");
             Bike bike4 = new Bike(4, "City", 100, new Color(1, "Green"), new Size(1, "28''"), "City.jpg");
@@ -64,7 +64,7 @@ namespace GigaBike {
             catalogModel2.AddBike(bike3);
             catalogModel3.AddBike(bike4);
 
-            /* models.Add(catalogModel1);
+            models.Add(catalogModel1);
             models.Add(catalogModel2);
             models.Add(catalogModel3);*/
 
