@@ -53,9 +53,23 @@ namespace GigaBike {
 
         private void SaveCutomer(Customer customer) {
             Trace.WriteLine(customer.Name);
-            MySqlDataReader reader = database.SetCustomer(customer);
+
+            if (IsCustomerRegistered(customer) == false) { 
+                MySqlDataReader reader = database.SetCustomer(customer);
+                reader.Read();
+                reader.Close();
+            }
+        }
+
+        private bool IsCustomerRegistered(Customer customer) {
+            bool isRegistered;
+
+            MySqlDataReader reader = database.GetCustomer(customer.TVA);
             reader.Read();
+            isRegistered = reader.HasRows;
             reader.Close();
+
+            return isRegistered;
         }
     }
 }

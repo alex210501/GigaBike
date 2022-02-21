@@ -57,8 +57,8 @@ namespace GigaBike {
             return command.ExecuteReader();
         }
 
-        public MySqlDataReader GetCustomer(int customerId) {
-            MySqlCommand command = SendCommand("SELECT * FROM Customer WHERE IdCustomer ="+ customerId);
+        public MySqlDataReader GetCustomer(string tva) {
+            MySqlCommand command = SendCommand(string.Format("SELECT * FROM Customer WHERE TVA=\"{0}\"", tva));
             return command.ExecuteReader();
         }
 
