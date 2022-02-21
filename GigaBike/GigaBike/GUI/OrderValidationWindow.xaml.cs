@@ -37,6 +37,11 @@ namespace GigaBike {
             return PhoneInput.Text;
         }
 
+        public bool AreCustomerInfoValid() {
+            return (!string.IsNullOrWhiteSpace(GetNameCustomer())) && (!string.IsNullOrWhiteSpace(GetAddressCustomer())) &&
+                   (!string.IsNullOrWhiteSpace(GetTVACustomer())) && (!string.IsNullOrWhiteSpace(GetPhoneCustomer()));
+        }
+
         private void ButtonSavePurchase(object sender, RoutedEventArgs e) {
             if (saveOrderCallback is not null) saveOrderCallback();
         }

@@ -179,6 +179,11 @@ namespace GigaBike {
                 return;
             }
 
+            if ((Current.MainWindow as OrderValidationWindow).AreCustomerInfoValid() == false) {
+                MessageBox.Show("You must set all the client informations to save the order !");
+                return;
+            }
+
             Customer orderCustomer = new Customer() {
                 Name = (Current.MainWindow as OrderValidationWindow).GetNameCustomer(),
                 Address = (Current.MainWindow as OrderValidationWindow).GetAddressCustomer(),
