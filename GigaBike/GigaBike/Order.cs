@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 namespace GigaBike {
     public class Order {
         private List<BikeOrder> bikes;
+        public Customer Customer { get; private set; }
         public DateTime DateDelivery { get; }
         public int Duration { get; set; }
 
         public Order() {
             bikes = new List<BikeOrder>();
+            Customer = new Customer();
         }
 
         public void Save(Customer customer) {
-            return;
+            Customer = new Customer(customer);
         }
 
         public void Clear() {

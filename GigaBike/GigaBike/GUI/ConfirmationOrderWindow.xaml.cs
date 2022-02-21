@@ -39,13 +39,23 @@ namespace GigaBike {
 
         public void SetCurrentOrder(Order CurrentOrder)
         {
+            List<OrderRecap> ordersRecap = new List<OrderRecap>();
 
-            List<User> users = new List<User>();
-            foreach (BikeOrder bikeOrder in CurrentOrder.Bikes)
-                users.Add(new User() { Id = bikeOrder.Bike.IdBike, Name = String.Join(',', bikeOrder.Bike.Name), Quantity =  bikeOrder.Quantity, Price = bikeOrder.Price});
+            foreach (BikeOrder bikeOrder in CurrentOrder.Bikes) {
+                OrderRecap currentOrderRecap = new OrderRecap(0);
+                Bike currentBike = bikeOrder.Bike;
+
+                currentOrderRecap.BikeName = currentBike.Name;
+                currentOrderRecap.OrderPrice = bikeOrder.Price;
+                currentOrderRecap.Color = currentBike.Color.Name;
+                currentOrderRecap.Size = currentBike.Size.Name;
+                currentOrderRecap.Quantity = bikeOrder.Quantity;
+
+                ordersRecap.Add(currentOrderRecap);
+            }
 
 
-            TableRecap.ItemsSource = users;
+            TableRecap.ItemsSource = ordersRecap;
         }
 
         public Action ValidateOrderCallback
@@ -64,14 +74,18 @@ namespace GigaBike {
             }
         }
     }
-    public class User
+    public class OrderRecap
     {
-        public int Id { get; set; }
+        public int CommandNumber { get; set; }
 
-        public String Name { get; set; }
-
+        public string BikeName { get; set; }
+        public int OrderPrice { get; set; }
+        public string Color { get; set; }
+        public string Size { get; set; }
         public int Quantity { get; set; }
 
-        public int Price { get; set; }
+        public OrderRecap(int CommandNumber) {
+            this.CommandNumber = CommandNumber;
+        }
     }
 }

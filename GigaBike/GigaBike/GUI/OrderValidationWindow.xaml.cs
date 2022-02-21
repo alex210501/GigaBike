@@ -21,22 +21,20 @@ namespace GigaBike {
             Text_Box_Estimation_Date.Text = "Estimation Date :";
         }
 
-        private void ButtonBackToModels_Click(object sender, RoutedEventArgs e) {
-            
+        public string GetNameCustomer() {
+            return NameInput.Text;
         }
 
-        private void Text_Input_Name(object sender, TextChangedEventArgs e) {
-
+        public string GetAddressCustomer() {
+            return AddressInput.Text;
         }
 
-        private void Text_Input_Adress(object sender, TextChangedEventArgs e) {
-
+        public string GetTVACustomer() {
+            return TVAInput.Text;
         }
-        private void Text_Input_TVA(object sender, TextChangedEventArgs e) {
 
-        }
-        private void Text_Input_Phone_Number(object sender, TextChangedEventArgs e) {
-
+        public string GetPhoneCustomer() {
+            return PhoneInput.Text;
         }
 
         private void ButtonSavePurchase(object sender, RoutedEventArgs e) {

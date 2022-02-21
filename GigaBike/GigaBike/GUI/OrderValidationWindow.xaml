@@ -65,7 +65,7 @@
                 <ColumnDefinition Width="400" />
                 <ColumnDefinition Width="400" />
             </Grid.ColumnDefinitions>
-            <TextBox HorizontalAlignment="Left" Height="36" Margin="316,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" TextChanged="Text_Input_Adress" FontSize="25" Grid.ColumnSpan="2">
+            <TextBox x:Name="AddressInput" HorizontalAlignment="Left" Height="36" Margin="316,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" FontSize="25" Grid.ColumnSpan="2">
                 <TextBox.Style>
                     <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                         <Style.Resources>
@@ -89,7 +89,7 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <TextBox HorizontalAlignment="Left" Height="36" Margin="316,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="169" TextChanged="Text_Input_TVA" FontSize="25" Visibility="Visible" Grid.ColumnSpan="2">
+            <TextBox x:Name="TVAInput" HorizontalAlignment="Left" Height="36" Margin="316,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="169" FontSize="25" Visibility="Visible" Grid.ColumnSpan="2">
                 <TextBox.Style>
                     <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                         <Style.Resources>
@@ -113,11 +113,11 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <Label Content="Adress :" HorizontalAlignment="Left" Height="36" Margin="137,74,0,0" VerticalAlignment="Top" Width="158" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" />
+            <Label Content="Address :" HorizontalAlignment="Left" Height="36" Margin="137,74,0,0" VerticalAlignment="Top" Width="158" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" />
             <Label Content="TVA :" HorizontalAlignment="Left" Height="36" Margin="137,115,0,0" VerticalAlignment="Top" Width="158" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" />
             <Label Content="Name :" HorizontalAlignment="Left" Height="36" Margin="137,33,0,0" VerticalAlignment="Top" Width="158" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" />
             <Label Content="Phone number :" HorizontalAlignment="Center" Height="36" Margin="0,156,0,0" VerticalAlignment="Top" Width="208" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" />
-            <TextBox HorizontalAlignment="Left" Height="36" Margin="316,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" TextChanged="Text_Input_Phone_Number" FontSize="25" Visibility="Visible" Grid.ColumnSpan="2">
+            <TextBox x:Name="PhoneInput" HorizontalAlignment="Left" Height="36" Margin="316,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" FontSize="25" Visibility="Visible" Grid.ColumnSpan="2">
                 <TextBox.Style>
                     <Style xmlns:sys="clr-namespace:System;assembly=mscorlib" TargetType="{x:Type TextBox}">
                         <Style.Resources>
@@ -141,7 +141,7 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <TextBox HorizontalAlignment="Left" Height="36" Margin="316,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" TextChanged="Text_Input_Name" FontSize="25" Grid.ColumnSpan="2">
+            <TextBox x:Name="NameInput" HorizontalAlignment="Left" Height="36" Margin="316,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" FontSize="25" Grid.ColumnSpan="2">
                 <TextBox.Style>
                     <Style xmlns:sys="clr-namespace:System;assembly=mscorlib" TargetType="{x:Type TextBox}">
                         <Style.Resources>

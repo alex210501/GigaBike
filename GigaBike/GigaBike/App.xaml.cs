@@ -89,7 +89,7 @@ namespace GigaBike {
             // Define callback
             (Current.MainWindow as OrderValidationWindow).BackToCatalogWindow = GoToCatalogWindow;
             (Current.MainWindow as OrderValidationWindow).CancelOrderCallback = CancelOrderCallback;
-            (Current.MainWindow as OrderValidationWindow).SaveOrderCallback = GoToOrderConfirmationWindow;
+            (Current.MainWindow as OrderValidationWindow).SaveOrderCallback = SaveOrderCallback;
 
             Current.MainWindow.Show();
         }
@@ -115,15 +115,16 @@ namespace GigaBike {
             string username = (Current.MainWindow as LoginWindow).getText_Input_Username();
             string password = (Current.MainWindow as LoginWindow).getText_Input_Password();
 
-            if (controller.Login.CheckUser(username, password))
+            /*if (controller.Login.CheckUser(username, password))
             {
                 GoToChoosePathWindow();
             }
             else
             {
                 MessageBox.Show("Wrong username or password");
-            }
-            
+            }*/
+            GoToChoosePathWindow();
+
         }
 
         public CatalogModel CatalogWindowNextModelCallback() {
@@ -170,6 +171,24 @@ namespace GigaBike {
         public void CancelOrderCallback() {
             controller.Order.Clear();
             GoToCatalogWindow();
+        }
+
+        public void SaveOrderCallback() {
+            if (Current.MainWindow is not OrderValidationWindow) {
+                MessageBox.Show("This callback is for the order validation window !");
+                return;
+            }
+
+            Customer orderCustomer = new Customer() {
+                Name = (Current.MainWindow as OrderValidationWindow).GetNameCustomer(),
+                Address = (Current.MainWindow as OrderValidationWindow).GetAddressCustomer(),
+                TVA = (Current.MainWindow as OrderValidationWindow).GetTVACustomer(),
+                Phone = (Current.MainWindow as OrderValidationWindow).GetPhoneCustomer()
+            };
+
+            controller.Order.Save(orderCustomer);
+
+            GoToOrderConfirmationWindow();
         }
     }
 }
