@@ -28,7 +28,7 @@ namespace GigaBike {
             // Clear the model list to create a new one
             models.Clear();
 
-            MySqlDataReader reader = database.GetModels();
+            /*MySqlDataReader reader = database.GetModels();
 
             while (reader.Read()) {
                 int idModel = reader.GetInt32(0);
@@ -48,7 +48,7 @@ namespace GigaBike {
                 foreach (CatalogModel model in models) Trace.WriteLine(model.IdModel);
             }
 
-            reader.Close();
+            reader.Close();*/
 
             Bike bike1 = new Bike(1, "Explorer", 100, new Color(1, "Green"), new Size(1, "28''"), "Explorer.png");
             Bike bike2 = new Bike(2, "Explorer", 100, new Color(2, "Red"), new Size(1, "28''"), "Explorer.png");
@@ -64,9 +64,9 @@ namespace GigaBike {
             catalogModel2.AddBike(bike3);
             catalogModel3.AddBike(bike4);
 
-            /* models.Add(catalogModel1);
+            models.Add(catalogModel1);
             models.Add(catalogModel2);
-            models.Add(catalogModel3);*/
+            models.Add(catalogModel3);
 
             numberModels = models.Count;
         }

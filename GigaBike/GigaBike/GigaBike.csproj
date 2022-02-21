@@ -36,6 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="GUI\ConfirmationOrderWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <CustomToolNamespace>Lo</CustomToolNamespace>
+    </Page>
     <Page Update="GUI\LoginWindow.xaml">
       <CustomToolNamespace>Lo</CustomToolNamespace>
     </Page>
