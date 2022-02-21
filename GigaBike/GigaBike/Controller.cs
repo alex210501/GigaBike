@@ -15,7 +15,7 @@ namespace GigaBike {
             this.DataBase = new DataBase();
             this.Login = new Login(this.DataBase);
             this.Catalog = new Catalog(this.DataBase);
-            this.Order = new Order();
+            this.Order = new Order(this.DataBase);
         }
 
         public void Init() {
