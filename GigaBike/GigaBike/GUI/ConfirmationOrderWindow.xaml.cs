@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 
 namespace GigaBike {
     public partial class ConfirmationOrderWindow : Window {
+        private Action validateOrderCallback = null;
+        private Action cancelOrderCallback = null;
 
         public ConfirmationOrderWindow() {
             InitializeComponent();
@@ -22,12 +24,12 @@ namespace GigaBike {
 
         private void ButtonCancelCommand(object sender, RoutedEventArgs e)
         {
-
+            if (cancelOrderCallback is not null) cancelOrderCallback();
         }
 
         private void ButtonValidateCommand(object sender, RoutedEventArgs e)
         {
-
+            if (validateOrderCallback is not null) validateOrderCallback();
         }
 
         private void TableRecapCommand(object sender, SelectionChangedEventArgs e)
@@ -35,5 +37,24 @@ namespace GigaBike {
             //Datagrid
         }
 
+        public void SetCurrentOrder(Order CurrentOrder)
+        {
+        }
+
+        public Action ValidateOrderCallback
+        {
+            set
+            {
+                validateOrderCallback = value;
+            }
+        }
+
+        public Action CancelOrderCallback
+        {
+            set
+            {
+                cancelOrderCallback = value;
+            }
+        }
     }
 }
