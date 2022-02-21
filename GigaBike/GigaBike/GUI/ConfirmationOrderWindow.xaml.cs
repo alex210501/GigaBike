@@ -39,6 +39,13 @@ namespace GigaBike {
 
         public void SetCurrentOrder(Order CurrentOrder)
         {
+
+            List<User> users = new List<User>();
+            foreach (BikeOrder bikeOrder in CurrentOrder.Bikes)
+                users.Add(new User() { Id = bikeOrder.Bike.IdBike, Name = String.Join(',', bikeOrder.Bike.Name), Quantity =  bikeOrder.Quantity, Price = bikeOrder.Price});
+
+
+            TableRecap.ItemsSource = users;
         }
 
         public Action ValidateOrderCallback
@@ -56,5 +63,15 @@ namespace GigaBike {
                 cancelOrderCallback = value;
             }
         }
+    }
+    public class User
+    {
+        public int Id { get; set; }
+
+        public String Name { get; set; }
+
+        public int Quantity { get; set; }
+
+        public int Price { get; set; }
     }
 }
