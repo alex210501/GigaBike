@@ -13,7 +13,7 @@ namespace GigaBike {
 
         public Controller() {
             this.DataBase = new DataBase();
-            this.Login = new Login();
+            this.Login = new Login(this.DataBase);
             this.Catalog = new Catalog(this.DataBase);
             this.Order = new Order();
         }

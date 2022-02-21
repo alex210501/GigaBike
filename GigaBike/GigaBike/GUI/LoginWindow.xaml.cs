@@ -22,11 +22,11 @@ namespace GigaBike {
         }
 
         private void Text_Input_Username(object sender, RoutedEventArgs e) {
-
+            
         }
 
         private void Text_Input_Password(object sender, RoutedEventArgs e) {
-
+            
         }
 
         private void ButtonLogin(object sender, RoutedEventArgs e) {
@@ -40,5 +40,16 @@ namespace GigaBike {
                 loginButtonCallback = value;
             }
         }
+
+        public string getText_Input_Username()
+        {
+            return UsernameInput.Text;
+        }
+
+        public string getText_Input_Password()
+        {
+            return PasswordInput.Text;
+        }
+
     }
 }

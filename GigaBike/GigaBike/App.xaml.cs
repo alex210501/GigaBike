@@ -31,7 +31,7 @@ namespace GigaBike {
             Current.MainWindow = new LoginWindow();
             
             // Define callback
-            (Current.MainWindow as LoginWindow).LoginButtonCallback = GoToChoosePathWindow;
+            (Current.MainWindow as LoginWindow).LoginButtonCallback = LoginButtonCallback;
 
             Current.MainWindow.Show();
         }
@@ -91,6 +91,22 @@ namespace GigaBike {
             (Current.MainWindow as OrderValidationWindow).CancelOrderCallback = CancelOrderCallback;
 
             Current.MainWindow.Show();
+        }
+
+        public void LoginButtonCallback()
+        {
+            string username = (Current.MainWindow as LoginWindow).getText_Input_Username();
+            string password = (Current.MainWindow as LoginWindow).getText_Input_Password();
+
+            if (controller.Login.CheckUser(username, password))
+            {
+                GoToChoosePathWindow();
+            }
+            else
+            {
+                MessageBox.Show("Wrong username or password");
+            }
+            
         }
 
         public CatalogModel CatalogWindowNextModelCallback() {
