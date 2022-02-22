@@ -8,6 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace GigaBike {
     public class Order {
+        public int IdOrder { get; private set; }
         private List<BikeOrder> bikes;
         public Customer Customer { get; private set; }
         private DataBase database;
@@ -24,6 +25,13 @@ namespace GigaBike {
             Customer = new Customer(customer);
 
             SaveCutomer(customer);
+        }
+
+        public void Validate() {
+            MySqlDataReader reader = database.SaveCommand(this);
+            reader.Read();
+            IdOrder = reader.GetInt32(0);
+            reader.Close();
         }
 
         public void Clear() {

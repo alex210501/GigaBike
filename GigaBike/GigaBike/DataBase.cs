@@ -58,7 +58,7 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetCustomer(string tva) {
-            MySqlCommand command = SendCommand(string.Format("SELECT * FROM Customer WHERE TVA=\"{0}\"", tva));
+            MySqlCommand command = SendCommand(string.Format("SELECT * FROM Customer WHERE TVA=\"{0}\";", tva));
             return command.ExecuteReader();
         }
 
@@ -75,8 +75,9 @@ namespace GigaBike {
         }
 
         public MySqlDataReader SaveCommand(Order order) {
-            // MySqlCommand command = SeyyndCommand("INSERT INTO OrderInfo VALUES (Null,{0},{1},{2},{3})",order.TvaCustomer,"'"+order.DeliveryDate+"'","'"+order.Duration+"'",order.Price);
-            MySqlCommand command = SendCommand("");
+            string commandToSend = string.Format("INSERT INTO OrderInfo (TVACustomer, Price) VALUES (\"{0}\",\"{1}\");" +
+                                                 "SELECT @@IDENTITY;", order.Customer.TVA, order.Price);
+            MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
     }

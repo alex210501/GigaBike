@@ -104,7 +104,7 @@ namespace GigaBike {
             (Current.MainWindow as ConfirmationOrderWindow).SetCurrentOrder(controller.Order);
 
             // Define callback
-            (Current.MainWindow as ConfirmationOrderWindow).ValidateOrderCallback = GoToCatalogWindow;
+            (Current.MainWindow as ConfirmationOrderWindow).ValidateOrderCallback = ValidateOrderCallback;
             (Current.MainWindow as ConfirmationOrderWindow).CancelOrderCallback = CancelOrderCallback;
 
             Current.MainWindow.Show();
@@ -194,6 +194,12 @@ namespace GigaBike {
             controller.Order.Save(orderCustomer);
 
             GoToOrderConfirmationWindow();
+        }
+
+        void ValidateOrderCallback() {
+            controller.Order.Validate();
+
+            GoToCatalogWindow();
         }
     }
 }
