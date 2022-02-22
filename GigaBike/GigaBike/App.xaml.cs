@@ -198,7 +198,7 @@ namespace GigaBike {
 
         void ValidateOrderCallback() {
             controller.Order.Validate();
-
+            controller.Order.Clear();
             GoToCatalogWindow();
         }
     }

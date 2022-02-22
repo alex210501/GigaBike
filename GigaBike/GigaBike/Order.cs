@@ -32,6 +32,11 @@ namespace GigaBike {
             reader.Read();
             IdOrder = reader.GetInt32(0);
             reader.Close();
+
+            foreach (BikeOrder currentBikeOrder in bikes) {
+                MySqlDataReader bikeOrderReader = database.SaveCommandModels(IdOrder, currentBikeOrder);
+                bikeOrderReader.Close();
+            }
         }
 
         public void Clear() {
