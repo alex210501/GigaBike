@@ -22,7 +22,13 @@ namespace GigaBike {
             }
         }
 
-        public bool IsThereFreeSlotsInWeek(int duration) {
+        public bool IsThereFreeSlotsInWeekFromStartDate(int duration, DateTime startDate) {
+            // Start searching free slots from a start date
+            foreach (WeekDay day in days) {
+                if (day.Date >= startDate && day.IsThereFreeSlots(duration) && day.IsThereFreeSlots(duration))
+                    return true;
+            }
+
             return false;
         }
 
