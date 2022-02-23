@@ -21,13 +21,28 @@ namespace GigaBike {
         }
 
         public List<Slot> GetSlots(int duration) {
-            return new List<Slot>();
+            List<Slot> slots = new List<Slot>();
+
+            return slots;
         }
 
         public List<Week> Weeks {
             get {
                 return new List<Week>(weeks);
             }
+        }
+
+        private bool IsWeekRegistered(int weekOfYear, int year) {
+            foreach (Week currentWeek in weeks) {
+                if (currentWeek.WeekNumber == weekOfYear)
+                    return true;
+            }
+
+            return false;
+        }
+
+        private void AddWeek(int weekOfYear, int year) {
+            weeks.Add(new Week(weekOfYear, year));
         }
     }
 }
