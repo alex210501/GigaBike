@@ -12,7 +12,7 @@ namespace GigaBike {
     }
 
     class Slot {
-        public int SlotNumber { get; }
+        public readonly int SlotNumber;
         public StateSlot StateSlot { get; private set; }
         public int IdOrder { get; set; }
         public int IdOrderModel { get; set; }
