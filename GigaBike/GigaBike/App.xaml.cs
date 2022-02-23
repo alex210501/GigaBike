@@ -18,6 +18,22 @@ namespace GigaBike {
         App() {
             controller = new Controller();
 
+
+
+            DateTime date = new DateTime(2022, 2, 23);
+            Trace.WriteLine(date);
+            Trace.WriteLine(date.DayOfWeek);
+            date = DateCalculator.GetNextDay(date);
+            Trace.WriteLine(string.Format("{0} --> {1} --> {2}", date, date.DayOfWeek, DateCalculator.GetWeekOfYear(date)));
+            date = DateCalculator.GetNextDay(date);
+            Trace.WriteLine(string.Format("{0} --> {1} --> {2}", date, date.DayOfWeek, DateCalculator.GetWeekOfYear(date)));
+            date = DateCalculator.GetNextDay(date);
+            Trace.WriteLine(string.Format("{0} --> {1} --> {2}", date, date.DayOfWeek, DateCalculator.GetWeekOfYear(date)));
+            date = DateCalculator.GetNextDay(date);
+            Trace.WriteLine(string.Format("{0} --> {1} --> {2}", date, date.DayOfWeek, DateCalculator.GetWeekOfYear(date)));
+            date = DateCalculator.GetNextDay(date);
+            Trace.WriteLine(string.Format("{0} --> {1} --> {2}", date, date.DayOfWeek, DateCalculator.GetWeekOfYear(date)));
+
             try {
                 controller.Init();
             }
