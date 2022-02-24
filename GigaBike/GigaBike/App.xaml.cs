@@ -192,6 +192,7 @@ namespace GigaBike {
             };
 
             controller.Order.Save(orderCustomer);
+            controller.SetDateForOrderBike();
 
             GoToOrderConfirmationWindow();
         }

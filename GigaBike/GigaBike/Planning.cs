@@ -21,13 +21,26 @@ namespace GigaBike {
             return new DateTime();
         }
 
+        public void SetSlotForBikeOrder(Order currentOrder) {
+            foreach (BikeOrder bikeOrder in currentOrder.Bikes) {
+                for (int i = 0; i < bikeOrder.Quantity; i++) {
+                    List<Slot> bikeSlots = GetSlots(1);
+
+                    foreach (Slot slot in bikeSlots) {
+                        slot.BindSlotWithOrder(currentOrder.IdOrder, bikeOrder.Bike.IdBike);
+                        Trace.WriteLine(string.Format("Slot : {0}: Date : {1}", slot.SlotNumber, slot.Date));
+                    }
+                }
+            }
+        }
+
         public List<Slot> GetSlots(int duration) {
             List<Slot> slots = new List<Slot>();
-
+            int i = 0;
             // Start searching slot from tomorrow
             DateTime currentDate = DateCalculator.GetNextDay(DateTime.Now.Date);
 
-            while (slots.Count == 0) {
+            while (slots.Count == 0 && i++ < 20) {
                 int weekNumber = DateCalculator.GetWeekOfYear(currentDate);
 
                 if (IsWeekRegistered(weekNumber, currentDate.Year) == false) AddWeek(weekNumber, currentDate.Year);
@@ -37,6 +50,7 @@ namespace GigaBike {
                 if (currentWeek.IsThereFreeSlotsInWeekFromStartDate(duration, currentDate))
                     slots = currentWeek.GetFreeSlotsFromStartDate(duration, currentDate);
 
+                // Error on the current date
                 currentDate = DateCalculator.GoToStartOfNextWeek(currentDate);
             }
 

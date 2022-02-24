@@ -27,5 +27,9 @@ namespace GigaBike {
         public void AddToOrder(Bike bike, int quantity) {
             // Add to order sequence
         }
+
+        public void SetDateForOrderBike() {
+            Planning.SetSlotForBikeOrder(Order);
+        }
     }
 }
