@@ -31,7 +31,7 @@ namespace GigaBike {
          * Ex : (7 - Friday + 1= % 7 = Monday
          */
         static public DateTime GoToStartOfNextWeek(DateTime day) {
-            return day.AddDays((7 - (int)day.DayOfWeek + 1) % 7);
+            return GoToStartOfWeek(day.AddDays(7));
         }
 
         static public DateTime GoToStartOfWeek(DateTime day) {
