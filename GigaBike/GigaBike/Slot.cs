@@ -27,6 +27,7 @@ namespace GigaBike {
         public void BindSlotWithOrder(int idOrder, int idOrderModel) {
             IdOrder = idOrder;
             IdOrderModel = idOrderModel;
+            StateSlot = StateSlot.BUSY;
         }
     }
 }

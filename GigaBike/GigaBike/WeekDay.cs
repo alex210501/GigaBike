@@ -16,7 +16,6 @@ namespace GigaBike {
             this.DayOfWeek = dayOfWeek;
             this.Date = date;
             slots = new List<Slot>(SlotPerDay);
-            Trace.WriteLine(slots.Count);
 
             // Initialise the slots
             for (int i = 0; i < SlotPerDay; i++)  slots.Add(new Slot(i + 1, this.Date));
@@ -24,10 +23,10 @@ namespace GigaBike {
 
         public bool IsThereFreeSlots(int duration) {
             int durationCount = 0;
-            Trace.WriteLine("Duration + " + duration);
+            // Trace.WriteLine("Duration + " + duration);
             foreach (Slot currentSlot in slots) {
                 durationCount = (currentSlot.StateSlot == StateSlot.FREE) ? (durationCount + 1) : 0;
-                Trace.WriteLine(durationCount);
+
                 if (durationCount == duration) return true;
             }
 

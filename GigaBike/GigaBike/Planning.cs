@@ -23,10 +23,13 @@ namespace GigaBike {
 
         public List<Slot> GetSlots(int duration) {
             List<Slot> slots = new List<Slot>();
-            DateTime currentDate = DateTime.Now;
-            int weekNumber = DateCalculator.GetWeekOfYear(currentDate);
 
-            // while (slots.Count == 0) {
+            // Start searching slot from tomorrow
+            DateTime currentDate = DateCalculator.GetNextDay(DateTime.Now.Date);
+
+            while (slots.Count == 0) {
+                int weekNumber = DateCalculator.GetWeekOfYear(currentDate);
+
                 if (IsWeekRegistered(weekNumber, currentDate.Year) == false) AddWeek(weekNumber, currentDate.Year);
 
                 Week currentWeek = GetWeek(weekNumber, currentDate.Year);
@@ -34,10 +37,8 @@ namespace GigaBike {
                 if (currentWeek.IsThereFreeSlotsInWeekFromStartDate(duration, currentDate))
                     slots = currentWeek.GetFreeSlotsFromStartDate(duration, currentDate);
 
-            Trace.WriteLine(currentWeek.IsThereFreeSlotsInWeekFromStartDate(duration, currentDate));
-
                 currentDate = DateCalculator.GoToStartOfNextWeek(currentDate);
-            // }
+            }
 
             return slots;
         }
@@ -50,7 +51,7 @@ namespace GigaBike {
 
         private bool IsWeekRegistered(int weekOfYear, int year) {
             foreach (Week currentWeek in weeks) {
-                if (currentWeek.WeekNumber == weekOfYear)
+                if ((currentWeek.WeekNumber == weekOfYear) && (currentWeek.Year == year))
                     return true;
             }
 
@@ -58,13 +59,12 @@ namespace GigaBike {
         }
 
         private void AddWeek(int weekOfYear, int year) {
-            Trace.WriteLine("Add week");
             weeks.Add(new Week(weekOfYear, year));
         }
 
         private Week GetWeek(int weekOfYear, int year) {
             foreach (Week currentWeek in weeks) {
-                if (currentWeek.WeekNumber == weekOfYear)
+                if ((currentWeek.WeekNumber == weekOfYear) && (currentWeek.Year == year))
                     return currentWeek;
             }
 

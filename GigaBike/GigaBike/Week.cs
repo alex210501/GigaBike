@@ -27,7 +27,6 @@ namespace GigaBike {
         public bool IsThereFreeSlotsInWeekFromStartDate(int duration, DateTime startDate) {
             // Start searching free slots from a start date
             foreach (WeekDay currentDay in days) {
-                Trace.WriteLine(string.Format("start date : {0}, date : {1}, date > start date : {2}", startDate, currentDay.Date, currentDay.Date >= startDate));
                 if (currentDay.Date >= startDate && currentDay.IsThereFreeSlots(duration))
                     return true;
             }
@@ -49,7 +48,6 @@ namespace GigaBike {
 
             for (int i = 0; i < daysPerWeek; i++) {
                 days.Add(new WeekDay(weekOfYear, currentWeek));
-                Trace.WriteLine(days[i].Date);
                 currentWeek = DateCalculator.GetNextDay(currentWeek);
             }
         }
