@@ -3,29 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace GigaBike {
-    class WeekDay {
+    public class WeekDay {
         private readonly int SlotPerDay = 5;
         private List<Slot> slots;
         public DateTime Date { get; set; }
         public int DayOfWeek { get; }
 
-        public WeekDay(int dayOfWeek) {
+        public WeekDay(int dayOfWeek, DateTime date) {
             this.DayOfWeek = dayOfWeek;
+            this.Date = date;
             slots = new List<Slot>(SlotPerDay);
-            Date = new DateTime();
+            Trace.WriteLine(slots.Count);
 
             // Initialise the slots
-            for (int i = 0; i < SlotPerDay; i++)  slots[i] = new Slot(i);
+            for (int i = 0; i < SlotPerDay; i++)  slots.Add(new Slot(i + 1, this.Date));
         }
 
         public bool IsThereFreeSlots(int duration) {
             int durationCount = 0;
-
+            Trace.WriteLine("Duration + " + duration);
             foreach (Slot currentSlot in slots) {
-                durationCount = (currentSlot.StateSlot == StateSlot.FREE) ? durationCount++ : 0;
-
+                durationCount = (currentSlot.StateSlot == StateSlot.FREE) ? (durationCount + 1) : 0;
+                Trace.WriteLine(durationCount);
                 if (durationCount == duration) return true;
             }
 
@@ -33,7 +35,15 @@ namespace GigaBike {
         }
 
         public List<Slot> GetFreeSlots(int duration) {
-            return new List<Slot>();
+            List<Slot> freeSlots = new List<Slot>();
+
+            for (int i = 0; i < (slots.Count) && (freeSlots.Count < duration); i++) {
+                Slot currentSlot = slots[i];
+
+                if (currentSlot.StateSlot == StateSlot.FREE) freeSlots.Add(currentSlot);
+            }
+
+            return freeSlots;
         }
 
         public List<Slot> Slots {

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace GigaBike {
-    class Planning {
+    public class Planning {
         private List<Week> weeks;
 
         public Planning() {
@@ -22,6 +23,21 @@ namespace GigaBike {
 
         public List<Slot> GetSlots(int duration) {
             List<Slot> slots = new List<Slot>();
+            DateTime currentDate = DateTime.Now;
+            int weekNumber = DateCalculator.GetWeekOfYear(currentDate);
+
+            // while (slots.Count == 0) {
+                if (IsWeekRegistered(weekNumber, currentDate.Year) == false) AddWeek(weekNumber, currentDate.Year);
+
+                Week currentWeek = GetWeek(weekNumber, currentDate.Year);
+
+                if (currentWeek.IsThereFreeSlotsInWeekFromStartDate(duration, currentDate))
+                    slots = currentWeek.GetFreeSlotsFromStartDate(duration, currentDate);
+
+            Trace.WriteLine(currentWeek.IsThereFreeSlotsInWeekFromStartDate(duration, currentDate));
+
+                currentDate = DateCalculator.GoToStartOfNextWeek(currentDate);
+            // }
 
             return slots;
         }
@@ -42,7 +58,17 @@ namespace GigaBike {
         }
 
         private void AddWeek(int weekOfYear, int year) {
+            Trace.WriteLine("Add week");
             weeks.Add(new Week(weekOfYear, year));
+        }
+
+        private Week GetWeek(int weekOfYear, int year) {
+            foreach (Week currentWeek in weeks) {
+                if (currentWeek.WeekNumber == weekOfYear)
+                    return currentWeek;
+            }
+
+            return null;
         }
     }
 }

@@ -18,8 +18,6 @@ namespace GigaBike {
         App() {
             controller = new Controller();
 
-
-
             DateTime date = new DateTime(2022, 2, 23);
             Trace.WriteLine(date);
             Trace.WriteLine(date.DayOfWeek);
@@ -33,6 +31,10 @@ namespace GigaBike {
             Trace.WriteLine(string.Format("{0} --> {1} --> {2}", date, date.DayOfWeek, DateCalculator.GetWeekOfYear(date)));
             date = DateCalculator.GetNextDay(date);
             Trace.WriteLine(string.Format("{0} --> {1} --> {2}", date, date.DayOfWeek, DateCalculator.GetWeekOfYear(date)));
+
+            List<Slot> slots1 = controller.Planning.GetSlots(1);
+            Trace.WriteLine("---Slots 1---");
+            foreach (Slot slot in slots1) Trace.WriteLine(string.Format("Slot number : {0}, date : {1}", slot.SlotNumber, slot.Date));
 
             try {
                 controller.Init();

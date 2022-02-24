@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace GigaBike {
     static class DateCalculator {
-        private static readonly CultureInfo cultureInfo = new CultureInfo("en-US");
+        private static readonly CultureInfo cultureInfo = CultureInfo.CurrentCulture;
         private static readonly Calendar calendar = cultureInfo.Calendar;
 
         static public DateTime GetNextDay(DateTime today) {
@@ -25,18 +25,32 @@ namespace GigaBike {
             return calendar.GetWeekOfYear(day, calendarWeekRule, firstDayOfWeek);
         }
 
-        static private bool IsWorkWeekDay(DateTime day) {
-            int weekDay = (int)day.DayOfWeek;
-
-            return (weekDay != (int)DayOfWeek.Saturday) && (weekDay != (int)DayOfWeek.Sunday);
-        }
 
         /*
          * Go to the start of the next week
          * Ex : (7 - Friday + 1= % 7 = Monday
          */
-        static private DateTime GoToStartOfNextWeek(DateTime day) {
+        static public DateTime GoToStartOfNextWeek(DateTime day) {
             return day.AddDays((7 - (int)day.DayOfWeek + 1) % 7);
+        }
+
+        static public DateTime GoToStartOfWeek(DateTime day) {
+            if (day.DayOfWeek == DayOfWeek.Sunday) return day.AddDays(-6);
+
+            return day.AddDays(DayOfWeek.Monday - day.DayOfWeek);
+        }
+
+        static public DateTime GetDateFromWeekOfYear(int weekOfYear, int year) {
+            DateTime firstDayOfYear = new DateTime(year, 1, 1);
+            DateTime currentWeekDate = firstDayOfYear.AddDays(7 * weekOfYear);
+
+            return GoToStartOfWeek(currentWeekDate);
+        }
+
+        static private bool IsWorkWeekDay(DateTime day) {
+            int weekDay = (int)day.DayOfWeek;
+
+            return (weekDay != (int)DayOfWeek.Saturday) && (weekDay != (int)DayOfWeek.Sunday);
         }
     }
 }

@@ -10,12 +10,14 @@ namespace GigaBike {
         public Catalog Catalog { get; }
         public Order Order { get; }
         public DataBase DataBase { get; }
+        public Planning Planning { get; }
 
         public Controller() {
             this.DataBase = new DataBase();
             this.Login = new Login(this.DataBase);
             this.Catalog = new Catalog(this.DataBase);
             this.Order = new Order(this.DataBase);
+            this.Planning = new Planning();
         }
 
         public void Init() {

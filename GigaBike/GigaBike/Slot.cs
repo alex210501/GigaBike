@@ -6,20 +6,21 @@ using System.Threading.Tasks;
 
 namespace GigaBike {
 
-    enum StateSlot {
+    public enum StateSlot {
         BUSY = 0,
         FREE = 1
     }
 
-    class Slot {
+    public class Slot {
         public readonly int SlotNumber;
         public StateSlot StateSlot { get; private set; }
         public int IdOrder { get; set; }
         public int IdOrderModel { get; set; }
         public DateTime Date { get; private set; }
 
-        public Slot(int slotNumber) {
+        public Slot(int slotNumber, DateTime date) {
             this.SlotNumber = slotNumber;
+            this.Date = date;
             StateSlot = StateSlot.FREE;
         }
 
