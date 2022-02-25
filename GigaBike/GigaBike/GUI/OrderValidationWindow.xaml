@@ -165,10 +165,9 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <Button x:Name="ButtonCancel_" Style="{DynamicResource RoundedButtonStyle}" Content="Cancel" Click="ButtonCancel" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="39" Width="220" Margin="290,299,0,0" Grid.ColumnSpan="2" />
+            <Button x:Name="ButtonCancel_" Style="{DynamicResource RoundedButtonStyle}" Content="Cancel" Click="ButtonCancel" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="39" Width="220" Margin="290,290,0,0" Grid.ColumnSpan="2" />
             <Button x:Name="ButtonBackToModels_" Style="{DynamicResource RoundedButtonStyle}" Content="Back to the models" Click="ButtonBackToModels" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="39" Width="220" Margin="290,350,0,0" Grid.ColumnSpan="2" />
-            <Button x:Name="ButtonCommand" Style="{DynamicResource RoundedButtonStyle}" Content="Command" Click="ButtonSavePurchase" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="39" Width="220" Margin="290,247,0,0" Grid.ColumnSpan="2" />
-            <TextBox x:Name="Text_Box_Estimation_Date" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="36" Margin="290,206,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="220" BorderBrush="White" TextAlignment="Center"/>
+            <Button x:Name="ButtonCommand" Style="{DynamicResource RoundedButtonStyle}" Content="Command" Click="ButtonSavePurchase" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="39" Width="220" Margin="290,226,0,0" Grid.ColumnSpan="2" />
         </Grid>
     </Viewbox>
 </Window>
