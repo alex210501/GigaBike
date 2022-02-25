@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace GigaBike {
     public class Order {
-        public int IdOrder { get; private set; }
+        public int IdOrder { get; set; }
         private List<BikeOrder> bikes;
         public Customer Customer { get; private set; }
         private DataBase database;

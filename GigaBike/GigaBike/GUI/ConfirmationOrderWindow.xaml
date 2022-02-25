@@ -60,7 +60,7 @@
         </Style>
     </Window.Resources>
     <Viewbox>
-        <Grid Height="379">
+        <Grid Height="404">
             <Grid.RowDefinitions>
                 <RowDefinition/>
             </Grid.RowDefinitions>
@@ -68,10 +68,12 @@
                 <ColumnDefinition Width="400" />
                 <ColumnDefinition Width="400"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="ButtonCancel" Style="{DynamicResource RoundedButtonStyle}" Content="Cancel" Click="ButtonCancelCommand" FontSize="20" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Center" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="49" Width="200" Margin="0,325,0,0" Grid.Column="1" />
+            <Button x:Name="ButtonCancel" Style="{DynamicResource RoundedButtonStyle}" Content="Cancel" Click="ButtonCancelCommand" FontSize="20" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Center" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="49" Width="200" Margin="0,343,0,0" Grid.Column="1" />
             <Label Content="Command recap :" HorizontalAlignment="Left" Height="88" VerticalAlignment="Top" Width="800" FontSize="50" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.ColumnSpan="2" />
-            <Button x:Name="ButtonValidate" Style="{DynamicResource RoundedButtonStyle}" Content="Validate" Click="ButtonValidateCommand" FontSize="20" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Center" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="49" Width="200" Margin="0,318,0,0" />
-            <DataGrid x:Name="TableRecap" ColumnWidth="*" Grid.ColumnSpan="2" Height="210" Margin="15,88,5,0" VerticalAlignment="Top" SelectionChanged="TableRecapCommand" MaxColumnWidth="150" CanUserSortColumns="False" MinColumnWidth="30"/>
+            <Button x:Name="ButtonValidate" Style="{DynamicResource RoundedButtonStyle}" Content="Validate" Click="ButtonValidateCommand" FontSize="20" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Center" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="49" Width="200" Margin="0,343,0,0" />
+            <DataGrid x:Name="TableRecap" ColumnWidth="*" Grid.ColumnSpan="2" Height="188" Margin="15,88,5,0" VerticalAlignment="Top" SelectionChanged="TableRecapCommand" MaxColumnWidth="150" CanUserSortColumns="False" MinColumnWidth="30"/>
+            <Label Content="Delivery Date :" HorizontalAlignment="Left" Margin="15,291,0,0" VerticalAlignment="Top" Height="33" Width="108" FontSize="14"/>
+            <Label x:Name="DeliveryDateLabel" Content="Label" HorizontalAlignment="Left" Margin="111,291,0,0" VerticalAlignment="Top" Width="129" FontSize="14"/>
         </Grid>
     </Viewbox>
 </Window>

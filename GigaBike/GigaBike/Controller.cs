@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace GigaBike {
     public class Controller {
@@ -26,6 +27,12 @@ namespace GigaBike {
 
         public void AddToOrder(Bike bike, int quantity) {
             // Add to order sequence
+        }
+
+        public void SetCurrentIdOrder() {
+            MySqlDataReader reader = DataBase.GetNextIdOrder();
+            if (reader.Read()) Order.IdOrder = reader.GetInt32(0);
+            reader.Close();
         }
 
         public void SetDateForOrderBike() {

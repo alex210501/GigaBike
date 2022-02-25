@@ -43,6 +43,14 @@ namespace GigaBike {
             return null;
         }
 
+        public List<Slot> GetSlotByIdOrderWeek(int idOrder) {
+            List<Slot> slotOfCurrentIdOrder = new List<Slot>();
+
+            foreach (WeekDay currentDay in days) slotOfCurrentIdOrder.AddRange(currentDay.GetSlotByIdOrder(idOrder));
+
+            return slotOfCurrentIdOrder;
+        }
+
         private void CreateDaysList(int weekOfYear, int year) {
             DateTime currentWeek = DateCalculator.GetDateFromWeekOfYear(weekOfYear, year);
 

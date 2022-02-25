@@ -23,7 +23,7 @@ namespace GigaBike {
 
         public bool IsThereFreeSlots(int duration) {
             int durationCount = 0;
-            // Trace.WriteLine("Duration + " + duration);
+            
             foreach (Slot currentSlot in slots) {
                 durationCount = (currentSlot.StateSlot == StateSlot.FREE) ? (durationCount + 1) : 0;
 
@@ -43,6 +43,10 @@ namespace GigaBike {
             }
 
             return freeSlots;
+        }
+
+        public List<Slot> GetSlotByIdOrder(int idOrder) {
+            return slots.FindAll(currentSlot => currentSlot.IdOrder == idOrder);
         }
 
         public List<Slot> Slots {

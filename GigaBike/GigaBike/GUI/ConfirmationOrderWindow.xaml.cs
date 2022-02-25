@@ -58,6 +58,10 @@ namespace GigaBike {
             TableRecap.ItemsSource = ordersRecap;
         }
 
+        public void SetDeliveryDate(DateTime deliveryDate) {
+            DeliveryDateLabel.Content = deliveryDate.ToString("dd/MM/yyyy");
+        }
+
         public Action ValidateOrderCallback
         {
             set

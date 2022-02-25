@@ -17,8 +17,12 @@ namespace GigaBike {
             // Get information from the databse
         }
 
-        public DateTime GetDeliveryDate(BikeOrder bikeOrder) {
-            return new DateTime();
+        public DateTime GetDeliveryDate(int idOrder) {
+            List<Slot> slotOfCurrentOrder = new List<Slot>();
+
+            foreach (Week currentWeek in weeks) slotOfCurrentOrder.AddRange(currentWeek.GetSlotByIdOrderWeek(idOrder));
+
+            return slotOfCurrentOrder.Max(slot => slot.Date);
         }
 
         public void SetSlotForBikeOrder(Order currentOrder) {
