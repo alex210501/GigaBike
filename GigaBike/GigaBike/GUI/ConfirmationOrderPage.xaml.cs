@@ -14,44 +14,43 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GigaBike {
-    public partial class ConfirmationOrderWindow : Window {
+    /// <summary>
+    /// Interaction logic for ConfirmationOrderPage.xaml
+    /// </summary>
+    public partial class ConfirmationOrderPage : Page {
         private Action validateOrderCallback = null;
         private Action cancelOrderCallback = null;
 
-        public ConfirmationOrderWindow() {
+        public ConfirmationOrderPage() {
             InitializeComponent();
         }
 
-        private void ButtonCancelCommand(object sender, RoutedEventArgs e)
-        {
+        private void ButtonCancelCommand(object sender, RoutedEventArgs e) {
             if (cancelOrderCallback is not null) cancelOrderCallback();
         }
 
-        private void ButtonValidateCommand(object sender, RoutedEventArgs e)
-        {
+        private void ButtonValidateCommand(object sender, RoutedEventArgs e) {
             if (validateOrderCallback is not null) validateOrderCallback();
         }
 
-        private void TableRecapCommand(object sender, SelectionChangedEventArgs e)
-        {
+        private void TableRecapCommand(object sender, SelectionChangedEventArgs e) {
             //Datagrid
         }
 
-        public void SetCurrentOrder(Order CurrentOrder)
-        {
-            List<OrderRecap> ordersRecap = new List<OrderRecap>();
+        public void SetCurrentOrder(Order CurrentOrder) {
+            List<OrderRecapGrid> ordersRecap = new List<OrderRecapGrid>();
 
             foreach (BikeOrder bikeOrder in CurrentOrder.Bikes) {
-                OrderRecap currentOrderRecap = new OrderRecap(0);
+                OrderRecapGrid currentOrderRecapGrid = new OrderRecapGrid(0);
                 Bike currentBike = bikeOrder.Bike;
 
-                currentOrderRecap.BikeName = currentBike.Name;
-                currentOrderRecap.OrderPrice = bikeOrder.Price;
-                currentOrderRecap.Color = currentBike.Color.Name;
-                currentOrderRecap.Size = currentBike.Size.Name;
-                currentOrderRecap.Quantity = bikeOrder.Quantity;
+                currentOrderRecapGrid.BikeName = currentBike.Name;
+                currentOrderRecapGrid.OrderPrice = bikeOrder.Price;
+                currentOrderRecapGrid.Color = currentBike.Color.Name;
+                currentOrderRecapGrid.Size = currentBike.Size.Name;
+                currentOrderRecapGrid.Quantity = bikeOrder.Quantity;
 
-                ordersRecap.Add(currentOrderRecap);
+                ordersRecap.Add(currentOrderRecapGrid);
             }
 
 
@@ -74,8 +73,8 @@ namespace GigaBike {
             }
         }
     }
-    public class OrderRecap
-    {
+
+    public class OrderRecapGrid {
         public int CommandNumber { get; set; }
 
         public string BikeName { get; set; }
@@ -84,7 +83,7 @@ namespace GigaBike {
         public string Size { get; set; }
         public int Quantity { get; set; }
 
-        public OrderRecap(int CommandNumber) {
+        public OrderRecapGrid(int CommandNumber) {
             this.CommandNumber = CommandNumber;
         }
     }

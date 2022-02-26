@@ -87,29 +87,27 @@ namespace GigaBike {
             customerRegistrationPage.SaveOrderCallback = SaveOrderCallback;
         }
 
-        public void GoToOrderConfirmationWindow()
-        {
+        public void GoToOrderConfirmationWindow() {
             // Get the delivery date
             DateTime deliveryDate = controller.Planning.GetDeliveryDate(controller.Order.IdOrder);
 
-            Current.MainWindow.Hide();
+            ConfirmationOrderPage confirmationOrderPage = new ConfirmationOrderPage();
 
             // Create OrderValidationWindow instance
-            Current.MainWindow = new ConfirmationOrderWindow();
+            Current.MainWindow.Content = confirmationOrderPage;
 
-            (Current.MainWindow as ConfirmationOrderWindow).SetCurrentOrder(controller.Order);
-            (Current.MainWindow as ConfirmationOrderWindow).SetDeliveryDate(deliveryDate);
+            confirmationOrderPage.SetCurrentOrder(controller.Order);
+            confirmationOrderPage.SetDeliveryDate(deliveryDate);
             Trace.WriteLine(string.Format("Delivery date : {0}", deliveryDate));
 
             // Define callback
-            (Current.MainWindow as ConfirmationOrderWindow).ValidateOrderCallback = ValidateOrderCallback;
-            (Current.MainWindow as ConfirmationOrderWindow).CancelOrderCallback = CancelOrderCallback;
+            confirmationOrderPage.ValidateOrderCallback = ValidateOrderCallback;
+            confirmationOrderPage.CancelOrderCallback = CancelOrderCallback;
 
             Current.MainWindow.Show();
         }
 
-        public void LoginButtonCallback()
-        {
+        public void LoginButtonCallback() {
             if (Current.MainWindow.Content is not LoginPage)
                 throw new FormatException("The current page is not a LoginPage");
                 
@@ -179,21 +177,23 @@ namespace GigaBike {
         }
 
         public void SaveOrderCallback() {
-            if (Current.MainWindow is not OrderValidationWindow) {
+            if (Current.MainWindow.Content is not CustomerRegistrationPage) {
                 MessageBox.Show("This callback is for the order validation window !");
                 return;
             }
 
-            if ((Current.MainWindow as OrderValidationWindow).AreCustomerInfoValid() == false) {
+            CustomerRegistrationPage customerRegistrationPage = (Current.MainWindow.Content as CustomerRegistrationPage);
+
+            if (customerRegistrationPage.AreCustomerInfoValid() == false) {
                 MessageBox.Show("You must set all the client informations to save the order !");
                 return;
             }
 
             Customer orderCustomer = new Customer() {
-                Name = (Current.MainWindow as OrderValidationWindow).GetNameCustomer(),
-                Address = (Current.MainWindow as OrderValidationWindow).GetAddressCustomer(),
-                TVA = (Current.MainWindow as OrderValidationWindow).GetTVACustomer(),
-                Phone = (Current.MainWindow as OrderValidationWindow).GetPhoneCustomer()
+                Name = customerRegistrationPage.GetNameCustomer(),
+                Address = customerRegistrationPage.GetAddressCustomer(),
+                TVA = customerRegistrationPage.GetTVACustomer(),
+                Phone = customerRegistrationPage.GetPhoneCustomer()
             };
 
             controller.Order.Save(orderCustomer);
