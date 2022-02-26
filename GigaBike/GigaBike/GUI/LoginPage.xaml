@@ -89,33 +89,10 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <TextBox x:Name="PasswordInput" HorizontalAlignment="Left" Height="36" Margin="400,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="169" FontSize="25" Visibility="Visible">
-                <TextBox.Style>
-                    <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-                        <Style.Resources>
-                            <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                                <VisualBrush.Visual>
-                                    <Label Content="Enter Password" Foreground="LightGray" />
-                                </VisualBrush.Visual>
-                            </VisualBrush>
-                        </Style.Resources>
-                        <Style.Triggers>
-                            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                            </Trigger>
-                            <Trigger Property="Text" Value="{x:Null}">
-                                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                            </Trigger>
-                            <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter Property="Background" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
             <Label Content="Username :" HorizontalAlignment="Left" Height="48" Margin="242,150,0,0" VerticalAlignment="Top" Width="158" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
             <Label Content="Password :" HorizontalAlignment="Left" Height="48" Margin="242,228,0,0" VerticalAlignment="Top" Width="158" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
             <Label Content="Please register yourself" HorizontalAlignment="Center" Height="88" VerticalAlignment="Top" Width="800" FontSize="50" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            <PasswordBox x:Name="PasswordInput" Width="169" Height="36" SelectionTextBrush="White" Margin="400,234,231,180" CaretBrush="{DynamicResource Button.Static.Background}" FontSize="25"/>
         </Grid>
     </Viewbox>
 </Page>
