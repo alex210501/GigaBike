@@ -75,18 +75,16 @@ namespace GigaBike {
             bikeModelPage.NextButtonCallback = AddToOrderCallback;
         }
 
-        public void GoToOrderValidationWindow() {
-            Current.MainWindow.Hide();
+        public void GoToRegistrationCustomerWindow() {
+            CustomerRegistrationPage customerRegistrationPage = new CustomerRegistrationPage(controller.Catalog.GetCurrentModel());
 
             // Create OrderValidationWindow instance
-            Current.MainWindow = new OrderValidationWindow(controller.Catalog.GetCurrentModel());
+            Current.MainWindow.Content = customerRegistrationPage;
 
             // Define callback
-            (Current.MainWindow as OrderValidationWindow).BackToCatalogWindow = GoToCatalogWindow;
-            (Current.MainWindow as OrderValidationWindow).CancelOrderCallback = CancelOrderCallback;
-            (Current.MainWindow as OrderValidationWindow).SaveOrderCallback = SaveOrderCallback;
-
-            Current.MainWindow.Show();
+            customerRegistrationPage.BackToCatalogWindow = GoToCatalogWindow;
+            customerRegistrationPage.CancelOrderCallback = CancelOrderCallback;
+            customerRegistrationPage.SaveOrderCallback = SaveOrderCallback;
         }
 
         public void GoToOrderConfirmationWindow()
@@ -146,10 +144,12 @@ namespace GigaBike {
 
         public void AddToOrderCallback() {
             try {
+                BikeModelPage bikeModelPage =(Current.MainWindow.Content as BikeModelPage);
+
                 // Get information from the display
-                Color colorBike = (Current.MainWindow as BikeModelWindow).GetColor();
-                Size sizeBike = (Current.MainWindow as BikeModelWindow).GetSize();
-                int quantity = (Current.MainWindow as BikeModelWindow).GetQuantity();
+                Color colorBike = bikeModelPage.GetColor();
+                Size sizeBike = bikeModelPage.GetSize();
+                int quantity = bikeModelPage.GetQuantity();
 
                 // Get the bike selected
                 Bike currentBikeModel = controller.Catalog.GetSelectedBike(colorBike, sizeBike);
@@ -158,7 +158,7 @@ namespace GigaBike {
                 controller.Order.AddBike(new Bike(currentBikeModel), quantity);
 
                 // Go to the Order Window
-                GoToOrderValidationWindow();
+                GoToRegistrationCustomerWindow();
 
                 foreach (BikeOrder bikeOrder in controller.Order.Bikes) {
                     Trace.WriteLine(string.Format("Bike : {0}, color : {1}, size: {2}, quantity : {3}", bikeOrder.Bike.Name, bikeOrder.Bike.Color.Name,
