@@ -44,11 +44,11 @@ namespace GigaBike {
             }
         }
 
-        public string getText_Input_Username() {
+        public string GetUsername() {
             return UsernameInput.Text;
         }
 
-        public string getText_Input_Password() {
+        public string GetPassword() {
             return PasswordInput.Text;
         }
     }

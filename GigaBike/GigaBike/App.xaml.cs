@@ -113,18 +113,13 @@ namespace GigaBike {
                 
             LoginPage loginPage = Current.MainWindow.Content as LoginPage;
 
-            string username = loginPage.getText_Input_Username();
-            string password = loginPage.getText_Input_Password();
+            string username = loginPage.GetUsername();
+            string password = loginPage.GetPassword();
 
-            /*if (controller.Login.CheckUser(username, password))
-            {
+            if (controller.Login.CheckUser(username, password))
                 GoToChoosePathWindow();
-            }
             else
-            {
                 MessageBox.Show("Wrong username or password");
-            }*/
-            GoToChoosePathWindow();
 
         }
 

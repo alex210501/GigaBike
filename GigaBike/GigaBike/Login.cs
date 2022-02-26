@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 namespace GigaBike {
     public class Login {
@@ -16,27 +17,21 @@ namespace GigaBike {
             this.database = database;
         }
 
-        public bool CheckUser(string username, string password) {            
-            try
-            {
+        public bool CheckUser(string username, string password) {
+            bool isGoodPassword = false;
+
+
+            try {
                 MySqlDataReader reader = database.GetPassword(username);
-                reader.Read();
-                string passwordDatabase = reader.GetString(0);
+                if (reader.Read())
+                    isGoodPassword = (password == reader.GetString(0));
                 reader.Close();
-                return password == passwordDatabase;
             }
-            catch (Exception e)
-            {
-                return false;
+            catch (Exception) {
+                isGoodPassword = false;
             }
 
-            
-            
-            
-
-
-
-
+            return isGoodPassword;
         }
     }
 }
