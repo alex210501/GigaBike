@@ -18,7 +18,6 @@ namespace GigaBike {
 
         public OrderValidationWindow(CatalogModel currentModel) {
             InitializeComponent();
-            Text_Box_Estimation_Date.Text = "Estimation Date :";
         }
 
         public string GetNameCustomer() {

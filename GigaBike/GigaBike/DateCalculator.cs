@@ -47,6 +47,10 @@ namespace GigaBike {
             return GoToStartOfWeek(currentWeekDate);
         }
 
+        static public DateTime GetNextWorkDayFromToday() {
+            return GetNextDay(DateTime.Now.Date);
+        }
+
         static private bool IsWorkWeekDay(DateTime day) {
             int weekDay = (int)day.DayOfWeek;
 

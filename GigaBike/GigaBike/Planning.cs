@@ -27,24 +27,29 @@ namespace GigaBike {
 
         public void SetSlotForBikeOrder(Order currentOrder) {
             foreach (BikeOrder bikeOrder in currentOrder.Bikes) {
+                // For every order, start searching since tomorrow
+                DateTime startSlotDay = DateCalculator.GetNextWorkDayFromToday();
+
                 for (int i = 0; i < bikeOrder.Quantity; i++) {
-                    List<Slot> bikeSlots = GetSlots(1);
+                    List<Slot> bikeSlots = GetSlotsFromStartDate(bikeOrder.Bike.SlotDuration, startSlotDay);
 
                     foreach (Slot slot in bikeSlots) {
                         slot.BindSlotWithOrder(currentOrder.IdOrder, bikeOrder.Bike.IdBike);
                         Trace.WriteLine(string.Format("Slot : {0}: Date : {1}", slot.SlotNumber, slot.Date));
                     }
+
+                    startSlotDay = bikeSlots[0].Date;
                 }
             }
         }
 
-        public List<Slot> GetSlots(int duration) {
+        public List<Slot> GetSlotsFromStartDate(int duration, DateTime startDate) {
             List<Slot> slots = new List<Slot>();
-            int i = 0;
-            // Start searching slot from tomorrow
-            DateTime currentDate = DateCalculator.GetNextDay(DateTime.Now.Date);
 
-            while (slots.Count == 0 && i++ < 20) {
+            // Start searching slot from tomorrow
+            DateTime currentDate = startDate;
+
+            while (slots.Count == 0) {
                 int weekNumber = DateCalculator.GetWeekOfYear(currentDate);
 
                 if (IsWeekRegistered(weekNumber, currentDate.Year) == false) AddWeek(weekNumber, currentDate.Year);

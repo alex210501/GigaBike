@@ -12,14 +12,16 @@ namespace GigaBike {
         public Color Color { get; }
         public Size Size { get; }
         public string ImagePath { get; }
+        public int SlotDuration { get; }
 
-        public Bike (int IdBike, string name, int price, Color color, Size size, string imagePath) {
+        public Bike (int IdBike, string name, int price, Color color, Size size, string imagePath, int slotDuration) {
             this.IdBike = IdBike;
             this.Name = name;
             this.Price = price;
             this.Color = color;
             this.Size = size;
             this.ImagePath = imagePath;
+            this.SlotDuration = slotDuration;
         }
 
         public Bike (Bike otherBike) {
@@ -29,6 +31,7 @@ namespace GigaBike {
             this.Color = otherBike.Color;
             this.Size = otherBike.Size;
             this.ImagePath = otherBike.ImagePath;
+            this.SlotDuration = otherBike.SlotDuration;
         }
     }
 }
