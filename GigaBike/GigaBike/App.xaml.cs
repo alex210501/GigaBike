@@ -65,16 +65,14 @@ namespace GigaBike {
         }
 
         public void GoToBikeModelWindow() {
-            Current.MainWindow.Hide();
+            BikeModelPage bikeModelPage = new BikeModelPage(controller.Catalog.GetCurrentModel());
 
             // Create BikeModelWindow instance with a CatalogModel as parameter
-            Current.MainWindow = new BikeModelWindow(controller.Catalog.GetCurrentModel());
+            Current.MainWindow.Content = bikeModelPage;
 
             // Define callback
-            (Current.MainWindow as BikeModelWindow).BackToCatalogCallback = GoToCatalogWindow;
-            (Current.MainWindow as BikeModelWindow).NextButtonCallback = AddToOrderCallback;
-
-            Current.MainWindow.Show();
+            bikeModelPage.BackToCatalogCallback = GoToCatalogWindow;
+            bikeModelPage.NextButtonCallback = AddToOrderCallback;
         }
 
         public void GoToOrderValidationWindow() {
