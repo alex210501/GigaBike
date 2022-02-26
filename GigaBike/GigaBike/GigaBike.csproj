@@ -35,16 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="GUI\ConfirmationOrderWindow.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <CustomToolNamespace>Lo</CustomToolNamespace>
-    </Page>
-    <Page Update="GUI\LoginWindow.xaml">
-      <CustomToolNamespace>Lo</CustomToolNamespace>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="GUI\Pictures\Adventure.jpg" />
     <Resource Include="GUI\Pictures\City.jpg" />
     <Resource Include="GUI\Pictures\Explorer.png" />
