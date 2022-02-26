@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="GUI\City.jpg" />
     <None Remove="GUI\Pictures\Adventure.jpg" />
     <None Remove="GUI\Pictures\City.jpg" />
     <None Remove="GUI\Pictures\Explorer.png" />
@@ -46,7 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="GUI\City.jpg" />
     <Resource Include="GUI\Pictures\Adventure.jpg" />
     <Resource Include="GUI\Pictures\City.jpg" />
     <Resource Include="GUI\Pictures\Explorer.png" />

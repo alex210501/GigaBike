@@ -14,25 +14,28 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GigaBike {
-    public partial class LoginWindow : Window {
+    /// <summary>
+    /// Interaction logic for LoginPage.xaml
+    /// </summary>
+    public partial class LoginPage : Page {
         static Action loginButtonCallback = null;
 
-        public LoginWindow() {
+        public LoginPage() {
             InitializeComponent();
         }
 
         private void Text_Input_Username(object sender, RoutedEventArgs e) {
-            
+
         }
 
         private void Text_Input_Password(object sender, RoutedEventArgs e) {
-            
+
         }
 
         private void ButtonLogin(object sender, RoutedEventArgs e) {
             if (loginButtonCallback != null) loginButtonCallback();
 
-            
+
         }
 
         public Action LoginButtonCallback {
@@ -41,13 +44,11 @@ namespace GigaBike {
             }
         }
 
-        public string getText_Input_Username()
-        {
+        public string getText_Input_Username() {
             return UsernameInput.Text;
         }
 
-        public string getText_Input_Password()
-        {
+        public string getText_Input_Password() {
             return PasswordInput.Text;
         }
     }

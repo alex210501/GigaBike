@@ -28,43 +28,40 @@ namespace GigaBike {
 
 		protected override  void OnStartup(StartupEventArgs e) {
             // Create LoginWindow instance
-            Current.MainWindow = new LoginWindow();
+            Current.MainWindow = new MainWindow();
+            Current.MainWindow.Content = new LoginPage();
             
             // Define callback
-            (Current.MainWindow as LoginWindow).LoginButtonCallback = LoginButtonCallback;
+            (Current.MainWindow.Content as LoginPage).LoginButtonCallback = LoginButtonCallback;
 
             Current.MainWindow.Show();
         }
 
         public void GoToChoosePathWindow() {
-            Current.MainWindow.Hide();
-
             // Create ChoosePathWindow instance
-            Current.MainWindow = new ChoosePathWindow();
+            Current.MainWindow.Content = new ChoosePathPage();
 
             // Define callback
-            (Current.MainWindow as ChoosePathWindow).GoToCatalogCallback = GoToCatalogWindow;
-            Current.MainWindow.Show();
+            (Current.MainWindow.Content as ChoosePathPage).GoToCatalogCallback = GoToCatalogWindow;
+            // Current.MainWindow.Show();
         }
 
         public void GoToCatalogWindow() {
-            Current.MainWindow.Hide();
-
             // Refresh the catalog models
             controller.Catalog.RefreshModels();
 
             // Create CatalogWindow instance
-            Current.MainWindow = new CatalogWindow();
-            (Current.MainWindow as CatalogWindow).SetCurrentModel(controller.Catalog.GetCurrentModel());
-            (Current.MainWindow as CatalogWindow).RefreshModel();
+            CatalogPage catalogPage = new CatalogPage();
+
+            Current.MainWindow.Content = catalogPage;
+            catalogPage.SetCurrentModel(controller.Catalog.GetCurrentModel());
+            catalogPage.RefreshModel();
 
             // Define Callbacks
-            (Current.MainWindow as CatalogWindow).BackToChoosePathCallback = GoToChoosePathWindow;
-            (Current.MainWindow as CatalogWindow).CheckModelCallback = GoToBikeModelWindow;
-            (Current.MainWindow as CatalogWindow).NextModelCallback = CatalogWindowNextModelCallback;
-            (Current.MainWindow as CatalogWindow).PreviousModelCallback = CatalogWindowPreviousModelCallback;
-
-            Current.MainWindow.Show();
+            catalogPage.BackToChoosePathCallback = GoToChoosePathWindow;
+            catalogPage.CheckModelCallback = GoToBikeModelWindow;
+            catalogPage.NextModelCallback = CatalogWindowNextModelCallback;
+            catalogPage.PreviousModelCallback = CatalogWindowPreviousModelCallback;
         }
 
         public void GoToBikeModelWindow() {
@@ -117,8 +114,13 @@ namespace GigaBike {
 
         public void LoginButtonCallback()
         {
-            string username = (Current.MainWindow as LoginWindow).getText_Input_Username();
-            string password = (Current.MainWindow as LoginWindow).getText_Input_Password();
+            if (Current.MainWindow.Content is not LoginPage)
+                throw new FormatException("The current page is not a LoginPage");
+                
+            LoginPage loginPage = Current.MainWindow.Content as LoginPage;
+
+            string username = loginPage.getText_Input_Username();
+            string password = loginPage.getText_Input_Password();
 
             /*if (controller.Login.CheckUser(username, password))
             {
