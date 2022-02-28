@@ -1,2 +1,4 @@
 Figma Link: https://www.figma.com/files/project/45469952/Team-project?fuid=1055815471178222537
-Link 2 : https://www.figma.com/file/3rlyLPllqLGz0yttzaMwRH/Production-Manager
+Figma Link Manager: https://www.figma.com/file/3rlyLPllqLGz0yttzaMwRH/Production-Manager
+Figma Link Worker : https://www.figma.com/file/SSeFpdAa7DbGUKAdYsOFKN/worker
+Figma Link Representative : https://www.figma.com/file/VxQ4LdTtktNDdSYmGt3kJc/Representative
