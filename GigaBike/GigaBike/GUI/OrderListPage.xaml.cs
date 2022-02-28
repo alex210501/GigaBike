@@ -13,31 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GigaBike
+namespace GigaBike.GUI
 {
     /// <summary>
-    /// Logique d'interaction pour RessourcesPage.xaml
+    /// Logique d'interaction pour OrderListPage.xaml
     /// </summary>
-    public partial class RessourcesPage : Page
+    public partial class OrderListPage : Page
     {
-        public RessourcesPage()
+        public OrderListPage()
         {
             InitializeComponent();
-        }
-
-        private void ButtonOrderList(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ButtonStock(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ButtonGoback(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
