@@ -29,10 +29,11 @@ namespace GigaBike {
 		protected override  void OnStartup(StartupEventArgs e) {
             // Create LoginWindow instance
             Current.MainWindow = new MainWindow();
+            //replace loginpage by the new page
             Current.MainWindow.Content = new LoginPage();
             
             // Define callback
-            (Current.MainWindow.Content as LoginPage).LoginButtonCallback = LoginButtonCallback;
+            //(Current.MainWindow.Content as LoginPage).LoginButtonCallback = LoginButtonCallback;
 
             Current.MainWindow.Show();
         }
