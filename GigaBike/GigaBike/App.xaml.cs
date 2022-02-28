@@ -30,7 +30,7 @@ namespace GigaBike {
             // Create LoginWindow instance
             Current.MainWindow = new MainWindow();
             //replace loginpage by the new page
-            Current.MainWindow.Content = new LoginPage();
+            Current.MainWindow.Content = new RessourcesPage();
             
             // Define callback
             //(Current.MainWindow.Content as LoginPage).LoginButtonCallback = LoginButtonCallback;

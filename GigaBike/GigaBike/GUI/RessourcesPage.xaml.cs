@@ -24,5 +24,20 @@ namespace GigaBike.GUI
         {
             InitializeComponent();
         }
+
+        private void ButtonOrderList(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonStock(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonGoback(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
