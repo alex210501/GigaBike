@@ -10,16 +10,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GigaBike {
-    public partial class BikeModelWindow : Window {
+    /// <summary>
+    /// Interaction logic for BikeModelPage.xaml
+    /// </summary>
+    public partial class BikeModelPage : Page {
         private Action backToCatalogCallback = null;
         private Action nextButtonCallback = null;
-        private CatalogModel currentCatalogModel = null; 
+        private CatalogModel currentCatalogModel = null;
         private static string imageFolder = "/GUI/Pictures/";
 
-        public BikeModelWindow(CatalogModel currentCatalogModel) {
+        public BikeModelPage(CatalogModel currentCatalogModel) {
             InitializeComponent();
 
             this.currentCatalogModel = currentCatalogModel;

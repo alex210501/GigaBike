@@ -10,11 +10,15 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 
 namespace GigaBike {
-    public partial class CatalogWindow : Window {
+    /// <summary>
+    /// Interaction logic for CatalogPage.xaml
+    /// </summary>
+    public partial class CatalogPage : Page {
         Func<CatalogModel> nextModelCallback = null;
         Func<CatalogModel> previousModelCallback = null;
         Action backToChoosePathCallback = null;
@@ -23,7 +27,7 @@ namespace GigaBike {
 
         CatalogModel catalogModel = null;
 
-        public CatalogWindow() {
+        public CatalogPage() {
             InitializeComponent();
         }
 

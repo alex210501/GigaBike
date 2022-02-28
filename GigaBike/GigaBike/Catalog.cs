@@ -40,8 +40,9 @@ namespace GigaBike {
                 string nameSize = reader.GetString(6);
                 int priceBike = reader.GetInt32(7);
                 string imagePath = reader.GetString(8);
+                int duration = reader.GetInt32(9);
 
-                Bike currentBike = new Bike(idModel, bikeName, priceBike, new Color(idColor, nameColor), new Size(idSize, nameSize), imagePath);
+                Bike currentBike = new Bike(idModel, bikeName, priceBike, new Color(idColor, nameColor), new Size(idSize, nameSize), imagePath, duration);
                 AddBike(idBike, currentBike);
 
                 Trace.WriteLine("---New Trace---");

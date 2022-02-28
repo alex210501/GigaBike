@@ -26,7 +26,7 @@ namespace GigaBike {
         public void Connect() {
             // Code to connect to the database
             string connectionString = string.Format(@"server={0};userid={1};pwd={2};persistsecurityinfo=True;database={3};port={4};sharedmemoryname=", host, username, password, database, port);
-            this.connection = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
+            this.connection = new MySqlConnection(connectionString);
             connection.Open();
         }
 
@@ -43,7 +43,7 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetModels() {
-            MySqlCommand command = SendCommand("SELECT BikeModel.IdModel, BikeModel.IdBike, Bike.NameBike, BikeModel.IdColor, Color.NameColor, BikeModel.IdSize, Size.NameSize, BikeModel.Price, BikeModel.PicturePath FROM BikeModel " +
+            MySqlCommand command = SendCommand("SELECT BikeModel.IdModel, BikeModel.IdBike, Bike.NameBike, BikeModel.IdColor, Color.NameColor, BikeModel.IdSize, Size.NameSize, BikeModel.Price, BikeModel.PicturePath, BikeModel.SlotDuration FROM BikeModel " +
                                                 "INNER JOIN Bike ON Bike.IdBike = BikeModel.IdBike " +
                                                 "INNER JOIN Color ON Color.IdColor = BikeModel.IdColor " +
                                                 "INNER JOIN Size ON Size.IdSize = BikeModel.IdSize");
@@ -57,8 +57,8 @@ namespace GigaBike {
             return command.ExecuteReader();
         }
 
-        public MySqlDataReader GetCustomer(int customerId) {
-            MySqlCommand command = SendCommand("SELECT * FROM Customer WHERE IdCustomer ="+ customerId);
+        public MySqlDataReader GetCustomer(string tva) {
+            MySqlCommand command = SendCommand(string.Format("SELECT * FROM Customer WHERE TVA=\"{0}\";", tva));
             return command.ExecuteReader();
         }
 
@@ -67,16 +67,32 @@ namespace GigaBike {
             return command.ExecuteReader();
         }
 
+        public MySqlDataReader GetNextIdOrder() {
+            string commandToSend = "SELECT AUTO_INCREMENT FROM information_schema.Tables " +
+                                   "WHERE TABLE_SCHEMA = \"GigaBike\" " +
+                                   "AND TABLE_NAME = \"OrderInfo\";";
+            MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
+
         public MySqlDataReader SetCustomer(Customer customer) {
-            /*string command = string.Format("INSERT INTO Customer VALUES ({0},{1},{2},{3})", customer.);
-            MySqlCommand command = SendCommand(,customer.TVA,'"'+customer.NameCustomer+'"','"'+customer.Address+'"',customer.Phone);*/
-            MySqlCommand command = SendCommand("");
+            string commandToSend = string.Format("INSERT INTO Customer (TVA, NameCustomer, AddressCustomer, PhoneCustomer) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\");",
+                                                 customer.TVA, customer.Name, customer.Address, customer.Phone);
+            MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
 
         public MySqlDataReader SaveCommand(Order order) {
-            // MySqlCommand command = SeyyndCommand("INSERT INTO OrderInfo VALUES (Null,{0},{1},{2},{3})",order.TvaCustomer,"'"+order.DeliveryDate+"'","'"+order.Duration+"'",order.Price);
-            MySqlCommand command = SendCommand("");
+            string commandToSend = string.Format("INSERT INTO OrderInfo (TVACustomer, Price) VALUES (\"{0}\",\"{1}\");" +
+                                                 "SELECT @@IDENTITY;", order.Customer.TVA, order.Price);
+            MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
+
+        public MySqlDataReader SaveCommandModels(int idOrder, BikeOrder currentBikeOrder) {
+            string commandToSend = string.Format("INSERT INTO OrderModel (IdOrder, IdModelBike, Quantity, Price) VALUES (\"{0}\",\"{1}\",\"{2}\",\"{3}\");" +
+                                                 "SELECT @@IDENTITY;", idOrder, currentBikeOrder.Bike.IdBike, currentBikeOrder.Quantity, currentBikeOrder.Price);
+            MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
     }

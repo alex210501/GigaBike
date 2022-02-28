@@ -28,102 +28,99 @@ namespace GigaBike {
 
 		protected override  void OnStartup(StartupEventArgs e) {
             // Create LoginWindow instance
-            Current.MainWindow = new LoginWindow();
+            Current.MainWindow = new MainWindow();
+            Current.MainWindow.Content = new LoginPage();
             
             // Define callback
-            (Current.MainWindow as LoginWindow).LoginButtonCallback = LoginButtonCallback;
+            (Current.MainWindow.Content as LoginPage).LoginButtonCallback = LoginButtonCallback;
 
             Current.MainWindow.Show();
         }
 
         public void GoToChoosePathWindow() {
-            Current.MainWindow.Hide();
-
             // Create ChoosePathWindow instance
-            Current.MainWindow = new ChoosePathWindow();
+            Current.MainWindow.Content = new ChoosePathPage();
 
             // Define callback
-            (Current.MainWindow as ChoosePathWindow).GoToCatalogCallback = GoToCatalogWindow;
-            Current.MainWindow.Show();
+            (Current.MainWindow.Content as ChoosePathPage).GoToCatalogCallback = GoToCatalogWindow;
+            // Current.MainWindow.Show();
         }
 
         public void GoToCatalogWindow() {
-            Current.MainWindow.Hide();
-
             // Refresh the catalog models
             controller.Catalog.RefreshModels();
 
             // Create CatalogWindow instance
-            Current.MainWindow = new CatalogWindow();
-            (Current.MainWindow as CatalogWindow).SetCurrentModel(controller.Catalog.GetCurrentModel());
-            (Current.MainWindow as CatalogWindow).RefreshModel();
+            CatalogPage catalogPage = new CatalogPage();
+
+            Current.MainWindow.Content = catalogPage;
+            catalogPage.SetCurrentModel(controller.Catalog.GetCurrentModel());
+            catalogPage.RefreshModel();
 
             // Define Callbacks
-            (Current.MainWindow as CatalogWindow).BackToChoosePathCallback = GoToChoosePathWindow;
-            (Current.MainWindow as CatalogWindow).CheckModelCallback = GoToBikeModelWindow;
-            (Current.MainWindow as CatalogWindow).NextModelCallback = CatalogWindowNextModelCallback;
-            (Current.MainWindow as CatalogWindow).PreviousModelCallback = CatalogWindowPreviousModelCallback;
-
-            Current.MainWindow.Show();
+            catalogPage.BackToChoosePathCallback = GoToChoosePathWindow;
+            catalogPage.CheckModelCallback = GoToBikeModelWindow;
+            catalogPage.NextModelCallback = CatalogWindowNextModelCallback;
+            catalogPage.PreviousModelCallback = CatalogWindowPreviousModelCallback;
         }
 
         public void GoToBikeModelWindow() {
-            Current.MainWindow.Hide();
+            BikeModelPage bikeModelPage = new BikeModelPage(controller.Catalog.GetCurrentModel());
 
             // Create BikeModelWindow instance with a CatalogModel as parameter
-            Current.MainWindow = new BikeModelWindow(controller.Catalog.GetCurrentModel());
+            Current.MainWindow.Content = bikeModelPage;
 
             // Define callback
-            (Current.MainWindow as BikeModelWindow).BackToCatalogCallback = GoToCatalogWindow;
-            (Current.MainWindow as BikeModelWindow).NextButtonCallback = AddToOrderCallback;
-
-            Current.MainWindow.Show();
+            bikeModelPage.BackToCatalogCallback = GoToCatalogWindow;
+            bikeModelPage.NextButtonCallback = AddToOrderCallback;
         }
 
-        public void GoToOrderValidationWindow() {
-            Current.MainWindow.Hide();
+        public void GoToRegistrationCustomerWindow() {
+            CustomerRegistrationPage customerRegistrationPage = new CustomerRegistrationPage(controller.Catalog.GetCurrentModel());
 
             // Create OrderValidationWindow instance
-            Current.MainWindow = new OrderValidationWindow(controller.Catalog.GetCurrentModel());
+            Current.MainWindow.Content = customerRegistrationPage;
 
             // Define callback
-            (Current.MainWindow as OrderValidationWindow).BackToCatalogWindow = GoToCatalogWindow;
-            (Current.MainWindow as OrderValidationWindow).CancelOrderCallback = CancelOrderCallback;
-            (Current.MainWindow as OrderValidationWindow).SaveOrderCallback = GoToOrderConfirmationWindow;
-
-            Current.MainWindow.Show();
+            customerRegistrationPage.BackToCatalogWindow = GoToCatalogWindow;
+            customerRegistrationPage.CancelOrderCallback = CancelOrderCallback;
+            customerRegistrationPage.SaveOrderCallback = SaveOrderCallback;
         }
 
-        public void GoToOrderConfirmationWindow()
-        {
-            Current.MainWindow.Hide();
+        public void GoToOrderConfirmationWindow() {
+            // Get the delivery date
+            DateTime deliveryDate = controller.Planning.GetDeliveryDate(controller.Order.IdOrder);
+
+            ConfirmationOrderPage confirmationOrderPage = new ConfirmationOrderPage();
 
             // Create OrderValidationWindow instance
-            Current.MainWindow = new ConfirmationOrderWindow();
+            Current.MainWindow.Content = confirmationOrderPage;
 
-            (Current.MainWindow as ConfirmationOrderWindow).SetCurrentOrder(controller.Order);
+            confirmationOrderPage.SetCurrentOrder(controller.Order);
+            confirmationOrderPage.SetDeliveryDate(deliveryDate);
+            Trace.WriteLine(string.Format("Delivery date : {0}", deliveryDate));
 
             // Define callback
-            (Current.MainWindow as ConfirmationOrderWindow).ValidateOrderCallback = GoToCatalogWindow;
-            (Current.MainWindow as ConfirmationOrderWindow).CancelOrderCallback = CancelOrderCallback;
+            confirmationOrderPage.ValidateOrderCallback = ValidateOrderCallback;
+            confirmationOrderPage.CancelOrderCallback = CancelOrderCallback;
 
             Current.MainWindow.Show();
         }
 
-        public void LoginButtonCallback()
-        {
-            string username = (Current.MainWindow as LoginWindow).getText_Input_Username();
-            string password = (Current.MainWindow as LoginWindow).getText_Input_Password();
+        public void LoginButtonCallback() {
+            if (Current.MainWindow.Content is not LoginPage)
+                throw new FormatException("The current page is not a LoginPage");
+                
+            LoginPage loginPage = Current.MainWindow.Content as LoginPage;
+
+            string username = loginPage.GetUsername();
+            string password = loginPage.GetPassword();
 
             if (controller.Login.CheckUser(username, password))
-            {
                 GoToChoosePathWindow();
-            }
             else
-            {
                 MessageBox.Show("Wrong username or password");
-            }
-            
+
         }
 
         public CatalogModel CatalogWindowNextModelCallback() {
@@ -140,10 +137,12 @@ namespace GigaBike {
 
         public void AddToOrderCallback() {
             try {
+                BikeModelPage bikeModelPage =(Current.MainWindow.Content as BikeModelPage);
+
                 // Get information from the display
-                Color colorBike = (Current.MainWindow as BikeModelWindow).GetColor();
-                Size sizeBike = (Current.MainWindow as BikeModelWindow).GetSize();
-                int quantity = (Current.MainWindow as BikeModelWindow).GetQuantity();
+                Color colorBike = bikeModelPage.GetColor();
+                Size sizeBike = bikeModelPage.GetSize();
+                int quantity = bikeModelPage.GetQuantity();
 
                 // Get the bike selected
                 Bike currentBikeModel = controller.Catalog.GetSelectedBike(colorBike, sizeBike);
@@ -152,7 +151,7 @@ namespace GigaBike {
                 controller.Order.AddBike(new Bike(currentBikeModel), quantity);
 
                 // Go to the Order Window
-                GoToOrderValidationWindow();
+                GoToRegistrationCustomerWindow();
 
                 foreach (BikeOrder bikeOrder in controller.Order.Bikes) {
                     Trace.WriteLine(string.Format("Bike : {0}, color : {1}, size: {2}, quantity : {3}", bikeOrder.Bike.Name, bikeOrder.Bike.Color.Name,
@@ -168,6 +167,39 @@ namespace GigaBike {
         }
 
         public void CancelOrderCallback() {
+            controller.Order.Clear();
+            GoToCatalogWindow();
+        }
+
+        public void SaveOrderCallback() {
+            if (Current.MainWindow.Content is not CustomerRegistrationPage) {
+                MessageBox.Show("This callback is for the order validation window !");
+                return;
+            }
+
+            CustomerRegistrationPage customerRegistrationPage = (Current.MainWindow.Content as CustomerRegistrationPage);
+
+            if (customerRegistrationPage.AreCustomerInfoValid() == false) {
+                MessageBox.Show("You must set all the client informations to save the order !");
+                return;
+            }
+
+            Customer orderCustomer = new Customer() {
+                Name = customerRegistrationPage.GetNameCustomer(),
+                Address = customerRegistrationPage.GetAddressCustomer(),
+                TVA = customerRegistrationPage.GetTVACustomer(),
+                Phone = customerRegistrationPage.GetPhoneCustomer()
+            };
+
+            controller.Order.Save(orderCustomer);
+            controller.SetCurrentIdOrder();
+            controller.SetDateForOrderBike();
+
+            GoToOrderConfirmationWindow();
+        }
+
+        void ValidateOrderCallback() {
+            controller.Order.Validate();
             controller.Order.Clear();
             GoToCatalogWindow();
         }

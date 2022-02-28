@@ -3,19 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using MySql.Data.MySqlClient;
 
 namespace GigaBike {
     public class Order {
+        public int IdOrder { get; set; }
         private List<BikeOrder> bikes;
+        public Customer Customer { get; private set; }
+        private DataBase database;
         public DateTime DateDelivery { get; }
         public int Duration { get; set; }
 
-        public Order() {
+        public Order(DataBase database) {
             bikes = new List<BikeOrder>();
+            Customer = new Customer();
+            this.database = database;
         }
 
         public void Save(Customer customer) {
-            return;
+            Customer = new Customer(customer);
+
+            SaveCutomer(customer);
+        }
+
+        public void Validate() {
+            MySqlDataReader reader = database.SaveCommand(this);
+            reader.Read();
+            IdOrder = reader.GetInt32(0);
+            reader.Close();
+
+            foreach (BikeOrder currentBikeOrder in bikes) {
+                MySqlDataReader bikeOrderReader = database.SaveCommandModels(IdOrder, currentBikeOrder);
+                bikeOrderReader.Close();
+            }
         }
 
         public void Clear() {
@@ -41,6 +62,27 @@ namespace GigaBike {
 
                 return price;
             }
+        }
+
+        private void SaveCutomer(Customer customer) {
+            Trace.WriteLine(customer.Name);
+
+            if (IsCustomerRegistered(customer) == false) { 
+                MySqlDataReader reader = database.SetCustomer(customer);
+                reader.Read();
+                reader.Close();
+            }
+        }
+
+        private bool IsCustomerRegistered(Customer customer) {
+            bool isRegistered;
+
+            MySqlDataReader reader = database.GetCustomer(customer.TVA);
+            reader.Read();
+            isRegistered = reader.HasRows;
+            reader.Close();
+
+            return isRegistered;
         }
     }
 }

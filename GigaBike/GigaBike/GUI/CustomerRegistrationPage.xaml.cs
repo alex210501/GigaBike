@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,35 +10,41 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GigaBike {
-    public partial class OrderValidationWindow : Window {
+    /// <summary>
+    /// Interaction logic for OrderPage.xaml
+    /// </summary>
+    public partial class CustomerRegistrationPage : Page {
         private Action backToCatalogWindow = null;
         private Action cancelOrderCallback = null;
         private Action saveOrderCallback = null;
 
-        public OrderValidationWindow(CatalogModel currentModel) {
+        public CustomerRegistrationPage(CatalogModel currentModel) {
             InitializeComponent();
-            Text_Box_Estimation_Date.Text = "Estimation Date :";
         }
 
-        private void ButtonBackToModels_Click(object sender, RoutedEventArgs e) {
-            
+        public string GetNameCustomer() {
+            return NameInput.Text;
         }
 
-        private void Text_Input_Name(object sender, TextChangedEventArgs e) {
-
+        public string GetAddressCustomer() {
+            return AddressInput.Text;
         }
 
-        private void Text_Input_Adress(object sender, TextChangedEventArgs e) {
-
+        public string GetTVACustomer() {
+            return TVAInput.Text;
         }
-        private void Text_Input_TVA(object sender, TextChangedEventArgs e) {
 
+        public string GetPhoneCustomer() {
+            return PhoneInput.Text;
         }
-        private void Text_Input_Phone_Number(object sender, TextChangedEventArgs e) {
 
+        public bool AreCustomerInfoValid() {
+            return (!string.IsNullOrWhiteSpace(GetNameCustomer())) && (!string.IsNullOrWhiteSpace(GetAddressCustomer())) &&
+                   (!string.IsNullOrWhiteSpace(GetTVACustomer())) && (!string.IsNullOrWhiteSpace(GetPhoneCustomer()));
         }
 
         private void ButtonSavePurchase(object sender, RoutedEventArgs e) {

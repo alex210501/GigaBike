@@ -10,21 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GigaBike {
     /// <summary>
-    /// Interaction logic for ChoosePathWindow.xaml
+    /// Interaction logic for ChoosePathPage.xaml
     /// </summary>
-    public partial class ChoosePathWindow : Window {
+    public partial class ChoosePathPage : Page {
         Action goToCatalogCallback = null;
-        public ChoosePathWindow() {
+        public ChoosePathPage() {
             InitializeComponent();
         }
         private void ButtonBackToLogin(object sender, RoutedEventArgs e) {
-            /* LoginWindow log = new LoginWindow();
-            log.Show();
-            this.Hide();*/
         }
 
         private void ButtonToRessource(object sender, RoutedEventArgs e) {
