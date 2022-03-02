@@ -127,6 +127,10 @@ namespace GigaBike {
 
             // Create the OrderListPage instance
             Current.MainWindow.Content = orderListPage;
+
+            // Define callbacks
+            orderListPage.GoBackToRessourceCallback = GoToRessoucesPage;
+            orderListPage.GoToPlanningCallback = GoToPlanningPage;
         }
 
         public void GoToOrderPiecesPage() {
@@ -153,6 +157,11 @@ namespace GigaBike {
 
             // Create the StockPage instance
             Current.MainWindow.Content = stockPage;
+
+            // Define callback
+            stockPage.GoBackToRessourcesCallback = GoToRessoucesPage;
+            stockPage.GoToBikeStockCallback = GoToBikeStockPage;
+            stockPage.GoToPiecesStockCallback = GoToPiecesStockPage;
         }
 
         public void GoToAddBikeToStockPage() {
@@ -167,6 +176,13 @@ namespace GigaBike {
 
             // Create the ChoosePathWorkerPage instance
             Current.MainWindow.Content = choosePathWorkerPage;
+        }
+
+        public void GoToBikeStockPage() {
+            BikeStockPage bikeStockPage = new BikeStockPage();
+
+            // Create the BikeStockPage instance
+            Current.MainWindow.Content = bikeStockPage;
         }
 
         public void LoginButtonCallback() {

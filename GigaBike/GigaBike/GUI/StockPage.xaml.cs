@@ -20,24 +20,42 @@ namespace GigaBike
     /// </summary>
     public partial class StockPage : Page
     {
-        public StockPage()
-        {
+        private Action goToBikeStockCallback = null;
+        private Action goToPiecesStockCallback = null;
+        private Action goBackToRessourcesCallback = null;
+
+        public StockPage() {
             InitializeComponent();
         }
 
-        private void ButtonBikeStock(object sender, RoutedEventArgs e)
-        {
-
+        private void ButtonBikeStock(object sender, RoutedEventArgs e) {
+            if (goToBikeStockCallback is not null) goToBikeStockCallback();
         }
 
-        private void ButtonPiecesStock(object sender, RoutedEventArgs e)
-        {
-
+        private void ButtonPiecesStock(object sender, RoutedEventArgs e ) {
+            if (goToPiecesStockCallback is not null) goToPiecesStockCallback();
         }
 
-        private void ButtonGobackToRessource(object sender, RoutedEventArgs e)
-        {
+        private void ButtonGobackToRessource(object sender, RoutedEventArgs e) {
+            if (goBackToRessourcesCallback is not null) goBackToRessourcesCallback();
+        }
 
+        public Action GoToBikeStockCallback {
+            set {
+                goToBikeStockCallback = value;
+            }
+        }
+
+        public Action GoToPiecesStockCallback {
+            set {
+                goToPiecesStockCallback = value;
+            }
+        }
+
+        public Action GoBackToRessourcesCallback {
+            set {
+                goBackToRessourcesCallback = value;
+            }
         }
     }
 }
