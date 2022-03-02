@@ -16,26 +16,36 @@ using System.Windows.Shapes;
 namespace GigaBike
 {
     /// <summary>
-    /// Logique d'interaction pour RessourcesPage.xaml
+    /// Logique d'interaction pour PlanningPage.xaml
     /// </summary>
-    public partial class RessourcesPage : Page
+    public partial class PM_PlanningPage : Page
     {
-        public RessourcesPage()
+        public PM_PlanningPage()
         {
             InitializeComponent();
         }
 
-        private void ButtonOrderList(object sender, RoutedEventArgs e)
+        private void DataGridOrderList(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
-        private void ButtonStock(object sender, RoutedEventArgs e)
+        private void DataGridPlanning(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
-        private void ButtonGoback(object sender, RoutedEventArgs e)
+        private void ButtonGoToPlanning(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonSavePlanning(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonAddToPlanning(object sender, RoutedEventArgs e)
         {
 
         }
