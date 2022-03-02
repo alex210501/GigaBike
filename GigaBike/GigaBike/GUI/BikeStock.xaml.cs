@@ -18,9 +18,9 @@ namespace GigaBike
     /// <summary>
     /// Logique d'interaction pour BikeStock.xaml
     /// </summary>
-    public partial class PM_BikeStock : Page
+    public partial class BikeStock : Page
     {
-        public PM_BikeStock()
+        public BikeStock()
         {
             InitializeComponent();
         }
