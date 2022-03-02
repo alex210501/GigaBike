@@ -141,6 +141,11 @@ namespace GigaBike {
 
             // Create the RessourcesPage instance
             Current.MainWindow.Content = ressourcePage;
+
+            // Define callback
+            ressourcePage.GoToChoosePathCallback = GoToChoosePathWindow;
+            ressourcePage.GoToOrderListCallback = GoToOrderListPage;
+            ressourcePage.GoToStockCallback = GoToStockPage;
         }
 
         public void GoToStockPage() {
