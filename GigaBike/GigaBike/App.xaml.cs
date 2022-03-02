@@ -29,6 +29,7 @@ namespace GigaBike {
 		protected override  void OnStartup(StartupEventArgs e) {
             // Create LoginWindow instance
             Current.MainWindow = new MainWindow();
+            
             Current.MainWindow.Content = new LoginPage();
             
             // Define callback
