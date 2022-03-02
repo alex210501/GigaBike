@@ -49,5 +49,9 @@ namespace GigaBike
         {
 
         }
+
+        private void ButtonGoBackToRessource(object sender, RoutedEventArgs e) {
+
+        }
     }
 }

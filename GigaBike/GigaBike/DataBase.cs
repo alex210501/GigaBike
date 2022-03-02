@@ -27,7 +27,7 @@ namespace GigaBike {
             // Code to connect to the database
             string connectionString = string.Format(@"server={0};userid={1};pwd={2};persistsecurityinfo=True;database={3};port={4};sharedmemoryname=", host, username, password, database, port);
             this.connection = new MySqlConnection(connectionString);
-            //connection.Open();
+            connection.Open();
         }
 
         public MySqlDataReader GetPasswordAndRole(string username) {

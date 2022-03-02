@@ -24,5 +24,13 @@ namespace GigaBike
         {
             InitializeComponent();
         }
+
+        private void ButtonOrderPiece(object sender, RoutedEventArgs e) {
+
+        }
+
+        private void ButtonGoBackToStock(object sender, RoutedEventArgs e) {
+
+        }
     }
 }
