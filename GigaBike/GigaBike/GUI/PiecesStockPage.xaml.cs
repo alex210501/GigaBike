@@ -16,16 +16,21 @@ using System.Windows.Shapes;
 namespace GigaBike
 {
     /// <summary>
-    /// Logique d'interaction pour W_PieceStockPage.xaml
+    /// Logique d'interaction pour PiecesStockPage.xaml
     /// </summary>
-    public partial class W_PieceStockPage : Page
+    public partial class PiecesStockPage : Page
     {
-        public W_PieceStockPage()
+        public PiecesStockPage()
         {
             InitializeComponent();
         }
 
         private void DataGridPiecesStock(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ButtonOrderPiece(object sender, RoutedEventArgs e)
         {
 
         }
