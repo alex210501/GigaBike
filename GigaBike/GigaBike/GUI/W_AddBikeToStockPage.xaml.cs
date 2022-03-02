@@ -18,9 +18,9 @@ namespace GigaBike {
     /// <summary>
     /// Logique d'interaction pour W_AddBikeToStock.xaml
     /// </summary>
-    public partial class W_AddBikeToStock : Page
+    public partial class W_AddBikeToStockPage : Page
     {
-        public W_AddBikeToStock()
+        public W_AddBikeToStockPage()
         {
             InitializeComponent();
         }

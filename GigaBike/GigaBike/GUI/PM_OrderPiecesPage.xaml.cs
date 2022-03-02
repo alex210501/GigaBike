@@ -18,9 +18,9 @@ namespace GigaBike
     /// <summary>
     /// Logique d'interaction pour OrderPieces.xaml
     /// </summary>
-    public partial class PM_OrderPieces : Page
+    public partial class PM_OrderPiecesPage : Page
     {
-        public PM_OrderPieces()
+        public PM_OrderPiecesPage()
         {
             InitializeComponent();
         }

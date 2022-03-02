@@ -108,6 +108,62 @@ namespace GigaBike {
             Current.MainWindow.Show();
         }
 
+        public void GoToPiecesStockPage() {
+            PiecesStockPage piecesStockPage = new PiecesStockPage();
+
+            // Create PiecesStockPage instance
+            Current.MainWindow.Content = piecesStockPage;
+        }
+
+        public void GoToPlanningPage() {
+            PlanningPage planningPage = new PlanningPage();
+
+            // Create PlanningPage instance
+            Current.MainWindow.Content = planningPage;
+        }
+
+        public void GoToOrderListPage() {
+            PM_OrderListPage orderListPage = new PM_OrderListPage();
+
+            // Create the OrderListPage instance
+            Current.MainWindow.Content = orderListPage;
+        }
+
+        public void GoToOrderPiecesPage() {
+            PM_OrderPiecesPage orderPiecePage = new PM_OrderPiecesPage();
+
+            // Creat the OrderPiecesPage instance
+            Current.MainWindow.Content = orderPiecePage;
+        }
+
+        public void GoToRessoucesPage() {
+            PM_RessourcesPage ressourcePage = new PM_RessourcesPage();
+
+            // Create the RessourcesPage instance
+            Current.MainWindow.Content = ressourcePage;
+        }
+
+        public void GoToStockPage() {
+            StockPage stockPage = new StockPage();
+
+            // Create the StockPage instance
+            Current.MainWindow.Content = stockPage;
+        }
+
+        public void GoToAddBikeToStockPage() {
+            W_AddBikeToStockPage addBikeToStockPage = new W_AddBikeToStockPage();
+
+            // Create the AddBikeToStockPage instance
+            Current.MainWindow.Content = addBikeToStockPage;
+        }
+
+        public void GoToChoosePathWorkerPage() {
+            ChoosePathWorkerPage choosePathWorkerPage = new ChoosePathWorkerPage();
+
+            // Create the ChoosePathWorkerPage instance
+            Current.MainWindow.Content = choosePathWorkerPage;
+        }
+
         public void LoginButtonCallback() {
             if (Current.MainWindow.Content is not LoginPage)
                 throw new FormatException("The current page is not a LoginPage");

@@ -18,9 +18,9 @@ namespace GigaBike
     /// <summary>
     /// Logique d'interaction pour W_ChoosePathPage.xaml
     /// </summary>
-    public partial class W_ChoosePathPage : Page
+    public partial class ChoosePathWorkerPage : Page
     {
-        public W_ChoosePathPage()
+        public ChoosePathWorkerPage()
         {
             InitializeComponent();
         }
