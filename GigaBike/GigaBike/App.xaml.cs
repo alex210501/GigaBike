@@ -44,7 +44,7 @@ namespace GigaBike {
 
             // Define callback
             (Current.MainWindow.Content as ChoosePathPage).GoToCatalogCallback = GoToCatalogWindow;
-            // Current.MainWindow.Show();
+            (Current.MainWindow.Content as ChoosePathPage).GoToRessourcesCallback = GoToRessoucesPage;
         }
 
         public void GoToCatalogWindow() {

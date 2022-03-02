@@ -19,6 +19,8 @@ namespace GigaBike {
     /// </summary>
     public partial class ChoosePathPage : Page {
         Action goToCatalogCallback = null;
+        Action goToRessourcesCallback = null;
+
         public ChoosePathPage() {
             InitializeComponent();
         }
@@ -26,7 +28,7 @@ namespace GigaBike {
         }
 
         private void ButtonToRessource(object sender, RoutedEventArgs e) {
-
+            if (goToRessourcesCallback is not null) goToRessourcesCallback();
         }
 
         private void ButtonToCatalog(object sender, RoutedEventArgs e) {
@@ -36,6 +38,12 @@ namespace GigaBike {
         public Action GoToCatalogCallback {
             set {
                 goToCatalogCallback = value;
+            }
+        }
+
+        public Action GoToRessourcesCallback {
+            set {
+                goToRessourcesCallback = value;
             }
         }
     }
