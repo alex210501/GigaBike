@@ -22,7 +22,7 @@ namespace GigaBike {
 
 
             try {
-                MySqlDataReader reader = database.GetPassword(username);
+                MySqlDataReader reader = database.GetPasswordAndRole(username);
                 if (reader.Read())
                     isGoodPassword = (password == reader.GetString(0));
                 reader.Close();

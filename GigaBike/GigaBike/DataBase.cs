@@ -30,14 +30,23 @@ namespace GigaBike {
             //connection.Open();
         }
 
-        public MySqlDataReader GetPassword(string username) {
-            // Tape la commande pour le mot de passe ici à l'intérieur
-            string commandToSend = string.Format("SELECT Password FROM Login WHERE UserName="+'"'+username+'"');
+        public MySqlDataReader GetPasswordAndRole(string username) {
+            /*password  =  reader.GetString(0)
+              NameRole  =  reader.GetString(1)*/
+            string commandToSend = string.Format("SELECT Login.Password, Roles.NameRole FROM Login " +
+                                                 "INNER JOIN Roles ON Roles.IdRole = Login.IdRole " +
+                                                 "WHERE UserName = "+'"'+username+'"');
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
 
         public MySqlDataReader GetUniqueModel(int modelId) {
+            /*IdModel  =  reader.GetString(0)
+              IdBkie  =  reader.GetString(1)
+              IdColor  =  reader.GetString(2)
+              IdSize  =  reader.GetString(3)
+              Price  =  reader.GetString(4)
+              PicturePath  =  reader.GetString(5)*/
             MySqlCommand command = SendCommand("SELECT * FROM BikeModel WHERE IdModel =" + modelId);
             return command.ExecuteReader();
         }
@@ -58,11 +67,21 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetCustomer(string tva) {
+            /*TVA  =  reader.GetString(0)
+              NameCustomer  =  reader.GetString(1)
+              AddressCustomer  =  reader.GetString(2)
+              PhoneCustomer  =  reader.GetString(3)
+            */
             MySqlCommand command = SendCommand(string.Format("SELECT * FROM Customer WHERE TVA=\"{0}\";", tva));
             return command.ExecuteReader();
         }
 
         public MySqlDataReader GetStock() {
+            /*IdPart =  reader.GetString(0)
+              NamePart =  reader.GetString(1)
+              NumberPart  =  reader.GetString(2)
+              Threshold  =  reader.GetString(3)
+            */
             MySqlCommand command = SendCommand("SELECT * FROM Part");
             return command.ExecuteReader();
         }
@@ -93,6 +112,46 @@ namespace GigaBike {
             string commandToSend = string.Format("INSERT INTO OrderModel (IdOrder, IdModelBike, Quantity, Price) VALUES (\"{0}\",\"{1}\",\"{2}\",\"{3}\");" +
                                                  "SELECT @@IDENTITY;", idOrder, currentBikeOrder.Bike.IdBike, currentBikeOrder.Quantity, currentBikeOrder.Price);
             MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
+        public MySqlDataReader GetPlanning()
+        {
+            /*IdPlanning =  reader.GetString(0)
+              PlanningDate =  reader.GetString(1)
+              Slot  =  reader.GetString(2)
+              OrderModel  =  reader.GetString(3)
+              IsReady  =  reader.GetString(4)
+              IdOrder  =  reader.GetString(5)
+              IdModelBike  =  reader.GetString(6)
+            */
+            MySqlCommand command = SendCommand("SELECT Planning.*, OrderModel.IdOrder, OrderModel.IdModelBike FROM Planning " +
+                                                "INNER JOIN OrderModel ON OrderModel.IdOrderModel = Planning.OrderModel");
+            return command.ExecuteReader();
+        }
+        public MySqlDataReader GetPartModel()
+        {
+            /*IdPartModel  =  reader.GetString(0)
+              IdPart  =  reader.GetString(1)
+              IdModel  =  reader.GetString(2)
+              Number  =  reader.GetString(3)
+              NamePart  =  reader.GetString(5)
+              NumberParts  =  reader.GetString(6)
+              Threshold  =  reader.GetString(7)
+              location  =  reader.GetString(8)
+            */
+            MySqlCommand command = SendCommand("SELECT * FROM PartModel INNER JOIN Part ON Part.IdPart = PartModel.IdPartModel");
+            return command.ExecuteReader();
+        }
+        public MySqlDataReader SetPlanningState(int IdPlanning, bool State)
+        {
+            // State accept only true or false
+            MySqlCommand command = SendCommand("UPDATE Planning SET IsReady = " + State + " where IdPlanning = "+IdPlanning);
+            return command.ExecuteReader();
+        }
+        public MySqlDataReader AddPartModelToStock(int IdModel, int QuantityToAdd)
+        {
+            //add a quantity to Part.NumberParts
+            MySqlCommand command = SendCommand("UPDATE Part set NumberParts = NumberParts +" +QuantityToAdd+ " WHERE IdPart="+ IdModel);
             return command.ExecuteReader();
         }
     }
