@@ -12,7 +12,7 @@ namespace GigaBike {
         private List<BikeOrder> bikes;
         public Customer Customer { get; private set; }
         private DataBase database;
-        public DateTime DateDelivery { get; }
+        public DateTime DeliveryDate { get; set; }
         public int Duration { get; set; }
 
         public Order(DataBase database) {
@@ -21,24 +21,14 @@ namespace GigaBike {
             this.database = database;
         }
 
-        public void Save(Customer customer) {
+        public void SaveCustomer(Customer customer) {
             Customer = new Customer(customer);
-
-            SaveCutomer(customer);
         }
 
-        public void Validate() {
-            MySqlDataReader reader = database.SaveCommand(this);
-            reader.Read();
-            IdOrder = reader.GetInt32(0);
-            reader.Close();
-
-            foreach (BikeOrder currentBikeOrder in bikes) {
-                for (int i = 0; i < currentBikeOrder.Quantity; i++) {
-                    MySqlDataReader bikeOrderReader = database.SaveCommandModels(IdOrder, currentBikeOrder.Bike);
-                    bikeOrderReader.Close();
-                }
-            }
+        public void SaveInDatabase() {
+            SaveCustomerInDatabase();
+            SaveOrderInDatabase();
+            SaveBikesOrderInDatabase();
         }
 
         public void Clear() {
@@ -66,11 +56,9 @@ namespace GigaBike {
             }
         }
 
-        private void SaveCutomer(Customer customer) {
-            Trace.WriteLine(customer.Name);
-
-            if (IsCustomerRegistered(customer) == false) { 
-                MySqlDataReader reader = database.SetCustomer(customer);
+        private void SaveCustomerInDatabase() {
+            if (IsCustomerRegistered(Customer) == false) { 
+                MySqlDataReader reader = database.SetCustomer(Customer);
                 reader.Read();
                 reader.Close();
             }
@@ -85,6 +73,22 @@ namespace GigaBike {
             reader.Close();
 
             return isRegistered;
+        }
+
+        private void SaveOrderInDatabase() {
+            MySqlDataReader reader = database.SaveCommand(this);
+            reader.Read();
+            IdOrder = reader.GetInt32(0);
+            reader.Close();
+        }
+
+        private void SaveBikesOrderInDatabase() {
+            foreach (BikeOrder currentBikeOrder in bikes) {
+                for (int i = 0; i < currentBikeOrder.Quantity; i++) {
+                    MySqlDataReader bikeOrderReader = database.SaveCommandModels(IdOrder, currentBikeOrder.Bike);
+                    bikeOrderReader.Close();
+                }
+            }
         }
     }
 }

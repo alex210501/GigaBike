@@ -95,15 +95,15 @@ namespace GigaBike {
         }
 
         public MySqlDataReader SetCustomer(Customer customer) {
-            string commandToSend = string.Format("INSERT INTO Customer (TVA, NameCustomer, AddressCustomer, PhoneCustomer) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\");",
+            string commandToSend = string.Format("INSERT INTO Customer (TVA, NameCustomer, AddressCustomer, PhoneCustomer) VALUES (\"{0}\", \"{1}\", \"{2}\",\"{3}\");",
                                                  customer.TVA, customer.Name, customer.Address, customer.Phone);
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
 
         public MySqlDataReader SaveCommand(Order order) {
-            string commandToSend = string.Format("INSERT INTO OrderInfo (TVACustomer, Price) VALUES (\"{0}\",\"{1}\");" +
-                                                 "SELECT @@IDENTITY;", order.Customer.TVA, order.Price);
+            string commandToSend = string.Format("INSERT INTO OrderInfo (TVACustomer, Price, DeliveryDate) VALUES (\"{0}\",\"{1}\",\"{2}\");" +
+                                                 "SELECT @@IDENTITY;", order.Customer.TVA, order.Price, order.DeliveryDate.ToString("yyyy-MM-dd"));
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }

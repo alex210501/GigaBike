@@ -25,8 +25,15 @@ namespace GigaBike {
             DataBase.Connect();
         }
 
-        public void AddToOrder(Bike bike, int quantity) {
-            // Add to order sequence
+        public void SaveOrderInDatabase() {
+            Order.SaveInDatabase();
+        }
+
+        public void SaveOrderInformation(Customer customer) {
+            Order.SaveCustomer(customer);
+            SetCurrentIdOrder();
+            SetDateForOrderBike();
+            Order.DeliveryDate = Planning.GetDeliveryDate(Order.IdOrder);
         }
 
         public void SetCurrentIdOrder() {

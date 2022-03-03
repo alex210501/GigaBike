@@ -90,7 +90,7 @@ namespace GigaBike {
 
         public void GoToOrderConfirmationWindow() {
             // Get the delivery date
-            DateTime deliveryDate = controller.Planning.GetDeliveryDate(controller.Order.IdOrder);
+            DateTime deliveryDate = controller.Order.DeliveryDate;
 
             ConfirmationOrderPage confirmationOrderPage = new ConfirmationOrderPage();
 
@@ -99,7 +99,6 @@ namespace GigaBike {
 
             confirmationOrderPage.SetCurrentOrder(controller.Order);
             confirmationOrderPage.SetDeliveryDate(deliveryDate);
-            Trace.WriteLine(string.Format("Delivery date : {0}", deliveryDate));
 
             // Define callback
             confirmationOrderPage.ValidateOrderCallback = ValidateOrderCallback;
@@ -275,15 +274,13 @@ namespace GigaBike {
                 Phone = customerRegistrationPage.GetPhoneCustomer()
             };
 
-            controller.Order.Save(orderCustomer);
-            controller.SetCurrentIdOrder();
-            controller.SetDateForOrderBike();
+            controller.SaveOrderInformation(orderCustomer);
 
             GoToOrderConfirmationWindow();
         }
 
         void ValidateOrderCallback() {
-            controller.Order.Validate();
+            controller.SaveOrderInDatabase();
             controller.Order.Clear();
             GoToCatalogWindow();
         }
