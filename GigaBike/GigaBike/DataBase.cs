@@ -108,9 +108,9 @@ namespace GigaBike {
             return command.ExecuteReader();
         }
 
-        public MySqlDataReader SaveCommandModels(int idOrder, BikeOrder currentBikeOrder) {
-            string commandToSend = string.Format("INSERT INTO OrderModel (IdOrder, IdModelBike, Quantity, Price) VALUES (\"{0}\",\"{1}\",\"{2}\",\"{3}\");" +
-                                                 "SELECT @@IDENTITY;", idOrder, currentBikeOrder.Bike.IdBike, currentBikeOrder.Quantity, currentBikeOrder.Price);
+        public MySqlDataReader SaveCommandModels(int idOrder, Bike currentBike) {
+            string commandToSend = string.Format("INSERT INTO OrderModel (IdOrder, IdModelBike) VALUES (\"{0}\",\"{1}\");" +
+                                                 "SELECT @@IDENTITY;", idOrder, currentBike.IdBike);
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
