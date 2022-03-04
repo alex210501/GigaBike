@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace GigaBike {
     public class WeekDay {
-        private readonly int SlotPerDay = 5;
+        private readonly int SlotPerDay = 8;
         private List<Slot> slots;
         public DateTime Date { get; set; }
         public int DayOfWeek { get; }

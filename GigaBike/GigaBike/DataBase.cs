@@ -109,6 +109,21 @@ namespace GigaBike {
             return command.ExecuteReader();
         }
 
+        public MySqlDataReader AddSeveralOrderModel(Order currentOrder) {
+            string commandToSend = "INSERT INTO OrderModel(IdOrder, IdModelBike) VALUES";
+            List<string> values = new List<string>();
+
+            foreach (BikeOrder currentBikeOrder in currentOrder.Bikes) {
+                for (int i = 0; i < currentBikeOrder.Quantity; i++)
+                    values.Add(string.Format("({0},{1})", currentOrder.IdOrder, currentBikeOrder.Bike.IdBike));
+            }
+
+            commandToSend += string.Join(",", values) + ";SELECT @@IDENTITY;";
+
+            MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
+
         public MySqlDataReader SetCustomer(Customer customer) {
             string commandToSend = string.Format("INSERT INTO Customer (TVA, NameCustomer, AddressCustomer, PhoneCustomer) VALUES (\"{0}\", \"{1}\", \"{2}\",\"{3}\");",
                                                  customer.TVA, customer.Name, customer.Address, customer.Phone);

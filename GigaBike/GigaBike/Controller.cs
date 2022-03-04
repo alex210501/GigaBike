@@ -29,19 +29,6 @@ namespace GigaBike {
 
         public void SaveOrderAndSlotInDatabase() {
             Order.SaveInDatabase();
-            
-            foreach (BikeOrder currentBikeOrder in Order.Bikes) {
-                for (int i = 0; i < currentBikeOrder.Quantity; i++) {
-                    MySqlDataReader reader = DataBase.AddOrderModel(Order.IdOrder, currentBikeOrder.Bike.IdBike);
-
-                    if (reader.Read()) {
-                        int IdOrderModel = reader.GetInt32(0);
-                        currentBikeOrder.slotPerBike[i].ForEach((slot) => slot.BindSlotWithOrder(Order.IdOrder, IdOrderModel));
-                    }
-
-                    reader.Close();
-                }
-            }
             Planning.SaveSlotOfIdOrderToDatabase(Order.IdOrder);
         }
 

@@ -85,10 +85,16 @@ namespace GigaBike {
         }
 
         private void SaveBikesOrderInDatabase() {
-            foreach (BikeOrder currentBikeOrder in bikes) {
+            int IdOrderModel = 0;
+
+            MySqlDataReader reader = database.AddSeveralOrderModel(this);
+            if (reader.Read()) IdOrderModel = reader.GetInt32(0);
+            reader.Close();
+
+            foreach (BikeOrder currentBikeOrder in Bikes) {
                 for (int i = 0; i < currentBikeOrder.Quantity; i++) {
-                    MySqlDataReader bikeOrderReader = database.SaveCommandModels(IdOrder, currentBikeOrder.Bike);
-                    bikeOrderReader.Close();
+                    currentBikeOrder.slotPerBike[i].ForEach((slot) => slot.BindSlotWithOrder(IdOrder, IdOrderModel));
+                    IdOrderModel++;
                 }
             }
         }
