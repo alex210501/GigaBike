@@ -180,6 +180,17 @@ namespace GigaBike {
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
+
+        public MySqlDataReader AddSeveralSlotToPlanning(List<Slot> slotsToAdd) {
+            string commandToSend = "INSERT INTO Planning (PlanningDate, Slot, OrderModel) VALUES";
+            List<string> values = new List<string>();
+
+            foreach (Slot slot in slotsToAdd) values.Add(string.Format("(\"{0}\",{1},{2})", slot.Date.ToString("yyyy-MM-dd"), slot.SlotNumber, slot.IdOrderModel));
+
+            commandToSend += string.Join(",", values);
+            MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
     }
 }
 

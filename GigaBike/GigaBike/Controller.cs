@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
+
 
 namespace GigaBike {
     public class Controller {
@@ -27,7 +29,7 @@ namespace GigaBike {
 
         public void SaveOrderAndSlotInDatabase() {
             Order.SaveInDatabase();
-
+            
             foreach (BikeOrder currentBikeOrder in Order.Bikes) {
                 for (int i = 0; i < currentBikeOrder.Quantity; i++) {
                     MySqlDataReader reader = DataBase.AddOrderModel(Order.IdOrder, currentBikeOrder.Bike.IdBike);
@@ -38,10 +40,9 @@ namespace GigaBike {
                     }
 
                     reader.Close();
-
-                    foreach (Slot slot in currentBikeOrder.slotPerBike[i]) Planning.SaveSlotOfIdOrderModelToDatabase(slot.IdOrder, slot.IdOrderModel);
                 }
             }
+            Planning.SaveSlotOfIdOrderToDatabase(Order.IdOrder);
         }
 
         public void SaveOrderInformation(Customer customer) {

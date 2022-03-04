@@ -78,6 +78,13 @@ namespace GigaBike {
             }
         }
 
+        public void SaveSlotOfIdOrderToDatabase(int IdOrder) {
+            List<Slot> slotOfOrder = GetSlotByIdOrder(IdOrder);
+
+            MySqlDataReader reader = database.AddSeveralSlotToPlanning(slotOfOrder);
+            reader.Close();
+        }
+
         public void SaveSlotOfIdOrderModelToDatabase(int IdOrder, int IdOrderModel) {
             List<Slot> slotOfOrder = GetSlotByIdOrderAndIdOrderModel(IdOrder, IdOrderModel);
 
@@ -107,6 +114,14 @@ namespace GigaBike {
             }
 
             return null;
+        }
+
+        private List<Slot> GetSlotByIdOrder(int IdOrder) {
+            List<Slot> slotOfOrder = new List<Slot>();
+
+            foreach (Week currentWeek in weeks) slotOfOrder.AddRange(currentWeek.GetSlotByIdOrderWeek(IdOrder));
+
+            return slotOfOrder;
         }
 
         private List<Slot> GetSlotByIdOrderAndIdOrderModel(int IdOrder, int IdOrderModel) {

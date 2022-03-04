@@ -44,9 +44,6 @@ namespace GigaBike {
 
                 Bike currentBike = new Bike(idModel, bikeName, priceBike, new Color(idColor, nameColor), new Size(idSize, nameSize), imagePath, duration);
                 AddBike(idBike, currentBike);
-
-                Trace.WriteLine("---New Trace---");
-                foreach (CatalogModel model in models) Trace.WriteLine(model.IdModel);
             }
 
             reader.Close();
