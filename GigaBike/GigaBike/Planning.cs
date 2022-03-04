@@ -16,8 +16,22 @@ namespace GigaBike {
             this.database = database;
         }
 
-        public void Refresh() {
-            // Get information from the databse
+        public void RefreshFromDatabase() {
+            MySqlDataReader reader = database.GetPlanning();
+
+            while (reader.Read()) {
+                DateTime planningDate = reader.GetDateTime(1);
+                int slotNumber = reader.GetInt32(2);
+                int idOrderModel = reader.GetInt32(3);
+                int idOrder = reader.GetInt32(5);
+                int idModelBike = reader.GetInt32(6);
+
+                int weekNumber = DateCalculator.GetWeekOfYear(planningDate);
+
+                Slot currentSlot = GetSlotByDateAndSlotNumber(planningDate, slotNumber);
+            }
+
+            reader.Close();
         }
 
         public DateTime GetDeliveryDate(int idOrder) {
@@ -65,7 +79,6 @@ namespace GigaBike {
                 if (currentWeek.IsThereFreeSlotsInWeekFromStartDate(duration, currentDate))
                     slots = currentWeek.GetFreeSlotsFromStartDate(duration, currentDate);
 
-                // Error on the current date
                 currentDate = DateCalculator.GoToStartOfNextWeek(currentDate);
             }
 
@@ -108,6 +121,8 @@ namespace GigaBike {
         }
 
         private Week GetWeek(int weekOfYear, int year) {
+            if (IsWeekRegistered(weekOfYear, year) == false) AddWeek(weekOfYear, year);
+
             foreach (Week currentWeek in weeks) {
                 if ((currentWeek.WeekNumber == weekOfYear) && (currentWeek.Year == year))
                     return currentWeek;
@@ -132,5 +147,12 @@ namespace GigaBike {
             return slotOfOrder;
         }
 
+        private Slot GetSlotByDateAndSlotNumber(DateTime date, int slotNumber) {
+            int weekOfYear = DateCalculator.GetWeekOfYear(date);
+
+            Week currentWeek = GetWeek(weekOfYear, date.Year);
+
+            return currentWeek.GetSlotByDateAndSlotNumber(date, slotNumber);
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace GigaBike {
         }
 
         public void SaveOrderInformation(Customer customer) {
-            Planning.Refresh();
+            Planning.RefreshFromDatabase();
             Order.SaveCustomer(customer);
             SetCurrentIdOrder();
             SetDateForOrderBike();
