@@ -37,18 +37,20 @@ namespace GigaBike {
             //Datagrid
         }
 
-        public void SetCurrentOrder(Order CurrentOrder) {
+        public void SetCurrentOrder(Order currentOrder) {
             List<OrderRecapGrid> ordersRecap = new List<OrderRecapGrid>();
+            var dBikeWithBikeAndQuantity = currentOrder.Bikes.GroupBy(o => o.Bike.IdBike).ToDictionary(g => g.Key, g => new { Bike = g.First().Bike, Quantity = g.Count() });
 
-            foreach (BikeOrder bikeOrder in CurrentOrder.Bikes) {
+            foreach (var bikeGroup in dBikeWithBikeAndQuantity) {
                 OrderRecapGrid currentOrderRecapGrid = new OrderRecapGrid(0);
-                Bike currentBike = bikeOrder.Bike;
+                Bike currentBike = bikeGroup.Value.Bike;
+                int bikeQuantity = bikeGroup.Value.Quantity;
 
                 currentOrderRecapGrid.BikeName = currentBike.Name;
-                currentOrderRecapGrid.OrderPrice = bikeOrder.Bike.Price;
+                currentOrderRecapGrid.OrderPrice = currentBike.Price * bikeQuantity;
                 currentOrderRecapGrid.Color = currentBike.Color.Name;
                 currentOrderRecapGrid.Size = currentBike.Size.Name;
-                currentOrderRecapGrid.Quantity = 1; //bikeOrder.Quantity;
+                currentOrderRecapGrid.Quantity = bikeQuantity;
 
                 ordersRecap.Add(currentOrderRecapGrid);
             }

@@ -10,11 +10,9 @@ namespace GigaBike {
     public class Planning {
         private List<Week> weeks;
         private DataBase database;
-        private List<BikeOrder> bikeOnPlanning;
 
         public Planning(DataBase database) {
             weeks = new List<Week>();
-            bikeOnPlanning = new List<BikeOrder>();
             this.database = database;
         }
 
@@ -32,8 +30,6 @@ namespace GigaBike {
                 int idSize = reader.GetInt32(9);
                 string nameSize = reader.GetString(10);
 
-                Bike currentBike = new Bike(idModelBike, "", 100, new Color(idColor, nameColor), new Size(idSize, nameSize), "", 2);
-                // bikeOnPlanning.Add(new BikeOrder());
                 Slot currentSlot = GetSlotByDateAndSlotNumber(planningDate, slotNumber);
                 currentSlot.BindSlotWithOrder(idOrder, idOrderModel);
             }

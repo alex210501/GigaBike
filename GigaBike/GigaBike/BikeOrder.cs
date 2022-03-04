@@ -8,11 +8,9 @@ namespace GigaBike {
     public class BikeOrder {
         public Bike Bike { get; }
         private List<Slot> slotOfBike;
-        private Dictionary<int, List<Slot>> slotPerIdOrderModel;
 
         public BikeOrder(Bike bike) {
             this.Bike = bike;
-            slotPerIdOrderModel = new Dictionary<int, List<Slot>>();
             slotOfBike = new List<Slot>();
         }
 
