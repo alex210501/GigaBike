@@ -7,18 +7,23 @@ using System.Threading.Tasks;
 namespace GigaBike {
     public class BikeOrder {
         public Bike Bike { get; }
-        public int Quantity { get; }
-        public List<List<Slot>> slotPerBike;
+        private List<Slot> slotOfBike;
+        private Dictionary<int, List<Slot>> slotPerIdOrderModel;
 
-        public BikeOrder(Bike bike, int quantity) {
+        public BikeOrder(Bike bike) {
             this.Bike = bike;
-            this.Quantity = quantity;
-            slotPerBike = new List<List<Slot>>();
+            slotPerIdOrderModel = new Dictionary<int, List<Slot>>();
+            slotOfBike = new List<Slot>();
         }
 
-        public int Price {
+        public void SetSlotForTheBikeOrder(List<Slot> slots){
+            slotOfBike.Clear();
+            slotOfBike.AddRange(slots);
+        }
+
+        public List<Slot> SlotOfBike {
             get {
-                return (Bike.Price * Quantity);
+                return new List<Slot>(slotOfBike);
             }
         }
     }

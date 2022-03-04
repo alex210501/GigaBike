@@ -45,10 +45,10 @@ namespace GigaBike {
                 Bike currentBike = bikeOrder.Bike;
 
                 currentOrderRecapGrid.BikeName = currentBike.Name;
-                currentOrderRecapGrid.OrderPrice = bikeOrder.Price;
+                currentOrderRecapGrid.OrderPrice = bikeOrder.Bike.Price;
                 currentOrderRecapGrid.Color = currentBike.Color.Name;
                 currentOrderRecapGrid.Size = currentBike.Size.Name;
-                currentOrderRecapGrid.Quantity = bikeOrder.Quantity;
+                currentOrderRecapGrid.Quantity = 1; //bikeOrder.Quantity;
 
                 ordersRecap.Add(currentOrderRecapGrid);
             }

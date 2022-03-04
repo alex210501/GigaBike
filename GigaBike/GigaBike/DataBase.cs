@@ -113,10 +113,8 @@ namespace GigaBike {
             string commandToSend = "INSERT INTO OrderModel(IdOrder, IdModelBike) VALUES";
             List<string> values = new List<string>();
 
-            foreach (BikeOrder currentBikeOrder in currentOrder.Bikes) {
-                for (int i = 0; i < currentBikeOrder.Quantity; i++)
-                    values.Add(string.Format("({0},{1})", currentOrder.IdOrder, currentBikeOrder.Bike.IdBike));
-            }
+            foreach (BikeOrder currentBikeOrder in currentOrder.Bikes)
+                values.Add(string.Format("({0},{1})", currentOrder.IdOrder, currentBikeOrder.Bike.IdBike));
 
             commandToSend += string.Join(",", values) + ";SELECT @@IDENTITY;";
 
@@ -155,8 +153,11 @@ namespace GigaBike {
               IdOrder  =  reader.GetString(5)
               IdModelBike  =  reader.GetString(6)
             */
-            MySqlCommand command = SendCommand("SELECT Planning.*, OrderModel.IdOrder, OrderModel.IdModelBike FROM Planning " +
-                                                "INNER JOIN OrderModel ON OrderModel.IdOrderModel = Planning.OrderModel");
+            MySqlCommand command = SendCommand("SELECT Planning.*, OrderModel.IdOrder, OrderModel.IdModelBike, Color.IdColor, Color.NameColor, Size.IdSize, Size.NameSize FROM Planning " +
+                                                "INNER JOIN OrderModel ON OrderModel.IdOrderModel = Planning.OrderModel " +
+                                                "INNER JOIN BikeModel ON BikeModel.IdModel = IdModelBike " +
+                                                "INNER JOIN Color ON Color.IdColor = BikeModel.IdColor " +
+                                                "INNER JOIN Size ON Size.IdSize = BikeModel.IdSize");
             return command.ExecuteReader();
         }
 

@@ -235,11 +235,6 @@ namespace GigaBike {
 
                 // Go to the Order Window
                 GoToRegistrationCustomerWindow();
-
-                foreach (BikeOrder bikeOrder in controller.Order.Bikes) {
-                    Trace.WriteLine(string.Format("Bike : {0}, color : {1}, size: {2}, quantity : {3}", bikeOrder.Bike.Name, bikeOrder.Bike.Color.Name,
-                                    bikeOrder.Bike.Size.Name, bikeOrder.Quantity));
-                }
             }
             catch (FormatException) {
                 MessageBox.Show("The quantity must be an integer !");
