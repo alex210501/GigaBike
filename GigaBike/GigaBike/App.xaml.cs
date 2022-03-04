@@ -280,7 +280,7 @@ namespace GigaBike {
         }
 
         void ValidateOrderCallback() {
-            controller.SaveOrderInDatabase();
+            controller.SaveOrderAndSlotInDatabase();
             controller.Order.Clear();
             GoToCatalogWindow();
         }

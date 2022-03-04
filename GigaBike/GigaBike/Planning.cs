@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using MySql.Data.MySqlClient;
 
 namespace GigaBike {
     public class Planning {
         private List<Week> weeks;
+        private DataBase database;
 
-        public Planning() {
+        public Planning(DataBase database) {
             weeks = new List<Week>();
+            this.database = database;
         }
 
         public void Refresh() {
@@ -30,8 +33,11 @@ namespace GigaBike {
                 // For every order, start searching since tomorrow
                 DateTime startSlotDay = DateCalculator.GetNextWorkDayFromToday();
 
+
                 for (int i = 0; i < bikeOrder.Quantity; i++) {
                     List<Slot> bikeSlots = GetSlotsFromStartDate(bikeOrder.Bike.SlotDuration, startSlotDay);
+
+                    bikeOrder.slotPerBike.Add(bikeSlots);
 
                     foreach (Slot slot in bikeSlots) {
                         slot.BindSlotWithOrder(currentOrder.IdOrder, bikeOrder.Bike.IdBike);
@@ -72,6 +78,15 @@ namespace GigaBike {
             }
         }
 
+        public void SaveSlotOfIdOrderModelToDatabase(int IdOrder, int IdOrderModel) {
+            List<Slot> slotOfOrder = GetSlotByIdOrderAndIdOrderModel(IdOrder, IdOrderModel);
+
+            foreach (Slot slot in slotOfOrder) {
+                MySqlDataReader reader = database.AddSlotToPlanning(slot, IdOrderModel);
+                reader.Close();
+            }
+        }
+
         private bool IsWeekRegistered(int weekOfYear, int year) {
             foreach (Week currentWeek in weeks) {
                 if ((currentWeek.WeekNumber == weekOfYear) && (currentWeek.Year == year))
@@ -93,5 +108,14 @@ namespace GigaBike {
 
             return null;
         }
+
+        private List<Slot> GetSlotByIdOrderAndIdOrderModel(int IdOrder, int IdOrderModel) {
+            List<Slot> slotOfOrder = new List<Slot>();
+
+            foreach (Week currentWeek in weeks) slotOfOrder.AddRange(currentWeek.GetSlotByIdOrderModelWeek(IdOrderModel));
+
+            return slotOfOrder;
+        }
+
     }
 }

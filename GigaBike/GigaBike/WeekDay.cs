@@ -49,6 +49,10 @@ namespace GigaBike {
             return slots.FindAll(currentSlot => currentSlot.IdOrder == idOrder);
         }
 
+        public List<Slot> GetSlotByIdOrderModel(int idOrderModel) {
+            return slots.FindAll(currentSlot => currentSlot.IdOrderModel == idOrderModel);
+        }
+
         public List<Slot> Slots {
             get {
                 return new List<Slot>(slots);

@@ -37,6 +37,8 @@ namespace GigaBike {
 
         public void AddBike(Bike bike, int quantity) {
             BikeOrder bikeOrder = new BikeOrder(new Bike(bike), quantity);
+
+
             bikes.Add(bikeOrder);
         }
 

@@ -18,18 +18,34 @@ namespace GigaBike {
             this.Login = new Login(this.DataBase);
             this.Catalog = new Catalog(this.DataBase);
             this.Order = new Order(this.DataBase);
-            this.Planning = new Planning();
+            this.Planning = new Planning(this.DataBase);
         }
 
         public void Init() {
             DataBase.Connect();
         }
 
-        public void SaveOrderInDatabase() {
+        public void SaveOrderAndSlotInDatabase() {
             Order.SaveInDatabase();
+
+            foreach (BikeOrder currentBikeOrder in Order.Bikes) {
+                for (int i = 0; i < currentBikeOrder.Quantity; i++) {
+                    MySqlDataReader reader = DataBase.AddOrderModel(Order.IdOrder, currentBikeOrder.Bike.IdBike);
+
+                    if (reader.Read()) {
+                        int IdOrderModel = reader.GetInt32(0);
+                        currentBikeOrder.slotPerBike[i].ForEach((slot) => slot.BindSlotWithOrder(Order.IdOrder, IdOrderModel));
+                    }
+
+                    reader.Close();
+
+                    foreach (Slot slot in currentBikeOrder.slotPerBike[i]) Planning.SaveSlotOfIdOrderModelToDatabase(slot.IdOrder, slot.IdOrderModel);
+                }
+            }
         }
 
         public void SaveOrderInformation(Customer customer) {
+            Planning.Refresh();
             Order.SaveCustomer(customer);
             SetCurrentIdOrder();
             SetDateForOrderBike();
