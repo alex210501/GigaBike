@@ -44,7 +44,7 @@ namespace GigaBike {
 
             // Define callback
             (Current.MainWindow.Content as ChoosePathPage).GoToCatalogCallback = GoToCatalogWindow;
-            // Current.MainWindow.Show();
+            (Current.MainWindow.Content as ChoosePathPage).GoToRessourcesCallback = GoToRessoucesPage;
         }
 
         public void GoToCatalogWindow() {
@@ -106,6 +106,83 @@ namespace GigaBike {
             confirmationOrderPage.CancelOrderCallback = CancelOrderCallback;
 
             Current.MainWindow.Show();
+        }
+
+        public void GoToPiecesStockPage() {
+            PiecesStockPage piecesStockPage = new PiecesStockPage();
+
+            // Create PiecesStockPage instance
+            Current.MainWindow.Content = piecesStockPage;
+        }
+
+        public void GoToPlanningPage() {
+            PlanningPage planningPage = new PlanningPage();
+
+            // Create PlanningPage instance
+            Current.MainWindow.Content = planningPage;
+        }
+
+        public void GoToOrderListPage() {
+            PM_OrderListPage orderListPage = new PM_OrderListPage();
+
+            // Create the OrderListPage instance
+            Current.MainWindow.Content = orderListPage;
+
+            // Define callbacks
+            orderListPage.GoBackToRessourceCallback = GoToRessoucesPage;
+            orderListPage.GoToPlanningCallback = GoToPlanningPage;
+        }
+
+        public void GoToOrderPiecesPage() {
+            PM_OrderPiecesPage orderPiecePage = new PM_OrderPiecesPage();
+
+            // Creat the OrderPiecesPage instance
+            Current.MainWindow.Content = orderPiecePage;
+        }
+
+        public void GoToRessoucesPage() {
+            PM_RessourcesPage ressourcePage = new PM_RessourcesPage();
+
+            // Create the RessourcesPage instance
+            Current.MainWindow.Content = ressourcePage;
+
+            // Define callback
+            ressourcePage.GoToChoosePathCallback = GoToChoosePathWindow;
+            ressourcePage.GoToOrderListCallback = GoToOrderListPage;
+            ressourcePage.GoToStockCallback = GoToStockPage;
+        }
+
+        public void GoToStockPage() {
+            StockPage stockPage = new StockPage();
+
+            // Create the StockPage instance
+            Current.MainWindow.Content = stockPage;
+
+            // Define callback
+            stockPage.GoBackToRessourcesCallback = GoToRessoucesPage;
+            stockPage.GoToBikeStockCallback = GoToBikeStockPage;
+            stockPage.GoToPiecesStockCallback = GoToPiecesStockPage;
+        }
+
+        public void GoToAddBikeToStockPage() {
+            W_AddBikeToStockPage addBikeToStockPage = new W_AddBikeToStockPage();
+
+            // Create the AddBikeToStockPage instance
+            Current.MainWindow.Content = addBikeToStockPage;
+        }
+
+        public void GoToChoosePathWorkerPage() {
+            ChoosePathWorkerPage choosePathWorkerPage = new ChoosePathWorkerPage();
+
+            // Create the ChoosePathWorkerPage instance
+            Current.MainWindow.Content = choosePathWorkerPage;
+        }
+
+        public void GoToBikeStockPage() {
+            BikeStockPage bikeStockPage = new BikeStockPage();
+
+            // Create the BikeStockPage instance
+            Current.MainWindow.Content = bikeStockPage;
         }
 
         public void LoginButtonCallback() {

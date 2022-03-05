@@ -18,20 +18,17 @@ namespace GigaBike
     /// <summary>
     /// Logique d'interaction pour BikeStock.xaml
     /// </summary>
-    public partial class BikeStock : Page
+    public partial class BikeStockPage : Page
     {
-        public BikeStock()
-        {
+        public BikeStockPage() {
             InitializeComponent();
         }
 
-        private void DataGridBikeStock(object sender, SelectionChangedEventArgs e)
-        {
+        private void DataGridBikeStock(object sender, SelectionChangedEventArgs e) {
 
         }
 
-        private void ButtonGoBackToStock(object sender, RoutedEventArgs e)
-        {
+        private void ButtonGoBackToStock(object sender, RoutedEventArgs e) {
 
         }
     }

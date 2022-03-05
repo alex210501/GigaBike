@@ -1,4 +1,4 @@
-﻿<Page x:Class="GigaBike.BikeStock"
+﻿<Page x:Class="GigaBike.ChoosePathWorkerPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:GigaBike"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="BikeStock">
+      Title="W_ChoosePathPage">
 
     <Page.Resources>
         <Style x:Key="FocusVisual">
@@ -61,15 +61,24 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <Viewbox>
-        <Grid Width="871" Height="494">
+    <Viewbox Height="450">
+        <Grid Height="314">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="142"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="435*" />
-                <ColumnDefinition Width="435*" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="150"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="ButtonGoBackToStock_" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonGoBackToStock" FontSize="36" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="56" Width="560" Margin="156,395,0,0" Content="Go back" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" />
-            <DataGrid x:Name="DataGridBikeStock_" Grid.ColumnSpan="2" Height="192" Margin="0,86,0,0" VerticalAlignment="Top" SelectionChanged="DataGridBikeStock" HorizontalAlignment="Right" Width="871"/>
-            <Label x:Name="PlanningBikeStock" Content="Bike Stock" Grid.ColumnSpan="2" Height="85" Margin="0,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="871" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontSize="54"/>
+            <Label Content="Choose use :" Height="88" VerticalAlignment="Top" FontSize="50" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.ColumnSpan="7" Margin="0,-39,0,0" />
+            <Button x:Name="ButtonToStock_" Style="{DynamicResource RoundedButtonStyle}" Content="Stock" Click="ButtonToStock" FontSize="20" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="50" Margin="40,44,40,0" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="1" />
+            <Button x:Name="ButtonToPlanning_" Style="{DynamicResource RoundedButtonStyle}" Content="Planning" Click="ButtonToPlanning" FontSize="20" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" SnapsToDevicePixels="True" Background="#FFD0D4D4" Margin="40,78,40,44" Grid.ColumnSpan="3" Grid.Column="2" />
         </Grid>
     </Viewbox>
 </Page>

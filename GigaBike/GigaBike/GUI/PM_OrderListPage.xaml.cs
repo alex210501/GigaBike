@@ -20,23 +20,35 @@ namespace GigaBike
     /// </summary>
     public partial class PM_OrderListPage : Page
     {
-        public PM_OrderListPage()
-        {
+        private Action goToPlanningCallback = null;
+        private Action goBackToRessourceCallback = null;
+
+        public PM_OrderListPage() {
             InitializeComponent();
         }
 
-        private void ButtonGoToPlanning(object sender, RoutedEventArgs e)
-        {
+        private void ButtonGoToPlanning(object sender, RoutedEventArgs e) {
+            if (goToPlanningCallback is not null) goToPlanningCallback();
+        }
+
+        private void ButtonGoBackToRessource(object sender, RoutedEventArgs e) {
+            if (goBackToRessourceCallback is not null) goBackToRessourceCallback();
+        }
+
+        private void DataGridOrderList(object sender, SelectionChangedEventArgs e) {
 
         }
 
-        private void ButtonGoBackToRessource(object sender, RoutedEventArgs e)
-        {
-
+        public Action GoToPlanningCallback {
+            set {
+                goToPlanningCallback = value;
+            }
         }
-        private void DataGridOrderList(object sender, SelectionChangedEventArgs e)
-        {
 
+        public Action GoBackToRessourceCallback {
+            set {
+                goBackToRessourceCallback = value;
+            }
         }
     }
 }
