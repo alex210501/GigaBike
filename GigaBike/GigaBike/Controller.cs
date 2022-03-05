@@ -58,6 +58,12 @@ namespace GigaBike {
             GetOrderModelsFromDatabase();
         }
 
+        public List<Order> OrdersRegistered {
+            get {
+                return new List<Order>(ordersRegistered);
+            }
+        }
+
         // TODO: Clean
         private void GetOrdersFromDatabase() {
             MySqlDataReader reader = DataBase.GetOrders();

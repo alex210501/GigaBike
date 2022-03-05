@@ -125,7 +125,7 @@ namespace GigaBike {
         }
 
         public void GoToOrderListPage() {
-            PM_OrderListPage orderListPage = new PM_OrderListPage();
+            PM_OrderListPage orderListPage = new PM_OrderListPage(controller.OrdersRegistered);
 
             // Create the OrderListPage instance
             Current.MainWindow.Content = orderListPage;
@@ -133,6 +133,8 @@ namespace GigaBike {
             // Define callbacks
             orderListPage.GoBackToRessourceCallback = GoToRessoucesPage;
             orderListPage.GoToPlanningCallback = GoToPlanningPage;
+
+            orderListPage.ShowOrders();
         }
 
         public void GoToOrderPiecesPage() {
