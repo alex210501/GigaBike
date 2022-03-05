@@ -58,8 +58,6 @@ namespace GigaBike {
                     slot.BindSlotWithOrder(currentOrder.IdOrder, bikeOrder.Bike.IdBike);
                     Trace.WriteLine(string.Format("Slot : {0}: Date : {1}", slot.SlotNumber, slot.Date));
                 }
-
-                startSlotDay = bikeSlots[0].Date;
             }
         }
 
@@ -83,6 +81,12 @@ namespace GigaBike {
             return slots;
         }
 
+        public void BindBikeOrderToExistingSlot(BikeOrder bikeOrder) {
+            List<Slot> slotOfBikeOrder = GetSlotByIdOrderAndIdOrderModel(bikeOrder.IdOrderModel);
+
+            bikeOrder.SetSlotForTheBikeOrder(slotOfBikeOrder);
+        }
+
         public List<Week> Weeks {
             get {
                 return new List<Week>(weeks);
@@ -99,7 +103,7 @@ namespace GigaBike {
         }
 
         public void SaveSlotOfIdOrderModelToDatabase(int IdOrder, int IdOrderModel) {
-            List<Slot> slotOfOrder = GetSlotByIdOrderAndIdOrderModel(IdOrder, IdOrderModel);
+            List<Slot> slotOfOrder = GetSlotByIdOrderAndIdOrderModel(IdOrderModel);
 
             foreach (Slot slot in slotOfOrder) {
                 MySqlDataReader reader = database.AddSlotToPlanning(slot, IdOrderModel);
@@ -139,7 +143,7 @@ namespace GigaBike {
             return slotOfOrder;
         }
 
-        private List<Slot> GetSlotByIdOrderAndIdOrderModel(int IdOrder, int IdOrderModel) {
+        private List<Slot> GetSlotByIdOrderAndIdOrderModel(int IdOrderModel) {
             List<Slot> slotOfOrder = new List<Slot>();
 
             foreach (Week currentWeek in weeks) slotOfOrder.AddRange(currentWeek.GetSlotByIdOrderModelWeek(IdOrderModel));

@@ -27,7 +27,7 @@ namespace GigaBike
         public PM_OrderListPage(List<Order> orders) {
             InitializeComponent();
             ordersToShow = orders;
-            //ShowOrders();
+            ShowOrders();
         }
 
         private void ButtonGoToPlanning(object sender, RoutedEventArgs e) {

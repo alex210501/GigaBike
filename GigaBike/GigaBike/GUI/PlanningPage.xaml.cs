@@ -20,17 +20,43 @@ namespace GigaBike
     /// </summary>
     public partial class PlanningPage : Page
     {
-        public PlanningPage()
-        {
+        private List<Order> orders;
+        private Action goBackToOrderListCallback = null;
+
+        public PlanningPage(List<Order> orders) {
             InitializeComponent();
+            this.orders = orders;
+            ShowPlanning();
+
+        }
+
+        public Action GoBackToOrderListCallback {
+            set {
+                goBackToOrderListCallback = value;
+            }
+        }
+
+        private void ShowPlanning() {
+            List<PlanningRow> planningRows = new List<PlanningRow>();
+
+            foreach (Order currentOrder in orders) {
+                foreach (BikeOrder currentBikeOrder in currentOrder.Bikes) {
+                    PlanningRow currentPlanningRow = new PlanningRow();
+
+                    currentPlanningRow.IdOrder = currentOrder.IdOrder;
+                    currentPlanningRow.Bike = currentBikeOrder.Bike.Name;
+                    currentPlanningRow.Size = currentBikeOrder.Bike.Size.Name;
+                    currentPlanningRow.Color = currentBikeOrder.Bike.Color.Name;
+                    currentPlanningRow.deliveryDate = currentBikeOrder.SlotOfBike[0].Date.ToString("dd/MM/yyyy");
+
+                    planningRows.Add(currentPlanningRow);
+                }
+            }
+
+            DataGridPlanning.ItemsSource = planningRows;
         }
 
         private void DataGridOrderList(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void DataGridPlanning(object sender, SelectionChangedEventArgs e)
         {
 
         }
@@ -51,7 +77,15 @@ namespace GigaBike
         }
 
         private void ButtonGoBackToRessource(object sender, RoutedEventArgs e) {
-
+            if (goBackToOrderListCallback is not null) goBackToOrderListCallback();
         }
+    }
+
+    public class PlanningRow {
+        public int IdOrder { get; set; }
+        public string Bike { get; set; }
+        public string Size { get; set; }
+        public string Color { get; set; }
+        public string deliveryDate { get; set; }
     }
 }

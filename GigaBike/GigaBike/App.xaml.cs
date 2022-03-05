@@ -118,10 +118,13 @@ namespace GigaBike {
         }
 
         public void GoToPlanningPage() {
-            PlanningPage planningPage = new PlanningPage();
+            PlanningPage planningPage = new PlanningPage(controller.OrdersRegistered);
 
             // Create PlanningPage instance
             Current.MainWindow.Content = planningPage;
+
+            // Define callback
+            planningPage.GoBackToOrderListCallback = GoToOrderListPage;
         }
 
         public void GoToOrderListPage() {
@@ -133,8 +136,6 @@ namespace GigaBike {
             // Define callbacks
             orderListPage.GoBackToRessourceCallback = GoToRessoucesPage;
             orderListPage.GoToPlanningCallback = GoToPlanningPage;
-
-            orderListPage.ShowOrders();
         }
 
         public void GoToOrderPiecesPage() {

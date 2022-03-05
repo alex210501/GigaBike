@@ -35,8 +35,11 @@ namespace GigaBike {
             bikes.Clear();
         }
 
-        public void AddSingleBike(Bike bike) {
-            AddBikeByQuantity(bike, 1);
+        public void AddSingleBike(int idOrderModel, Bike bike) {
+            BikeOrder currentBikeOrder = new BikeOrder(new Bike(bike));
+
+            currentBikeOrder.IdOrderModel = idOrderModel;
+            bikes.Add(currentBikeOrder);
         }
 
         public void AddBikeByQuantity(Bike bike, int quantity) {
@@ -94,6 +97,7 @@ namespace GigaBike {
             reader.Close();
 
             foreach (BikeOrder currentBikeOrder in Bikes) {
+                currentBikeOrder.IdOrderModel = IdOrderModel;
                 currentBikeOrder.SlotOfBike.ForEach((slot) => slot.BindSlotWithOrder(IdOrder, IdOrderModel));
                 IdOrderModel++;
             }

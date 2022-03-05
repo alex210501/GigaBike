@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GigaBike {
     public class BikeOrder {
+        public int IdOrderModel { get; set; }
         public Bike Bike { get; }
         private List<Slot> slotOfBike;
 

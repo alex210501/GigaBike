@@ -110,10 +110,16 @@ namespace GigaBike {
 
                 Order currentOrder = ordersRegistered.Find(order => order.IdOrder == idOrder);
                 Bike orderBike = new Bike(idModelBike, nameBike, priceBike, new Color(idColor, nameColor), new Size(idSize, nameSize), "", slotDurationBike);
-                currentOrder.AddSingleBike(orderBike);
+                currentOrder.AddSingleBike(idOrderModel, orderBike);
             }
 
             reader.Close();
+
+            // Binding to slot
+            foreach (Order currentOrder in ordersRegistered) {
+                foreach (BikeOrder currentBikeOrder in currentOrder.Bikes)
+                    Planning.BindBikeOrderToExistingSlot(currentBikeOrder);
+            }
         }
     }
 }
