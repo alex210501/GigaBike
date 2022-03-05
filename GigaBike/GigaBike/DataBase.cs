@@ -60,9 +60,19 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetOrders() {
-            MySqlCommand command = SendCommand("SELECT OrderInfo.IdOrder, OrderModel.IdModelBike, OrderInfo.DeliveryDate,Customer.NameCustomer, Customer.Address, Customer.TVA, Customer.Phone FROM OrderInfo " +
-                                               "INNER JOIN Customer ON Customer.TVA = OrderInfo.TvaCustomer " +
-                                               "INNER JOIN OrderModel ON OrderModel.IdOrder = OrderInfo.IdOrder");
+            MySqlCommand command = SendCommand("SELECT OrderInfo.IdOrder, OrderInfo.DeliveryDate,Customer.NameCustomer, Customer.AddressCustomer, Customer.TVA, Customer.PhoneCustomer FROM OrderInfo " +
+                                               "INNER JOIN Customer ON Customer.TVA = OrderInfo.TvaCustomer ");
+            return command.ExecuteReader();
+        }
+
+        public MySqlDataReader GetOrdersModel() {
+            string commandToSend = "SELECT OrderModel.IdOrder, OrderModel.IdOrderModel, OrderModel.IdModelBike, Bike.NameBike, BikeModel.IdColor," +
+                                   "Color.NameColor, BikeModel.IdSize, Size.NameSize, BikeModel.Price, BikeModel.SlotDuration FROM OrderModel " +
+                                   "INNER JOIN BikeModel ON OrderModel.IdModelBike = BikeModel.IdModel " +
+                                   "INNER JOIN Color ON Color.IdColor = BikeModel.IdColor " +
+                                   "INNER JOIN Size ON Size.IdSize = BikeModel.IdSize " +
+                                   "INNER JOIN Bike ON Bike.IdBike = BikeModel.IdBike;";
+            MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
 

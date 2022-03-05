@@ -14,6 +14,7 @@ namespace GigaBike {
         public Order Order { get; }
         public DataBase DataBase { get; }
         public Planning Planning { get; }
+        private List<Order> ordersRegistered;
 
         public Controller() {
             this.DataBase = new DataBase();
@@ -21,6 +22,7 @@ namespace GigaBike {
             this.Catalog = new Catalog(this.DataBase);
             this.Order = new Order(this.DataBase);
             this.Planning = new Planning(this.DataBase);
+            ordersRegistered = new List<Order>();
         }
 
         public void Init() {
@@ -48,6 +50,64 @@ namespace GigaBike {
 
         public void SetDateForOrderBike() {
             Planning.SetSlotForBikeOrder(Order);
+        }
+
+        public void RefreshOrderAndPlanningFromDatabase() {
+            Planning.RefreshFromDatabase();
+            GetOrdersFromDatabase();
+            GetOrderModelsFromDatabase();
+        }
+
+        // TODO: Clean
+        private void GetOrdersFromDatabase() {
+            MySqlDataReader reader = DataBase.GetOrders();
+
+            while (reader.Read()) {
+                int idOrder = reader.GetInt32(0);
+                DateTime deliveryDate = reader.GetDateTime(1);
+                string nameCustomer = reader.GetString(2);
+                string addressCustomer = reader.GetString(3);
+                string tvaCustomer = reader.GetString(4);
+                string phoneCustomer = reader.GetString(5);
+
+                Customer orderCustomer = new Customer();
+                orderCustomer.Name = nameCustomer;
+                orderCustomer.Address = addressCustomer;
+                orderCustomer.TVA = tvaCustomer;
+                orderCustomer.Phone = phoneCustomer;
+
+                Order currentOrder = new Order(DataBase);
+                currentOrder.IdOrder = idOrder;
+                currentOrder.DeliveryDate = deliveryDate;
+                currentOrder.SaveCustomer(orderCustomer);
+
+                ordersRegistered.Add(currentOrder);
+            }
+
+            reader.Close();
+        }
+
+        private void GetOrderModelsFromDatabase() {
+            MySqlDataReader reader = DataBase.GetOrdersModel();
+
+            while (reader.Read()) {
+                int idOrder = reader.GetInt32(0);
+                int idOrderModel = reader.GetInt32(1);
+                int idModelBike = reader.GetInt32(2);
+                string nameBike = reader.GetString(3);
+                int idColor = reader.GetInt32(4);
+                string nameColor = reader.GetString(5);
+                int idSize = reader.GetInt32(6);
+                string nameSize = reader.GetString(7);
+                int priceBike = reader.GetInt32(8);
+                int slotDurationBike = reader.GetInt32(9);
+
+                Order currentOrder = ordersRegistered.Find(order => order.IdOrder == idOrder);
+                Bike orderBike = new Bike(idModelBike, nameBike, priceBike, new Color(idColor, nameColor), new Size(idSize, nameSize), "", slotDurationBike);
+                currentOrder.AddSingleBike(orderBike);
+            }
+
+            reader.Close();
         }
     }
 }

@@ -35,7 +35,11 @@ namespace GigaBike {
             bikes.Clear();
         }
 
-        public void AddBike(Bike bike, int quantity) {
+        public void AddSingleBike(Bike bike) {
+            AddBikeByQuantity(bike, 1);
+        }
+
+        public void AddBikeByQuantity(Bike bike, int quantity) {
             for (int i = 0; i < quantity; i++)
                 bikes.Add(new BikeOrder(new Bike(bike)));
         }

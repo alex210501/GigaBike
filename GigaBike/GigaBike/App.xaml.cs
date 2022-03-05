@@ -150,7 +150,7 @@ namespace GigaBike {
 
             // Define callback
             ressourcePage.GoToChoosePathCallback = GoToChoosePathWindow;
-            ressourcePage.GoToOrderListCallback = GoToOrderListPage;
+            ressourcePage.GoToOrderListCallback = GoToOrderListCallback;
             ressourcePage.GoToStockCallback = GoToStockPage;
         }
 
@@ -231,7 +231,7 @@ namespace GigaBike {
                 Bike currentBikeModel = controller.Catalog.GetSelectedBike(colorBike, sizeBike);
 
                 // Add the bike to the order list
-                controller.Order.AddBike(new Bike(currentBikeModel), quantity);
+                controller.Order.AddBikeByQuantity(new Bike(currentBikeModel), quantity);
 
                 // Go to the Order Window
                 GoToRegistrationCustomerWindow();
@@ -278,6 +278,11 @@ namespace GigaBike {
             controller.SaveOrderAndSlotInDatabase();
             controller.Order.Clear();
             GoToCatalogWindow();
+        }
+
+        void GoToOrderListCallback() {
+            controller.RefreshOrderAndPlanningFromDatabase();
+            GoToOrderListPage();
         }
     }
 }
