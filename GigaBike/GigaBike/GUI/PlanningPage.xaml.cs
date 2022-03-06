@@ -47,13 +47,13 @@ namespace GigaBike
                     currentPlanningRow.Bike = currentBikeOrder.Bike.Name;
                     currentPlanningRow.Size = currentBikeOrder.Bike.Size.Name;
                     currentPlanningRow.Color = currentBikeOrder.Bike.Color.Name;
-                    currentPlanningRow.deliveryDate = currentBikeOrder.SlotOfBike[0].Date.ToString("dd/MM/yyyy");
+                    currentPlanningRow.DeliveryDate = currentBikeOrder.SlotOfBike[0].Date;
 
                     planningRows.Add(currentPlanningRow);
                 }
             }
 
-            DataGridPlanning.ItemsSource = planningRows;
+            DataGridPlanning.ItemsSource = planningRows.OrderBy(row => row.DeliveryDate).ToList();
         }
 
         private void DataGridOrderList(object sender, SelectionChangedEventArgs e)
@@ -86,6 +86,6 @@ namespace GigaBike
         public string Bike { get; set; }
         public string Size { get; set; }
         public string Color { get; set; }
-        public string deliveryDate { get; set; }
+        public DateTime DeliveryDate { get; set; }
     }
 }
