@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace GigaBike
 {
@@ -48,8 +50,13 @@ namespace GigaBike
                     currentPlanningRow.Size = currentBikeOrder.Bike.Size.Name;
                     currentPlanningRow.Color = currentBikeOrder.Bike.Color.Name;
                     currentPlanningRow.DeliveryDate = currentBikeOrder.SlotOfBike[0].Date;
+                    currentPlanningRow.IsReady = new List<bool>();
+                    currentPlanningRow.IsReady.Add(true);
+                    currentPlanningRow.IsReady.Add(false);
+                    currentPlanningRow.SelectedReadyState = true;
 
                     planningRows.Add(currentPlanningRow);
+                    IsOrderReady.ItemsSource = currentPlanningRow.IsReady;
                 }
             }
 
@@ -79,6 +86,13 @@ namespace GigaBike
         private void ButtonGoBackToRessource(object sender, RoutedEventArgs e) {
             if (goBackToOrderListCallback is not null) goBackToOrderListCallback();
         }
+
+        private void OnValueReadyStateChanged(object sender, RoutedEventArgs e) {
+            PlanningRow test = DataGridPlanning.SelectedItem as PlanningRow;
+
+            Trace.WriteLine(test.IdOrder);
+            Trace.WriteLine(test.SelectedReadyState);
+        }
     }
 
     public class PlanningRow {
@@ -87,5 +101,7 @@ namespace GigaBike
         public string Size { get; set; }
         public string Color { get; set; }
         public DateTime DeliveryDate { get; set; }
+        public List<bool> IsReady { get; set; }
+        public bool SelectedReadyState { get; set; }
     }
 }
