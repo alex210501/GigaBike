@@ -20,6 +20,7 @@ namespace GigaBike {
             MySqlDataReader reader = database.GetPlanning();
 
             while (reader.Read()) {
+                int idPlanning = reader.GetInt32(0);
                 DateTime planningDate = reader.GetDateTime(1);
                 int slotNumber = reader.GetInt32(2);
                 int idOrderModel = reader.GetInt32(3);
@@ -32,6 +33,7 @@ namespace GigaBike {
                 string nameSize = reader.GetString(10);
 
                 Slot currentSlot = GetSlotByDateAndSlotNumber(planningDate, slotNumber);
+                currentSlot.IdPlanning = idPlanning;
                 currentSlot.IsReady = isSlotReady;
                 currentSlot.BindSlotWithOrder(idOrder, idOrderModel);
             }
@@ -110,6 +112,22 @@ namespace GigaBike {
             foreach (Slot slot in slotOfOrder) {
                 MySqlDataReader reader = database.AddSlotToPlanning(slot, IdOrderModel);
                 reader.Close();
+            }
+        }
+
+        // Clean this part...
+        public void SetSlotForDisplayedOrder(List<Order> ordersDisplayed) {
+            foreach (Order orderDisplayed in ordersDisplayed) {
+                foreach (BikeOrder bikeOrderDisplayde in orderDisplayed.Bikes) {
+                    List<Slot> slotBindToOrder = GetSlotByIdOrderAndIdOrderModel(bikeOrderDisplayde.IdOrderModel);
+                    if (slotBindToOrder is not null) {
+                        foreach(Slot slot in slotBindToOrder) {
+                            slot.IsReady = bikeOrderDisplayde.SlotOfBike[0].IsReady;
+                            MySqlDataReader reader = database.SetPlanningState(slot.IdPlanning, slot.IsReady);
+                            reader.Close();
+                        }
+                    }
+                }
             }
         }
 

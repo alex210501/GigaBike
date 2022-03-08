@@ -125,6 +125,7 @@ namespace GigaBike {
 
             // Define callback
             planningPage.GoBackToOrderListCallback = GoToOrderListPage;
+            planningPage.SavePlanningCallback = SavePlanningCallback;
         }
 
         public void GoToOrderListPage() {
@@ -223,7 +224,7 @@ namespace GigaBike {
 
         public void AddToOrderCallback() {
             try {
-                BikeModelPage bikeModelPage =(Current.MainWindow.Content as BikeModelPage);
+                BikeModelPage bikeModelPage = (Current.MainWindow.Content as BikeModelPage);
 
                 // Get information from the display
                 Color colorBike = bikeModelPage.GetColor();
@@ -286,6 +287,19 @@ namespace GigaBike {
         void GoToOrderListCallback() {
             controller.RefreshOrderAndPlanningFromDatabase();
             GoToOrderListPage();
+        }
+
+        void SavePlanningCallback() {
+            if (Current.MainWindow.Content is not PlanningPage) {
+                MessageBox.Show("Callback only use by the PlanningPage");
+                return;
+            }
+
+            PlanningPage planningPage = (Current.MainWindow.Content as PlanningPage);
+            List<Order> ordersDisplayed = planningPage.OrderToShow;
+            controller.Planning.SetSlotForDisplayedOrder(ordersDisplayed);
+
+            GoToPlanningPage();
         }
     }
 }
