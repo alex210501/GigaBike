@@ -17,6 +17,7 @@ namespace GigaBike {
         public int IdOrder { get; set; }
         public int IdOrderModel { get; set; }
         public DateTime Date { get; private set; }
+        public bool IsReady { get; set; }
 
         public Slot(int slotNumber, DateTime date) {
             this.SlotNumber = slotNumber;

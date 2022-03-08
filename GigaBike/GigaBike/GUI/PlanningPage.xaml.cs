@@ -53,7 +53,7 @@ namespace GigaBike
                     currentPlanningRow.IsReady = new List<bool>();
                     currentPlanningRow.IsReady.Add(true);
                     currentPlanningRow.IsReady.Add(false);
-                    currentPlanningRow.SelectedReadyState = true;
+                    currentPlanningRow.SelectedReadyState = currentBikeOrder.SlotOfBike[0].IsReady;
 
                     planningRows.Add(currentPlanningRow);
                     IsOrderReady.ItemsSource = currentPlanningRow.IsReady;

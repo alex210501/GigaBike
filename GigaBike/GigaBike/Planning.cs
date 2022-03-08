@@ -23,6 +23,7 @@ namespace GigaBike {
                 DateTime planningDate = reader.GetDateTime(1);
                 int slotNumber = reader.GetInt32(2);
                 int idOrderModel = reader.GetInt32(3);
+                bool isSlotReady = reader.GetBoolean(4);
                 int idOrder = reader.GetInt32(5);
                 int idModelBike = reader.GetInt32(6);
                 int idColor = reader.GetInt32(7);
@@ -31,6 +32,7 @@ namespace GigaBike {
                 string nameSize = reader.GetString(10);
 
                 Slot currentSlot = GetSlotByDateAndSlotNumber(planningDate, slotNumber);
+                currentSlot.IsReady = isSlotReady;
                 currentSlot.BindSlotWithOrder(idOrder, idOrderModel);
             }
 
