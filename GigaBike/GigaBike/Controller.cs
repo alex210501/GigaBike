@@ -58,6 +58,11 @@ namespace GigaBike {
             GetOrderModelsFromDatabase();
         }
 
+        public void UpdatePlanningAfterUserUpdate(List<Order> ordersShown) {
+            foreach (Order currentOrder in ordersShown)
+                currentOrder.Bikes.ForEach(bike => Planning.UpdateSlotsInDatabaseByBikeOrder(bike));
+        }
+
         public List<Order> OrdersRegistered {
             get {
                 return new List<Order>(ordersRegistered);

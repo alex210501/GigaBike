@@ -86,7 +86,7 @@ namespace GigaBike {
         }
 
         public void BindBikeOrderToExistingSlot(BikeOrder bikeOrder) {
-            List<Slot> slotOfBikeOrder = GetSlotByIdOrderAndIdOrderModel(bikeOrder.IdOrderModel);
+            List<Slot> slotOfBikeOrder = GetSlotByIdOrderModel(bikeOrder.IdOrderModel);
 
             bikeOrder.SetSlotForTheBikeOrder(slotOfBikeOrder);
         }
@@ -107,7 +107,7 @@ namespace GigaBike {
         }
 
         public void SaveSlotOfIdOrderModelToDatabase(int IdOrder, int IdOrderModel) {
-            List<Slot> slotOfOrder = GetSlotByIdOrderAndIdOrderModel(IdOrderModel);
+            List<Slot> slotOfOrder = GetSlotByIdOrderModel(IdOrderModel);
 
             foreach (Slot slot in slotOfOrder) {
                 MySqlDataReader reader = database.AddSlotToPlanning(slot, IdOrderModel);
@@ -115,18 +115,13 @@ namespace GigaBike {
             }
         }
 
-        // Clean this part...
-        public void SetSlotForDisplayedOrder(List<Order> ordersDisplayed) {
-            foreach (Order orderDisplayed in ordersDisplayed) {
-                foreach (BikeOrder bikeOrderDisplayde in orderDisplayed.Bikes) {
-                    List<Slot> slotBindToOrder = GetSlotByIdOrderAndIdOrderModel(bikeOrderDisplayde.IdOrderModel);
-                    if (slotBindToOrder is not null) {
-                        foreach(Slot slot in slotBindToOrder) {
-                            slot.IsReady = bikeOrderDisplayde.SlotOfBike[0].IsReady;
-                            MySqlDataReader reader = database.SetPlanningState(slot.IdPlanning, slot.IsReady);
-                            reader.Close();
-                        }
-                    }
+        public void UpdateSlotsInDatabaseByBikeOrder(BikeOrder currentBikeOrder) {
+            List<Slot> slotBindToOrder = GetSlotByIdOrderModel(currentBikeOrder.IdOrderModel);
+            if (slotBindToOrder is not null) {
+                foreach(Slot slot in slotBindToOrder) {
+                    slot.IsReady = currentBikeOrder.SlotOfBike[0].IsReady;
+                    MySqlDataReader reader = database.SetPlanningState(slot.IdPlanning, slot.IsReady);
+                    reader.Close();
                 }
             }
         }
@@ -163,7 +158,7 @@ namespace GigaBike {
             return slotOfOrder;
         }
 
-        private List<Slot> GetSlotByIdOrderAndIdOrderModel(int IdOrderModel) {
+        private List<Slot> GetSlotByIdOrderModel(int IdOrderModel) {
             List<Slot> slotOfOrder = new List<Slot>();
 
             foreach (Week currentWeek in weeks) slotOfOrder.AddRange(currentWeek.GetSlotByIdOrderModelWeek(IdOrderModel));

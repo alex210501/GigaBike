@@ -297,7 +297,7 @@ namespace GigaBike {
 
             PlanningPage planningPage = (Current.MainWindow.Content as PlanningPage);
             List<Order> ordersDisplayed = planningPage.OrderToShow;
-            controller.Planning.SetSlotForDisplayedOrder(ordersDisplayed);
+            controller.UpdatePlanningAfterUserUpdate(ordersDisplayed);
 
             GoToPlanningPage();
         }
