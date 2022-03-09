@@ -44,7 +44,12 @@ namespace GigaBike {
 
         public void SetCurrentIdOrder() {
             MySqlDataReader reader = DataBase.GetNextIdOrder();
-            if (reader.Read()) Order.IdOrder = reader.GetInt32(0);
+            if (reader.Read()) {
+                if (reader.IsDBNull(0) == false)
+                    Order.IdOrder = reader.GetInt32(0);
+                else
+                    Order.IdOrder = 1;
+            }
             reader.Close();
         }
 
@@ -65,7 +70,7 @@ namespace GigaBike {
 
         public List<Order> OrdersRegistered {
             get {
-                return new List<Order>(ordersRegistered);
+                return new List<Order>(ordersRegistered).ConvertAll(o => new Order(o));
             }
         }
 

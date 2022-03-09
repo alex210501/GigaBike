@@ -26,6 +26,15 @@ namespace GigaBike {
             StateSlot = StateSlot.FREE;
         }
 
+        public Slot(Slot otherSlot) {
+            this.IdPlanning = otherSlot.IdPlanning;
+            this.IdOrder = otherSlot.IdOrder;
+            this.IdOrderModel = otherSlot.IdOrderModel;
+            this.SlotNumber = otherSlot.SlotNumber;
+            this.Date = otherSlot.Date;
+            this.IsReady = otherSlot.IsReady;
+        }
+
         public void BindSlotWithOrder(int idOrder, int idOrderModel) {
             IdOrder = idOrder;
             IdOrderModel = idOrderModel;

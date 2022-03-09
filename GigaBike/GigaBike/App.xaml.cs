@@ -296,8 +296,11 @@ namespace GigaBike {
             }
 
             PlanningPage planningPage = (Current.MainWindow.Content as PlanningPage);
+            DateTime now = DateTime.Now;
             List<Order> ordersDisplayed = planningPage.OrderToShow;
             controller.UpdatePlanningAfterUserUpdate(ordersDisplayed);
+            TimeSpan timespan = DateTime.Now - now;
+            Trace.WriteLine(timespan.TotalMilliseconds);
 
             GoToPlanningPage();
         }

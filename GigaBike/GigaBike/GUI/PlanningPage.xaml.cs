@@ -105,8 +105,7 @@ namespace GigaBike
 
             Order selectedOrder = ordersToShow.Find(o => o.IdOrder == idOrder);
             BikeOrder selectedBikeOrder = selectedOrder.Bikes.Find(o => o.IdOrderModel == idOrderModel);
-            List<Slot> selectedordersToShowlot = selectedBikeOrder.SlotOfBike;
-            selectedordersToShowlot.ForEach(s => s.IsReady = isSlotReady);
+            selectedBikeOrder.SetReadyState(isSlotReady);
         }
     }
 

@@ -60,7 +60,7 @@ namespace GigaBike {
 
                 foreach (Slot slot in bikeSlots) {
                     slot.BindSlotWithOrder(currentOrder.IdOrder, bikeOrder.Bike.IdBike);
-                    Trace.WriteLine(string.Format("Slot : {0}: Date : {1}", slot.SlotNumber, slot.Date));
+                    Trace.WriteLine(string.Format("Slot : {0}: IdOrder : {2}, Date : {1}", slot.SlotNumber, slot.Date, slot.IdOrder)); ;
                 }
             }
         }
@@ -117,6 +117,7 @@ namespace GigaBike {
 
         public void UpdateSlotsInDatabaseByBikeOrder(BikeOrder currentBikeOrder) {
             List<Slot> slotBindToOrder = GetSlotByIdOrderModel(currentBikeOrder.IdOrderModel);
+
             if (slotBindToOrder is not null) {
                 foreach(Slot slot in slotBindToOrder) {
                     slot.IsReady = currentBikeOrder.SlotOfBike[0].IsReady;

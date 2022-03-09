@@ -97,9 +97,7 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetNextIdOrder() {
-            string commandToSend = "SELECT AUTO_INCREMENT FROM information_schema.Tables " +
-                                   "WHERE TABLE_SCHEMA = \"GigaBike\" " +
-                                   "AND TABLE_NAME = \"OrderInfo\";";
+            string commandToSend = "SELECT max(IdOrder) + 1 FROM OrderInfo";
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }

@@ -11,7 +11,7 @@ namespace GigaBike {
         public int IdOrder { get; set; }
         private List<BikeOrder> bikes;
         public Customer Customer { get; private set; }
-        private DataBase database;
+        public DataBase database { get; }
         public DateTime DeliveryDate { get; set; }
         public int Duration { get; set; }
 
@@ -19,6 +19,14 @@ namespace GigaBike {
             bikes = new List<BikeOrder>();
             Customer = new Customer();
             this.database = database;
+        }
+
+        public Order (Order otherOrder) {
+            this.IdOrder = otherOrder.IdOrder;
+            this.bikes = new List<BikeOrder>(otherOrder.Bikes);
+            this.Customer = new Customer(otherOrder.Customer);
+            this.database = otherOrder.database;
+            this.DeliveryDate = otherOrder.DeliveryDate;
         }
 
         public void SaveCustomer(Customer customer) {
@@ -97,9 +105,8 @@ namespace GigaBike {
             reader.Close();
 
             foreach (BikeOrder currentBikeOrder in Bikes) {
-                currentBikeOrder.IdOrderModel = IdOrderModel;
-                currentBikeOrder.SlotOfBike.ForEach((slot) => slot.BindSlotWithOrder(IdOrder, IdOrderModel));
-                IdOrderModel++;
+                currentBikeOrder.IdOrderModel = IdOrderModel++;
+                currentBikeOrder.BindSlotToIdOrderModel();
             }
         }
     }
