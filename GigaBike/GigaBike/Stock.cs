@@ -37,10 +37,12 @@ namespace GigaBike
                 string NamePart = reader.GetString(1);
                 int NumberPart = reader.GetInt32(2);
                 int Threshold = reader.GetInt32(3);
+                int Location = reader.GetInt32(4);
 
-                Part currentPieceOrder = new Part(IdPart, NamePart, NumberPart, Threshold);
+                Part currentPieceOrder = new Part(IdPart, NamePart, NumberPart, Threshold, Location);
                 pieceList.Add(currentPieceOrder);
             }
+            reader.Close();
         }
         public bool IsThereEnoughPartsInStock() //ajouter les éléments à comparer
         {

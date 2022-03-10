@@ -42,6 +42,7 @@ namespace GigaBike
                 currentStockRecapGrid.NamePart = currentPiece.NamePart;
                 currentStockRecapGrid.NumberPart = currentPiece.NumberPart;
                 currentStockRecapGrid.Threshold = currentPiece.Threshold;
+                currentStockRecapGrid.Location = currentPiece.Location;
 
                 stockRecap.Add(currentStockRecapGrid);
             }
@@ -75,6 +76,7 @@ namespace GigaBike
             public string NamePart { get; set; }
             public int NumberPart { get; set; }
             public int Threshold { get; set; }
+            public int Location { get; set; }
 
         }
         
