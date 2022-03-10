@@ -65,6 +65,30 @@
                 <ColumnDefinition Width="400" />
                 <ColumnDefinition Width="400" />
             </Grid.ColumnDefinitions>
+            <TextBox x:Name="NameInput" HorizontalAlignment="Left" Height="36" Margin="316,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" FontSize="25" Grid.ColumnSpan="2">
+                <TextBox.Style>
+                    <Style xmlns:sys="clr-namespace:System;assembly=mscorlib" TargetType="{x:Type TextBox}">
+                        <Style.Resources>
+                            <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                <VisualBrush.Visual>
+                                    <Label Content="Enter Name" Foreground="LightGray" />
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Style.Resources>
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                            </Trigger>
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter Property="Background" Value="White" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
             <TextBox x:Name="AddressInput" HorizontalAlignment="Left" Height="36" Margin="316,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" FontSize="25" Grid.ColumnSpan="2">
                 <TextBox.Style>
                     <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
@@ -141,33 +165,9 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <TextBox x:Name="NameInput" HorizontalAlignment="Left" Height="36" Margin="316,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" FontSize="25" Grid.ColumnSpan="2">
-                <TextBox.Style>
-                    <Style xmlns:sys="clr-namespace:System;assembly=mscorlib" TargetType="{x:Type TextBox}">
-                        <Style.Resources>
-                            <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                                <VisualBrush.Visual>
-                                    <Label Content="Enter Name" Foreground="LightGray" />
-                                </VisualBrush.Visual>
-                            </VisualBrush>
-                        </Style.Resources>
-                        <Style.Triggers>
-                            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                            </Trigger>
-                            <Trigger Property="Text" Value="{x:Null}">
-                                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                            </Trigger>
-                            <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter Property="Background" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
+            <Button x:Name="ButtonCommand" Style="{DynamicResource RoundedButtonStyle}" Content="Command" Click="ButtonSavePurchase" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="39" Width="220" Margin="290,226,0,0" Grid.ColumnSpan="2" />
             <Button x:Name="ButtonCancel_" Style="{DynamicResource RoundedButtonStyle}" Content="Cancel" Click="ButtonCancel" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="39" Width="220" Margin="290,290,0,0" Grid.ColumnSpan="2" />
             <Button x:Name="ButtonBackToModels_" Style="{DynamicResource RoundedButtonStyle}" Content="Back to the models" Click="ButtonBackToModels" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="39" Width="220" Margin="290,350,0,0" Grid.ColumnSpan="2" />
-            <Button x:Name="ButtonCommand" Style="{DynamicResource RoundedButtonStyle}" Content="Command" Click="ButtonSavePurchase" FontSize="20" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="39" Width="220" Margin="290,226,0,0" Grid.ColumnSpan="2" />
         </Grid>
     </Viewbox>
 </Page>
