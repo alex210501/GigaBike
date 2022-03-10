@@ -9,9 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="GUI\Background_CC1.png" />
     <None Remove="GUI\Pictures\Adventure.jpg" />
     <None Remove="GUI\Pictures\City.jpg" />
     <None Remove="GUI\Pictures\Explorer.png" />
+    <None Remove="GUI\Screenshot_1.png" />
+    <None Remove="GUI\WallpaperDog-10717712.jpg" />
+    <None Remove="GUI\wallpaperflare.com_wallpaper.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,9 +39,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="GUI\Background_CC1.png" />
     <Resource Include="GUI\Pictures\Adventure.jpg" />
     <Resource Include="GUI\Pictures\City.jpg" />
     <Resource Include="GUI\Pictures\Explorer.png" />
+    <Resource Include="GUI\Screenshot_1.png" />
+    <Resource Include="GUI\WallpaperDog-10717712.jpg" />
+    <Resource Include="GUI\wallpaperflare.com_wallpaper.jpg" />
   </ItemGroup>
 
   <ItemGroup>
