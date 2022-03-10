@@ -4,17 +4,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using MySql.Data.MySqlClient;
 
 namespace GigaBike {
     public class Planning {
         private List<Week> weeks;
+        private DataBase database;
 
-        public Planning() {
+        public Planning(DataBase database) {
             weeks = new List<Week>();
+            this.database = database;
         }
 
-        public void Refresh() {
-            // Get information from the databse
+        public void RefreshFromDatabase() {
+            MySqlDataReader reader = database.GetPlanning();
+
+            while (reader.Read()) {
+                int idPlanning = reader.GetInt32(0);
+                DateTime planningDate = reader.GetDateTime(1);
+                int slotNumber = reader.GetInt32(2);
+                int idOrderModel = reader.GetInt32(3);
+                bool isSlotReady = reader.GetBoolean(4);
+                int idOrder = reader.GetInt32(5);
+                int idModelBike = reader.GetInt32(6);
+                int idColor = reader.GetInt32(7);
+                string nameColor = reader.GetString(8);
+                int idSize = reader.GetInt32(9);
+                string nameSize = reader.GetString(10);
+
+                Slot currentSlot = GetSlotByDateAndSlotNumber(planningDate, slotNumber);
+                currentSlot.IdPlanning = idPlanning;
+                currentSlot.IsReady = isSlotReady;
+                currentSlot.BindSlotWithOrder(idOrder, idOrderModel);
+            }
+
+            reader.Close();
         }
 
         public DateTime GetDeliveryDate(int idOrder) {
@@ -30,15 +54,13 @@ namespace GigaBike {
                 // For every order, start searching since tomorrow
                 DateTime startSlotDay = DateCalculator.GetNextWorkDayFromToday();
 
-                for (int i = 0; i < bikeOrder.Quantity; i++) {
-                    List<Slot> bikeSlots = GetSlotsFromStartDate(bikeOrder.Bike.SlotDuration, startSlotDay);
+                List<Slot> bikeSlots = GetSlotsFromStartDate(bikeOrder.Bike.SlotDuration, startSlotDay);
 
-                    foreach (Slot slot in bikeSlots) {
-                        slot.BindSlotWithOrder(currentOrder.IdOrder, bikeOrder.Bike.IdBike);
-                        Trace.WriteLine(string.Format("Slot : {0}: Date : {1}", slot.SlotNumber, slot.Date));
-                    }
+                bikeOrder.SetSlotForTheBikeOrder(bikeSlots);
 
-                    startSlotDay = bikeSlots[0].Date;
+                foreach (Slot slot in bikeSlots) {
+                    slot.BindSlotWithOrder(currentOrder.IdOrder, bikeOrder.Bike.IdBike);
+                    Trace.WriteLine(string.Format("Slot : {0}: IdOrder : {2}, Date : {1}", slot.SlotNumber, slot.Date, slot.IdOrder)); ;
                 }
             }
         }
@@ -52,23 +74,56 @@ namespace GigaBike {
             while (slots.Count == 0) {
                 int weekNumber = DateCalculator.GetWeekOfYear(currentDate);
 
-                if (IsWeekRegistered(weekNumber, currentDate.Year) == false) AddWeek(weekNumber, currentDate.Year);
-
                 Week currentWeek = GetWeek(weekNumber, currentDate.Year);
 
                 if (currentWeek.IsThereFreeSlotsInWeekFromStartDate(duration, currentDate))
                     slots = currentWeek.GetFreeSlotsFromStartDate(duration, currentDate);
 
-                // Error on the current date
                 currentDate = DateCalculator.GoToStartOfNextWeek(currentDate);
             }
 
             return slots;
         }
 
+        public void BindBikeOrderToExistingSlot(BikeOrder bikeOrder) {
+            List<Slot> slotOfBikeOrder = GetSlotByIdOrderModel(bikeOrder.IdOrderModel);
+
+            bikeOrder.SetSlotForTheBikeOrder(slotOfBikeOrder);
+        }
+
         public List<Week> Weeks {
             get {
                 return new List<Week>(weeks);
+            }
+        }
+
+        public void SaveSlotOfIdOrderToDatabase(int IdOrder) {
+            List<Slot> slotOfOrder = GetSlotByIdOrder(IdOrder);
+
+            if (slotOfOrder.Count > 0) {
+                MySqlDataReader reader = database.AddSeveralSlotToPlanning(slotOfOrder);
+                reader.Close();
+            }
+        }
+
+        public void SaveSlotOfIdOrderModelToDatabase(int IdOrder, int IdOrderModel) {
+            List<Slot> slotOfOrder = GetSlotByIdOrderModel(IdOrderModel);
+
+            foreach (Slot slot in slotOfOrder) {
+                MySqlDataReader reader = database.AddSlotToPlanning(slot, IdOrderModel);
+                reader.Close();
+            }
+        }
+
+        public void UpdateSlotsInDatabaseByBikeOrder(BikeOrder currentBikeOrder) {
+            List<Slot> slotBindToOrder = GetSlotByIdOrderModel(currentBikeOrder.IdOrderModel);
+
+            if (slotBindToOrder is not null) {
+                foreach(Slot slot in slotBindToOrder) {
+                    slot.IsReady = currentBikeOrder.SlotOfBike[0].IsReady;
+                    MySqlDataReader reader = database.SetPlanningState(slot.IdPlanning, slot.IsReady);
+                    reader.Close();
+                }
             }
         }
 
@@ -86,12 +141,38 @@ namespace GigaBike {
         }
 
         private Week GetWeek(int weekOfYear, int year) {
+            if (IsWeekRegistered(weekOfYear, year) == false) AddWeek(weekOfYear, year);
+
             foreach (Week currentWeek in weeks) {
                 if ((currentWeek.WeekNumber == weekOfYear) && (currentWeek.Year == year))
                     return currentWeek;
             }
 
             return null;
+        }
+
+        private List<Slot> GetSlotByIdOrder(int IdOrder) {
+            List<Slot> slotOfOrder = new List<Slot>();
+
+            foreach (Week currentWeek in weeks) slotOfOrder.AddRange(currentWeek.GetSlotByIdOrderWeek(IdOrder));
+
+            return slotOfOrder;
+        }
+
+        private List<Slot> GetSlotByIdOrderModel(int IdOrderModel) {
+            List<Slot> slotOfOrder = new List<Slot>();
+
+            foreach (Week currentWeek in weeks) slotOfOrder.AddRange(currentWeek.GetSlotByIdOrderModelWeek(IdOrderModel));
+
+            return slotOfOrder;
+        }
+
+        private Slot GetSlotByDateAndSlotNumber(DateTime date, int slotNumber) {
+            int weekOfYear = DateCalculator.GetWeekOfYear(date);
+
+            Week currentWeek = GetWeek(weekOfYear, date.Year);
+
+            return currentWeek.GetSlotByDateAndSlotNumber(date, slotNumber);
         }
     }
 }

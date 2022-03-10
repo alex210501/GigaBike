@@ -14,14 +14,25 @@ namespace GigaBike {
     public class Slot {
         public readonly int SlotNumber;
         public StateSlot StateSlot { get; private set; }
+        public int IdPlanning { get; set; }
         public int IdOrder { get; set; }
         public int IdOrderModel { get; set; }
         public DateTime Date { get; private set; }
+        public bool IsReady { get; set; }
 
         public Slot(int slotNumber, DateTime date) {
             this.SlotNumber = slotNumber;
             this.Date = date;
             StateSlot = StateSlot.FREE;
+        }
+
+        public Slot(Slot otherSlot) {
+            this.IdPlanning = otherSlot.IdPlanning;
+            this.IdOrder = otherSlot.IdOrder;
+            this.IdOrderModel = otherSlot.IdOrderModel;
+            this.SlotNumber = otherSlot.SlotNumber;
+            this.Date = otherSlot.Date;
+            this.IsReady = otherSlot.IsReady;
         }
 
         public void BindSlotWithOrder(int idOrder, int idOrderModel) {

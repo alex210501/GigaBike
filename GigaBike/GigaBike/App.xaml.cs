@@ -90,7 +90,7 @@ namespace GigaBike {
 
         public void GoToOrderConfirmationWindow() {
             // Get the delivery date
-            DateTime deliveryDate = controller.Planning.GetDeliveryDate(controller.Order.IdOrder);
+            DateTime deliveryDate = controller.Order.DeliveryDate;
 
             ConfirmationOrderPage confirmationOrderPage = new ConfirmationOrderPage();
 
@@ -99,7 +99,6 @@ namespace GigaBike {
 
             confirmationOrderPage.SetCurrentOrder(controller.Order);
             confirmationOrderPage.SetDeliveryDate(deliveryDate);
-            Trace.WriteLine(string.Format("Delivery date : {0}", deliveryDate));
 
             // Define callback
             confirmationOrderPage.ValidateOrderCallback = ValidateOrderCallback;
@@ -113,17 +112,24 @@ namespace GigaBike {
 
             // Create PiecesStockPage instance
             Current.MainWindow.Content = piecesStockPage;
+
+            // Define callback
+            piecesStockPage.GoBackToStockCallback = GoToStockPage;
         }
 
         public void GoToPlanningPage() {
-            PlanningPage planningPage = new PlanningPage();
+            PlanningPage planningPage = new PlanningPage(controller.OrdersRegistered);
 
             // Create PlanningPage instance
             Current.MainWindow.Content = planningPage;
+
+            // Define callback
+            planningPage.GoBackToOrderListCallback = GoToOrderListPage;
+            planningPage.SavePlanningCallback = SavePlanningCallback;
         }
 
         public void GoToOrderListPage() {
-            PM_OrderListPage orderListPage = new PM_OrderListPage();
+            PM_OrderListPage orderListPage = new PM_OrderListPage(controller.OrdersRegistered);
 
             // Create the OrderListPage instance
             Current.MainWindow.Content = orderListPage;
@@ -148,7 +154,7 @@ namespace GigaBike {
 
             // Define callback
             ressourcePage.GoToChoosePathCallback = GoToChoosePathWindow;
-            ressourcePage.GoToOrderListCallback = GoToOrderListPage;
+            ressourcePage.GoToOrderListCallback = GoToOrderListCallback;
             ressourcePage.GoToStockCallback = GoToStockPage;
         }
 
@@ -183,6 +189,9 @@ namespace GigaBike {
 
             // Create the BikeStockPage instance
             Current.MainWindow.Content = bikeStockPage;
+
+            // Define callback
+            bikeStockPage.GoBackToStockCallback = GoToStockPage;
         }
 
         public void LoginButtonCallback() {
@@ -215,7 +224,7 @@ namespace GigaBike {
 
         public void AddToOrderCallback() {
             try {
-                BikeModelPage bikeModelPage =(Current.MainWindow.Content as BikeModelPage);
+                BikeModelPage bikeModelPage = (Current.MainWindow.Content as BikeModelPage);
 
                 // Get information from the display
                 Color colorBike = bikeModelPage.GetColor();
@@ -226,15 +235,10 @@ namespace GigaBike {
                 Bike currentBikeModel = controller.Catalog.GetSelectedBike(colorBike, sizeBike);
 
                 // Add the bike to the order list
-                controller.Order.AddBike(new Bike(currentBikeModel), quantity);
+                controller.Order.AddBikeByQuantity(new Bike(currentBikeModel), quantity);
 
                 // Go to the Order Window
                 GoToRegistrationCustomerWindow();
-
-                foreach (BikeOrder bikeOrder in controller.Order.Bikes) {
-                    Trace.WriteLine(string.Format("Bike : {0}, color : {1}, size: {2}, quantity : {3}", bikeOrder.Bike.Name, bikeOrder.Bike.Color.Name,
-                                    bikeOrder.Bike.Size.Name, bikeOrder.Quantity));
-                }
             }
             catch (FormatException) {
                 MessageBox.Show("The quantity must be an integer !");
@@ -269,17 +273,36 @@ namespace GigaBike {
                 Phone = customerRegistrationPage.GetPhoneCustomer()
             };
 
-            controller.Order.Save(orderCustomer);
-            controller.SetCurrentIdOrder();
-            controller.SetDateForOrderBike();
+            controller.SaveOrderInformation(orderCustomer);
 
             GoToOrderConfirmationWindow();
         }
 
         void ValidateOrderCallback() {
-            controller.Order.Validate();
+            controller.SaveOrderAndSlotInDatabase();
             controller.Order.Clear();
             GoToCatalogWindow();
+        }
+
+        void GoToOrderListCallback() {
+            controller.RefreshOrderAndPlanningFromDatabase();
+            GoToOrderListPage();
+        }
+
+        void SavePlanningCallback() {
+            if (Current.MainWindow.Content is not PlanningPage) {
+                MessageBox.Show("Callback only use by the PlanningPage");
+                return;
+            }
+
+            PlanningPage planningPage = (Current.MainWindow.Content as PlanningPage);
+            DateTime now = DateTime.Now;
+            List<Order> ordersDisplayed = planningPage.OrderToShow;
+            controller.UpdatePlanningAfterUserUpdate(ordersDisplayed);
+            TimeSpan timespan = DateTime.Now - now;
+            Trace.WriteLine(timespan.TotalMilliseconds);
+
+            GoToPlanningPage();
         }
     }
 }

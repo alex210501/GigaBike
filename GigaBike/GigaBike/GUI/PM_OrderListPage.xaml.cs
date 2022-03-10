@@ -22,9 +22,12 @@ namespace GigaBike
     {
         private Action goToPlanningCallback = null;
         private Action goBackToRessourceCallback = null;
+        private List<Order> ordersToShow;
 
-        public PM_OrderListPage() {
+        public PM_OrderListPage(List<Order> orders) {
             InitializeComponent();
+            ordersToShow = orders;
+            ShowOrders();
         }
 
         private void ButtonGoToPlanning(object sender, RoutedEventArgs e) {
@@ -35,8 +38,27 @@ namespace GigaBike
             if (goBackToRessourceCallback is not null) goBackToRessourceCallback();
         }
 
-        private void DataGridOrderList(object sender, SelectionChangedEventArgs e) {
+        public void ShowOrders() {
+            List<OrderRow> orderRows = new List<OrderRow>();
 
+            foreach (Order currentOrder in ordersToShow) {
+                var idBikeWithBikeAndQuantity = currentOrder.Bikes.GroupBy(o => o.Bike.IdBike).ToDictionary(g => g.Key, g => new { Bike = g.First().Bike, Quantity = g.Count() });
+                foreach (var bikeGroup in idBikeWithBikeAndQuantity) {
+                    OrderRow currentRow = new OrderRow();
+                    Bike currentBike = bikeGroup.Value.Bike;
+
+                    currentRow.IdOrder = currentOrder.IdOrder;
+                    currentRow.Bike = currentBike.Name;
+                    currentRow.Quantity = bikeGroup.Value.Quantity;
+                    currentRow.Size = currentBike.Size.Name;
+                    currentRow.Color = currentBike.Color.Name;
+                    currentRow.Price = currentOrder.Price;
+
+                    orderRows.Add(currentRow);
+                }
+            }
+
+            DataGridOrderList.ItemsSource = orderRows;
         }
 
         public Action GoToPlanningCallback {
@@ -50,5 +72,14 @@ namespace GigaBike
                 goBackToRessourceCallback = value;
             }
         }
+    }
+
+    public class OrderRow {
+        public int IdOrder { get; set; }
+        public string Bike { get; set; }
+        public int Quantity { get; set; }
+        public string Size { get; set; }
+        public string Color { get; set; }
+        public int Price { get; set; }
     }
 }

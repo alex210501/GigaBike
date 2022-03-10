@@ -51,6 +51,20 @@ namespace GigaBike {
             return slotOfCurrentIdOrder;
         }
 
+        public List<Slot> GetSlotByIdOrderModelWeek(int idOrderModel) {
+            List<Slot> slotOfCurrentIdOrder = new List<Slot>();
+
+            foreach (WeekDay currentDay in days) slotOfCurrentIdOrder.AddRange(currentDay.GetSlotByIdOrderModel(idOrderModel));
+
+            return slotOfCurrentIdOrder;
+        }
+
+        public Slot GetSlotByDateAndSlotNumber(DateTime date, int slotNumber) {
+            WeekDay currentDay = days.Find(day => day.Date == date);
+
+            return currentDay.Slots.Find(slot => slot.SlotNumber == slotNumber);
+        }
+
         private void CreateDaysList(int weekOfYear, int year) {
             DateTime currentWeek = DateCalculator.GetDateFromWeekOfYear(weekOfYear, year);
 

@@ -18,26 +18,36 @@ namespace GigaBike
     /// <summary>
     /// Logique d'interaction pour PiecesStockPage.xaml
     /// </summary>
-    public partial class PiecesStockPage : Page
-    {
-        public PiecesStockPage()
-        {
+    public partial class PiecesStockPage : Page {
+        private Action goBackToStockCallback = null;
+        private Action goToOrderPiecesCallback = null;
+
+        public PiecesStockPage() {
             InitializeComponent();
         }
 
-        private void DataGridPiecesStock(object sender, SelectionChangedEventArgs e)
-        {
+        private void DataGridPiecesStock(object sender, SelectionChangedEventArgs e) {
 
         }
 
-        private void ButtonOrderPiece(object sender, RoutedEventArgs e)
-        {
-
+        private void ButtonOrderPiece(object sender, RoutedEventArgs e) {
+            if (goToOrderPiecesCallback is not null) goToOrderPiecesCallback();
         }
 
-        private void ButtonGoBackToStock(object sender, RoutedEventArgs e)
-        {
+        private void ButtonGoBackToStock(object sender, RoutedEventArgs e) {
+            if (goBackToStockCallback is not null) goBackToStockCallback();
+        }
 
+        public Action GoBackToStockCallback {
+            set {
+                goBackToStockCallback = value;
+            }
+        }
+
+        public Action GoToOrderPiecesCallback {
+            set {
+                goToOrderPiecesCallback = value;
+            }
         }
     }
 }

@@ -60,9 +60,19 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetOrders() {
-            MySqlCommand command = SendCommand("SELECT OrderInfo.IdOrder, OrderModel.IdModelBike, OrderInfo.DeliveryDate,Customer.NameCustomer, Customer.Address, Customer.TVA, Customer.Phone FROM OrderInfo " +
-                                               "INNER JOIN Customer ON Customer.TVA = OrderInfo.TvaCustomer " +
-                                               "INNER JOIN OrderModel ON OrderModel.IdOrder = OrderInfo.IdOrder");
+            MySqlCommand command = SendCommand("SELECT OrderInfo.IdOrder, OrderInfo.DeliveryDate,Customer.NameCustomer, Customer.AddressCustomer, Customer.TVA, Customer.PhoneCustomer FROM OrderInfo " +
+                                               "INNER JOIN Customer ON Customer.TVA = OrderInfo.TvaCustomer ");
+            return command.ExecuteReader();
+        }
+
+        public MySqlDataReader GetOrdersModel() {
+            string commandToSend = "SELECT OrderModel.IdOrder, OrderModel.IdOrderModel, OrderModel.IdModelBike, Bike.NameBike, BikeModel.IdColor," +
+                                   "Color.NameColor, BikeModel.IdSize, Size.NameSize, BikeModel.Price, BikeModel.SlotDuration FROM OrderModel " +
+                                   "INNER JOIN BikeModel ON OrderModel.IdModelBike = BikeModel.IdModel " +
+                                   "INNER JOIN Color ON Color.IdColor = BikeModel.IdColor " +
+                                   "INNER JOIN Size ON Size.IdSize = BikeModel.IdSize " +
+                                   "INNER JOIN Bike ON Bike.IdBike = BikeModel.IdBike;";
+            MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
 
@@ -87,33 +97,60 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetNextIdOrder() {
+            string commandToSend = "SELECT max(IdOrder) + 1 FROM OrderInfo";
+            MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
+
+        public MySqlDataReader GetNextIdOrderModel() {
             string commandToSend = "SELECT AUTO_INCREMENT FROM information_schema.Tables " +
                                    "WHERE TABLE_SCHEMA = \"GigaBike\" " +
-                                   "AND TABLE_NAME = \"OrderInfo\";";
+                                   "AND TABLE_NAME = \"OrderModel\";";
+            MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
+
+        public MySqlDataReader AddOrderModel(int IdOrder, int IdModelBike) {
+            string commandToSend = string.Format("INSERT INTO OrderModel (IdOrder, IdModelBike) VALUES ({0},{1});" +
+                                                 "SELECT @@IDENTITY;", IdOrder, IdModelBike);
+            MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
+
+        public MySqlDataReader AddSeveralOrderModel(Order currentOrder) {
+            string commandToSend = "INSERT INTO OrderModel(IdOrder, IdModelBike) VALUES";
+            List<string> values = new List<string>();
+
+            foreach (BikeOrder currentBikeOrder in currentOrder.Bikes)
+                values.Add(string.Format("({0},{1})", currentOrder.IdOrder, currentBikeOrder.Bike.IdBike));
+
+            commandToSend += string.Join(",", values) + ";SELECT @@IDENTITY;";
+
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
 
         public MySqlDataReader SetCustomer(Customer customer) {
-            string commandToSend = string.Format("INSERT INTO Customer (TVA, NameCustomer, AddressCustomer, PhoneCustomer) VALUES (\"{0}\", \"{1}\", \"{2}\", \"{3}\");",
+            string commandToSend = string.Format("INSERT INTO Customer (TVA, NameCustomer, AddressCustomer, PhoneCustomer) VALUES (\"{0}\", \"{1}\", \"{2}\",\"{3}\");",
                                                  customer.TVA, customer.Name, customer.Address, customer.Phone);
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
 
         public MySqlDataReader SaveCommand(Order order) {
-            string commandToSend = string.Format("INSERT INTO OrderInfo (TVACustomer, Price) VALUES (\"{0}\",\"{1}\");" +
-                                                 "SELECT @@IDENTITY;", order.Customer.TVA, order.Price);
+            string commandToSend = string.Format("INSERT INTO OrderInfo (TVACustomer, Price, DeliveryDate) VALUES (\"{0}\",\"{1}\",\"{2}\");" +
+                                                 "SELECT @@IDENTITY;", order.Customer.TVA, order.Price, order.DeliveryDate.ToString("yyyy-MM-dd"));
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
 
-        public MySqlDataReader SaveCommandModels(int idOrder, BikeOrder currentBikeOrder) {
-            string commandToSend = string.Format("INSERT INTO OrderModel (IdOrder, IdModelBike, Quantity, Price) VALUES (\"{0}\",\"{1}\",\"{2}\",\"{3}\");" +
-                                                 "SELECT @@IDENTITY;", idOrder, currentBikeOrder.Bike.IdBike, currentBikeOrder.Quantity, currentBikeOrder.Price);
+        public MySqlDataReader SaveCommandModels(int idOrder, Bike currentBike) {
+            string commandToSend = string.Format("INSERT INTO OrderModel (IdOrder, IdModelBike) VALUES (\"{0}\",\"{1}\");" +
+                                                 "SELECT @@IDENTITY;", idOrder, currentBike.IdBike);
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
+
         public MySqlDataReader GetPlanning()
         {
             /*IdPlanning =  reader.GetString(0)
@@ -124,10 +161,14 @@ namespace GigaBike {
               IdOrder  =  reader.GetString(5)
               IdModelBike  =  reader.GetString(6)
             */
-            MySqlCommand command = SendCommand("SELECT Planning.*, OrderModel.IdOrder, OrderModel.IdModelBike FROM Planning " +
-                                                "INNER JOIN OrderModel ON OrderModel.IdOrderModel = Planning.OrderModel");
+            MySqlCommand command = SendCommand("SELECT Planning.*, OrderModel.IdOrder, OrderModel.IdModelBike, Color.IdColor, Color.NameColor, Size.IdSize, Size.NameSize FROM Planning " +
+                                                "INNER JOIN OrderModel ON OrderModel.IdOrderModel = Planning.OrderModel " +
+                                                "INNER JOIN BikeModel ON BikeModel.IdModel = IdModelBike " +
+                                                "INNER JOIN Color ON Color.IdColor = BikeModel.IdColor " +
+                                                "INNER JOIN Size ON Size.IdSize = BikeModel.IdSize");
             return command.ExecuteReader();
         }
+
         public MySqlDataReader GetPartModel()
         {
             /*IdPartModel  =  reader.GetString(0)
@@ -142,16 +183,36 @@ namespace GigaBike {
             MySqlCommand command = SendCommand("SELECT * FROM PartModel INNER JOIN Part ON Part.IdPart = PartModel.IdPartModel");
             return command.ExecuteReader();
         }
+
         public MySqlDataReader SetPlanningState(int IdPlanning, bool State)
         {
             // State accept only true or false
             MySqlCommand command = SendCommand("UPDATE Planning SET IsReady = " + State + " where IdPlanning = "+IdPlanning);
             return command.ExecuteReader();
         }
+
         public MySqlDataReader AddPartModelToStock(int IdModel, int QuantityToAdd)
         {
             //add a quantity to Part.NumberParts
             MySqlCommand command = SendCommand("UPDATE Part set NumberParts = NumberParts +" +QuantityToAdd+ " WHERE IdPart="+ IdModel);
+            return command.ExecuteReader();
+        }
+
+        public MySqlDataReader AddSlotToPlanning(Slot slot, int IdOrderModel) {
+            string commandToSend = string.Format(string.Format("INSERT INTO Planning (PlanningDate, Slot, OrderModel) VALUES(\"{0}\",{1},{2});",
+                                                               slot.Date.ToString("yyyy-MM-dd"), slot.SlotNumber, IdOrderModel));
+            MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
+
+        public MySqlDataReader AddSeveralSlotToPlanning(List<Slot> slotsToAdd) {
+            string commandToSend = "INSERT INTO Planning (PlanningDate, Slot, OrderModel) VALUES";
+            List<string> values = new List<string>();
+
+            foreach (Slot slot in slotsToAdd) values.Add(string.Format("(\"{0}\",{1},{2})", slot.Date.ToString("yyyy-MM-dd"), slot.SlotNumber, slot.IdOrderModel));
+
+            commandToSend += string.Join(",", values);
+            MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
     }
