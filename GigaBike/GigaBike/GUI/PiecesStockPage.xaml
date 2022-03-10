@@ -69,7 +69,7 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="ButtonOrderPiece_" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonOrderPiece" FontSize="36" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="56" Width="560" Content="Order Pieces" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Margin="156,316,0,0" />
             <Button x:Name="ButtonGoBackToStock_" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonGoBackToStock" FontSize="36" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="56" Width="560" Margin="156,395,0,0" Content="Go back" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" />
-            <DataGrid x:Name="TableRecap" Grid.ColumnSpan="2" Height="192" Margin="0,86,0,0" VerticalAlignment="Top" SelectionChanged="TableRecapCommand" HorizontalAlignment="Right" Width="871"/>
+            <DataGrid x:Name="TableRecap" ColumnWidth="*" Grid.ColumnSpan="2" Height="188" Margin="15,88,5,0" VerticalAlignment="Top" SelectionChanged="TableRecapCommand" MaxColumnWidth="150" CanUserSortColumns="False" MinColumnWidth="30"/>
             <Label x:Name="PiecesStockLabel" Content="Pieces Stock" Grid.ColumnSpan="2" Height="85" Margin="0,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="871" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontSize="54"/>
         </Grid>
     </Viewbox>

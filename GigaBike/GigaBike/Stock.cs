@@ -44,9 +44,9 @@ namespace GigaBike
             }
             reader.Close();
         }
-        public bool IsThereEnoughPartsInStock() //ajouter les éléments à comparer
+        public bool IsThereEnoughPartsInStock(int NumberPart, int NumberPartCommand) //NumberPartCommand n'existe pas se sera le nombre de pièces besoin pour la commande
         {
-            return true;// ajouter comparateur
+            return NumberPart >= NumberPartCommand;// check if there are enougth part for the command
         }
     }
 }

@@ -23,12 +23,11 @@ namespace GigaBike
             this.Threshold = Threshold;
             this.Location = Location;
             //this.Price = Price; //A ajouter?
-            // //??
         }
 
-        public Boolean ArePartingStockSufficient() // ajouter les éléments à vérif
+        public bool ArePartingStockSufficient(int NumberPart, int Threshold) 
         {
-            return true; //à ajouter la vérif
+            return NumberPart <= Threshold; //à ajouter la vérif
         }
 
     }
