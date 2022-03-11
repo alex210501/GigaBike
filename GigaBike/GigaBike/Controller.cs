@@ -12,6 +12,7 @@ namespace GigaBike {
         public Order Order { get; }
         public DataBase DataBase { get; }
         public Planning Planning { get; }
+        public Stock Stock { get; }
 
         public Controller() {
             this.DataBase = new DataBase();
@@ -19,6 +20,7 @@ namespace GigaBike {
             this.Catalog = new Catalog(this.DataBase);
             this.Order = new Order(this.DataBase);
             this.Planning = new Planning();
+            this.Stock = new Stock(this.DataBase);
         }
 
         public void Init() {

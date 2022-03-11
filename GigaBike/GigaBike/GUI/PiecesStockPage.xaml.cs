@@ -26,8 +26,29 @@ namespace GigaBike
             InitializeComponent();
         }
 
-        private void DataGridPiecesStock(object sender, SelectionChangedEventArgs e) {
+        private void TableRecapCommand(object sender, SelectionChangedEventArgs e) {
 
+        }
+
+        public void SetStockList(Stock CurrentPiece)//à faire
+        {
+            List<StockListGrid> stockRecap = new List<StockListGrid>();
+
+            foreach (Part currentPiece in CurrentPiece.Parts)
+            {
+                StockListGrid currentStockRecapGrid = new StockListGrid();
+
+                currentStockRecapGrid.IdPart = currentPiece.IdPart;
+                currentStockRecapGrid.NamePart = currentPiece.NamePart;
+                currentStockRecapGrid.NumberPart = currentPiece.NumberPart;
+                currentStockRecapGrid.Threshold = currentPiece.Threshold;
+                currentStockRecapGrid.Location = currentPiece.Location;
+
+                stockRecap.Add(currentStockRecapGrid);
+            }
+
+
+            TableRecap.ItemsSource = stockRecap;
         }
 
         private void ButtonOrderPiece(object sender, RoutedEventArgs e) {
@@ -49,5 +70,17 @@ namespace GigaBike
                 goToOrderPiecesCallback = value;
             }
         }
+        public class StockListGrid
+        {
+            public int IdPart { get; set; }
+            public string NamePart { get; set; }
+            public int NumberPart { get; set; }
+            public int Threshold { get; set; }
+            public int Location { get; set; }
+
+        }
+        
+
+
     }
 }

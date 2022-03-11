@@ -113,6 +113,7 @@ namespace GigaBike {
 
             // Create PiecesStockPage instance
             Current.MainWindow.Content = piecesStockPage;
+            piecesStockPage.SetStockList(controller.Stock); //à retirer après imlémentation
 
             // Define callback
             piecesStockPage.GoBackToStockCallback = GoToStockPage;
@@ -164,7 +165,7 @@ namespace GigaBike {
             // Define callback
             stockPage.GoBackToRessourcesCallback = GoToRessoucesPage;
             stockPage.GoToBikeStockCallback = GoToBikeStockPage;
-            stockPage.GoToPiecesStockCallback = GoToPiecesStockPage;
+            stockPage.GoToPiecesStockCallback = GoToStockPageCallback;
         }
 
         public void GoToAddBikeToStockPage() {
@@ -286,6 +287,12 @@ namespace GigaBike {
             controller.Order.Validate();
             controller.Order.Clear();
             GoToCatalogWindow();
+        }
+
+        void GoToStockPageCallback()
+        {
+            controller.Stock.GetStockFromDataBase();
+            GoToPiecesStockPage();
         }
     }
 }
