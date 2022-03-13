@@ -64,6 +64,7 @@ namespace GigaBike
                     currentPlanningRow.Size = currentBikeOrder.Bike.Size.Name;
                     currentPlanningRow.Color = currentBikeOrder.Bike.Color.Name;
                     currentPlanningRow.DeliveryDate = currentSlot.Date;
+                    currentPlanningRow.Slot = currentSlot.SlotNumber;
                     currentPlanningRow.IsReady = new List<bool>();
                     currentPlanningRow.SelectedReadyState = currentSlot.IsReady;
                     currentPlanningRow.IsReady.Add(true);
@@ -74,7 +75,7 @@ namespace GigaBike
                 }
             }
 
-            DataGridPlanning.ItemsSource = planningRows.OrderBy(row => row.DeliveryDate).ToList();
+            DataGridPlanning.ItemsSource = planningRows.OrderBy(row => row.DeliveryDate).ThenBy(row => row.Slot).ToList();
         }
 
         private void DataGridOrderList(object sender, SelectionChangedEventArgs e) {
@@ -116,6 +117,7 @@ namespace GigaBike
         public string Size { get; set; }
         public string Color { get; set; }
         public DateTime DeliveryDate { get; set; }
+        public int Slot { get; set; }
         public List<bool> IsReady { get; set; }
         public bool SelectedReadyState { get; set; }
     }

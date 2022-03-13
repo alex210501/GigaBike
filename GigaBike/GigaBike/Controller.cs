@@ -78,6 +78,8 @@ namespace GigaBike {
         private void GetOrdersFromDatabase() {
             MySqlDataReader reader = DataBase.GetOrders();
 
+            ordersRegistered.Clear();
+
             while (reader.Read()) {
                 int idOrder = reader.GetInt32(0);
                 DateTime deliveryDate = reader.GetDateTime(1);

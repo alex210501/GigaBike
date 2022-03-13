@@ -78,6 +78,7 @@
                     <DataGridTextColumn Header="Size" Binding="{Binding Size}"/>
                     <DataGridTextColumn Header="Color" Binding="{Binding Color}"/>
                     <DataGridTextColumn Header="Delivery date" Binding="{Binding DeliveryDate, StringFormat='dd/MM/yyyy'}" SortMemberPath="DeliveryDate.Date" SortDirection="Ascending"/>
+                    <DataGridTextColumn Header="Slot" Binding="{Binding Slot}"/>
                     <DataGridComboBoxColumn Header="Is Ready" x:Name="IsOrderReady" SelectedValueBinding="{Binding SelectedReadyState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <DataGridComboBoxColumn.EditingElementStyle>
                             <Style TargetType="{x:Type ComboBox}">
