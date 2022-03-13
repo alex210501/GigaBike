@@ -77,7 +77,18 @@
                     <DataGridTextColumn Header="Bike" Binding="{Binding Bike}"/>
                     <DataGridTextColumn Header="Size" Binding="{Binding Size}"/>
                     <DataGridTextColumn Header="Color" Binding="{Binding Color}"/>
-                    <DataGridTextColumn Header="Delivery date" Binding="{Binding DeliveryDate, StringFormat='dd/MM/yyyy'}" SortMemberPath="DeliveryDate.Date" SortDirection="Ascending"/>
+                    <DataGridTemplateColumn Header="Delivery date">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DeliveryDate, StringFormat='dd/MM/yyyy'}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <DatePicker SelectedDate="{Binding DeliveryDate}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Slot" Binding="{Binding Slot}"/>
                     <DataGridComboBoxColumn Header="Is Ready" x:Name="IsOrderReady" SelectedValueBinding="{Binding SelectedReadyState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <DataGridComboBoxColumn.EditingElementStyle>
