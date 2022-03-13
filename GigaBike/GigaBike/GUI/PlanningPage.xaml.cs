@@ -24,10 +24,12 @@ namespace GigaBike
         private List<Order> ordersToShow;
         private Action goBackToOrderListCallback = null;
         private Action savePlanningCallback = null;
+        private List<Slot> slotAvailable;
 
-        public PlanningPage(List<Order> ordersToShow) {
+        public PlanningPage(List<Order> ordersToShow, List<Slot> slotAvailable) {
             InitializeComponent();
             this.ordersToShow = ordersToShow;
+            this.slotAvailable = slotAvailable;
             ShowPlanning();
 
         }
@@ -64,7 +66,8 @@ namespace GigaBike
                     currentPlanningRow.Size = currentBikeOrder.Bike.Size.Name;
                     currentPlanningRow.Color = currentBikeOrder.Bike.Color.Name;
                     currentPlanningRow.DeliveryDate = currentSlot.Date;
-                    currentPlanningRow.Slot = currentSlot.SlotNumber;
+                    currentPlanningRow.SelectedSlot = currentSlot.SlotNumber;
+                    currentPlanningRow.SlotAvailable = GetFreeSlotNumbersByDate(currentPlanningRow.DeliveryDate);
                     currentPlanningRow.IsReady = new List<bool>();
                     currentPlanningRow.SelectedReadyState = currentSlot.IsReady;
                     currentPlanningRow.IsReady.Add(true);
@@ -75,7 +78,7 @@ namespace GigaBike
                 }
             }
 
-            DataGridPlanning.ItemsSource = planningRows.OrderBy(row => row.DeliveryDate).ThenBy(row => row.Slot).ToList();
+            DataGridPlanning.ItemsSource = planningRows.OrderBy(row => row.DeliveryDate).ThenBy(row => row.SelectedSlot).ToList();
         }
 
         private void DataGridOrderList(object sender, SelectionChangedEventArgs e) {
@@ -108,6 +111,10 @@ namespace GigaBike
             BikeOrder selectedBikeOrder = selectedOrder.Bikes.Find(o => o.IdOrderModel == idOrderModel);
             selectedBikeOrder.SetReadyState(isSlotReady);
         }
+
+        private List<int> GetFreeSlotNumbersByDate(DateTime date) {
+            return slotAvailable.FindAll(slot => slot.Date == date).Select(slot => slot.SlotNumber).ToList();
+        }
     }
 
     public class PlanningRow {
@@ -117,7 +124,8 @@ namespace GigaBike
         public string Size { get; set; }
         public string Color { get; set; }
         public DateTime DeliveryDate { get; set; }
-        public int Slot { get; set; }
+        public List<int> SlotAvailable { get; set; }
+        public int SelectedSlot { get; set; }
         public List<bool> IsReady { get; set; }
         public bool SelectedReadyState { get; set; }
     }

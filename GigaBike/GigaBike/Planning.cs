@@ -85,6 +85,14 @@ namespace GigaBike {
             return slots;
         }
 
+        public List<Slot> GetAllFreeSlot() {
+            List<Slot> freeSlots = new List<Slot>();
+
+            foreach (Week week in weeks) freeSlots.AddRange(week.GetAllFreeSlot());
+
+            return freeSlots;
+        }
+
         public void BindBikeOrderToExistingSlot(BikeOrder bikeOrder) {
             List<Slot> slotOfBikeOrder = GetSlotByIdOrderModel(bikeOrder.IdOrderModel);
 

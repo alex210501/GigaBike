@@ -34,6 +34,9 @@ namespace GigaBike {
         }
 
         public List<Slot> GetFreeSlots(int duration) {
+            if (duration == 0)
+                return slots.FindAll(slot => slot.StateSlot == StateSlot.FREE);
+
             List<Slot> freeSlots = new List<Slot>();
 
             for (int i = 0; i < (slots.Count) && (freeSlots.Count < duration); i++) {

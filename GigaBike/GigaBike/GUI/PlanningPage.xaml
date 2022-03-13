@@ -89,7 +89,13 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Slot" Binding="{Binding Slot}"/>
+                    <DataGridTemplateColumn Header="Slot">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox IsEditable="True" ItemsSource="{Binding Path=SlotAvailable}"  SelectedValue="{Binding SelectedSlot, Mode=TwoWay}" SelectedItem="{Binding SelectedSlot}" Text="{Binding Path=SelectedSlot}" Validation.ErrorTemplate="{x:Null}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridComboBoxColumn Header="Is Ready" x:Name="IsOrderReady" SelectedValueBinding="{Binding SelectedReadyState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <DataGridComboBoxColumn.EditingElementStyle>
                             <Style TargetType="{x:Type ComboBox}">

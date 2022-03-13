@@ -118,7 +118,7 @@ namespace GigaBike {
         }
 
         public void GoToPlanningPage() {
-            PlanningPage planningPage = new PlanningPage(controller.OrdersRegistered);
+            PlanningPage planningPage = new PlanningPage(controller.OrdersRegistered, controller.Planning.GetAllFreeSlot());
 
             // Create PlanningPage instance
             Current.MainWindow.Content = planningPage;
