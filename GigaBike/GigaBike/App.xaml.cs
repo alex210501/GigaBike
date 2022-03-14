@@ -126,7 +126,9 @@ namespace GigaBike {
             // Define callback
             planningPage.GoBackToOrderListCallback = GoToOrderListPage;
             planningPage.SavePlanningCallback = SavePlanningCallback;
-            planningPage.SaveDateCallback = SaveDatePlanningCallback;
+            planningPage.SaveDateCallback = SetSlotForBikeInPlanningPage;
+            planningPage.SetSlotForEveryBikeCallback = SetSlotForEveryPlanningDate;
+            planningPage.ShowPlanning();
         }
 
         public void GoToOrderListPage() {
@@ -306,15 +308,31 @@ namespace GigaBike {
             GoToPlanningPage();
         }
 
-        void SaveDatePlanningCallback(DateTime dateSelected) {
+        void SetSlotForEveryPlanningDate() {
             if (Current.MainWindow.Content is not PlanningPage) {
                 MessageBox.Show("Callback only use by the PlanningPage");
                 return;
             }
 
             PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
+
+            foreach (PlanningRow currentPlanningRow in planningPage.PlanningRows) {
+                DateTime deliveryDate = currentPlanningRow.DeliveryDate;
+                List<Slot> freeSlotFromDate = controller.Planning.GetFreeSlotFromDate(deliveryDate);
+                currentPlanningRow.SlotAvailable = freeSlotFromDate.Select(s => s.SlotNumber).ToList();
+            }
+        }
+
+        void SetSlotForBikeInPlanningPage(DateTime dateSelected) {
+            if (Current.MainWindow.Content is not PlanningPage) {
+                MessageBox.Show("Callback only use by the PlanningPage");
+                return;
+            }
+
+            PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
+            PlanningRow selectedPlanningRow = planningPage.DataGridPlanning.SelectedItem as PlanningRow;
             List<Slot> freeSlotFromDate = controller.Planning.GetFreeSlotFromDate(dateSelected);
-            planningPage.AddAvailableSlots(freeSlotFromDate);
+            selectedPlanningRow.SlotAvailable = freeSlotFromDate.Select(s => s.SlotNumber).ToList();
         }
     }
 }

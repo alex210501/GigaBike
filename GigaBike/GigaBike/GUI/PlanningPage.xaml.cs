@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,25 +23,16 @@ namespace GigaBike
     /// </summary>
     public partial class PlanningPage : Page {
         private List<Order> ordersToShow;
+        private ObservableCollection<PlanningRow> planningRows;
         private Action goBackToOrderListCallback = null;
         private Action savePlanningCallback = null;
+        private Action setSlotForEveryBikeCallback = null;
         private Action<DateTime> saveDateCallback = null;
-
-        private List<Slot> slotAvailable;
 
         public PlanningPage(List<Order> ordersToShow, List<Slot> slotAvailable) {
             InitializeComponent();
             this.ordersToShow = ordersToShow;
-            this.slotAvailable = slotAvailable;
-            ShowPlanning();
-
-        }
-
-        public void AddAvailableSlots(List<Slot> slotsList) {
-            foreach (Slot slot in slotsList) {
-                if (slotAvailable.Any(s => s.Date == slot.Date && s.SlotNumber == slot.SlotNumber) == false)
-                    slotAvailable.Add(new Slot(slot));
-            }
+            this.planningRows = new ObservableCollection<PlanningRow>();
         }
 
         public Action GoBackToOrderListCallback {
@@ -61,14 +53,26 @@ namespace GigaBike
             }
         }
 
+        public Action SetSlotForEveryBikeCallback {
+            set {
+                setSlotForEveryBikeCallback = value;
+            }
+        }
+
         public List<Order> OrderToShow {
             get {
                 return new List<Order>(ordersToShow);
             }
         }
 
-        private void ShowPlanning() {
-            List<PlanningRow> planningRows = new List<PlanningRow>();
+        public ObservableCollection<PlanningRow> PlanningRows {
+            get {
+                return planningRows;
+            }
+        }
+
+        public void ShowPlanning() {
+            planningRows = new ObservableCollection<PlanningRow>();
 
             foreach (Order currentOrder in ordersToShow) {
                 foreach (BikeOrder currentBikeOrder in currentOrder.Bikes) {
@@ -80,7 +84,7 @@ namespace GigaBike
                     currentPlanningRow.Bike = currentBikeOrder.Bike;
                     currentPlanningRow.DeliveryDate = currentSlot.Date;
                     currentPlanningRow.SelectedSlot = currentSlot.SlotNumber;
-                    currentPlanningRow.SlotAvailable = GetFreeSlotNumbersByDate(currentPlanningRow.DeliveryDate);
+                    currentPlanningRow.SlotAvailable = new List<int>();
                     currentPlanningRow.IsReady = new List<bool>();
                     currentPlanningRow.SelectedReadyState = currentSlot.IsReady;
                     currentPlanningRow.IsReady.Add(true);
@@ -90,6 +94,8 @@ namespace GigaBike
                     IsOrderReady.ItemsSource = currentPlanningRow.IsReady;
                 }
             }
+
+            if (setSlotForEveryBikeCallback is not null) setSlotForEveryBikeCallback();
 
             DataGridPlanning.ItemsSource = planningRows.OrderBy(row => row.DeliveryDate).ThenBy(row => row.SelectedSlot).ToList();
         }
@@ -127,17 +133,20 @@ namespace GigaBike
 
         private void SelectedDateChanged(object sender, RoutedEventArgs e) {
             DatePicker dpick = sender as DatePicker;
-            DateTime selectedDate = dpick.SelectedDate.Value.Date;
+            DateTime selectedDate = dpick.SelectedDate.Value.Date; 
             PlanningRow selectedPlanningRow = DataGridPlanning.SelectedItem as PlanningRow;
 
-            if (saveDateCallback is not null) saveDateCallback(selectedDate);
-
-            selectedPlanningRow.DeliveryDate = selectedDate;
-            selectedPlanningRow.SlotAvailable = GetFreeSlotNumbersByDate(selectedDate);
+            if (selectedPlanningRow.DeliveryDate != selectedDate) {
+                selectedPlanningRow.DeliveryDate = selectedDate;
+                if (saveDateCallback is not null) saveDateCallback(selectedDate);
+                DataGridPlanning.ItemsSource = new List<int>();
+                DataGridPlanning.ItemsSource = planningRows;
+                DataGridPlanning.IsReadOnly = false;
+            }
         }
 
-        private List<int> GetFreeSlotNumbersByDate(DateTime date) {
-            return slotAvailable.FindAll(slot => slot.Date == date).Select(slot => slot.SlotNumber).ToList();
+        private void DataGridPlanning_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+
         }
     }
 
