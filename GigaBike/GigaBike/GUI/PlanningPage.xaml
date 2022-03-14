@@ -74,9 +74,9 @@
             <DataGrid x:Name="DataGridPlanning" ColumnWidth="*" Grid.ColumnSpan="2" Height="188" Margin="35,88,34,0" VerticalAlignment="Top" MaxColumnWidth="150" CanUserSortColumns="False" MinColumnWidth="30" AutoGenerateColumns="False" IsReadOnly="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Order number" Binding="{Binding IdOrder}"/>
-                    <DataGridTextColumn Header="Bike" Binding="{Binding Bike}"/>
-                    <DataGridTextColumn Header="Size" Binding="{Binding Size}"/>
-                    <DataGridTextColumn Header="Color" Binding="{Binding Color}"/>
+                    <DataGridTextColumn Header="Bike" Binding="{Binding Bike.Name}"/>
+                    <DataGridTextColumn Header="Size" Binding="{Binding Bike.Size.Name}"/>
+                    <DataGridTextColumn Header="Color" Binding="{Binding Bike.Color.Name}"/>
                     <DataGridTemplateColumn Header="Delivery date">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -85,7 +85,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <DatePicker SelectedDate="{Binding DeliveryDate}"/>
+                                <DatePicker SelectedDate="{Binding DeliveryDate}" SelectedDateChanged="SelectedDateChanged"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>

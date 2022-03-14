@@ -24,6 +24,8 @@ namespace GigaBike
         private List<Order> ordersToShow;
         private Action goBackToOrderListCallback = null;
         private Action savePlanningCallback = null;
+        private Action<DateTime> saveDateCallback = null;
+
         private List<Slot> slotAvailable;
 
         public PlanningPage(List<Order> ordersToShow, List<Slot> slotAvailable) {
@@ -32,6 +34,13 @@ namespace GigaBike
             this.slotAvailable = slotAvailable;
             ShowPlanning();
 
+        }
+
+        public void AddAvailableSlots(List<Slot> slotsList) {
+            foreach (Slot slot in slotsList) {
+                if (slotAvailable.Any(s => s.Date == slot.Date && s.SlotNumber == slot.SlotNumber) == false)
+                    slotAvailable.Add(new Slot(slot));
+            }
         }
 
         public Action GoBackToOrderListCallback {
@@ -43,6 +52,12 @@ namespace GigaBike
         public Action SavePlanningCallback {
             set {
                 savePlanningCallback = value;
+            }
+        }
+
+        public Action<DateTime> SaveDateCallback {
+            set {
+                saveDateCallback = value;
             }
         }
 
@@ -62,9 +77,7 @@ namespace GigaBike
 
                     currentPlanningRow.IdOrder = currentOrder.IdOrder;
                     currentPlanningRow.IdOrderModel = currentBikeOrder.IdOrderModel;
-                    currentPlanningRow.Bike = currentBikeOrder.Bike.Name;
-                    currentPlanningRow.Size = currentBikeOrder.Bike.Size.Name;
-                    currentPlanningRow.Color = currentBikeOrder.Bike.Color.Name;
+                    currentPlanningRow.Bike = currentBikeOrder.Bike;
                     currentPlanningRow.DeliveryDate = currentSlot.Date;
                     currentPlanningRow.SelectedSlot = currentSlot.SlotNumber;
                     currentPlanningRow.SlotAvailable = GetFreeSlotNumbersByDate(currentPlanningRow.DeliveryDate);
@@ -112,6 +125,13 @@ namespace GigaBike
             selectedBikeOrder.SetReadyState(isSlotReady);
         }
 
+        private void SelectedDateChanged(object sender, RoutedEventArgs e) {
+            DatePicker dpick = sender as DatePicker;
+            DateTime selectedDate = dpick.SelectedDate.Value.Date;
+
+            if (saveDateCallback is not null) saveDateCallback(selectedDate);
+        }
+
         private List<int> GetFreeSlotNumbersByDate(DateTime date) {
             return slotAvailable.FindAll(slot => slot.Date == date).Select(slot => slot.SlotNumber).ToList();
         }
@@ -120,9 +140,7 @@ namespace GigaBike
     public class PlanningRow {
         public int IdOrder { get; set; }
         public int IdOrderModel { get; set; }
-        public string Bike { get; set; }
-        public string Size { get; set; }
-        public string Color { get; set; }
+        public Bike Bike { get; set; }
         public DateTime DeliveryDate { get; set; }
         public List<int> SlotAvailable { get; set; }
         public int SelectedSlot { get; set; }

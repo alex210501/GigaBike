@@ -93,6 +93,16 @@ namespace GigaBike {
             return freeSlots;
         }
 
+        public List<Slot> GetFreeSlotFromDate(DateTime currentDate) {
+            List<Slot> freeSlotFromDate = new List<Slot>();
+            int weekNumber = DateCalculator.GetWeekOfYear(currentDate);
+
+            Week currentWeek = GetWeek(weekNumber, currentDate.Year);
+            WeekDay day = currentWeek.Days.Find(day => day.Date == currentDate);
+
+            return day.GetFreeSlots(0);
+        }
+
         public void BindBikeOrderToExistingSlot(BikeOrder bikeOrder) {
             List<Slot> slotOfBikeOrder = GetSlotByIdOrderModel(bikeOrder.IdOrderModel);
 

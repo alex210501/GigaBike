@@ -126,6 +126,7 @@ namespace GigaBike {
             // Define callback
             planningPage.GoBackToOrderListCallback = GoToOrderListPage;
             planningPage.SavePlanningCallback = SavePlanningCallback;
+            planningPage.SaveDateCallback = SaveDatePlanningCallback;
         }
 
         public void GoToOrderListPage() {
@@ -303,6 +304,17 @@ namespace GigaBike {
             Trace.WriteLine(timespan.TotalMilliseconds);
 
             GoToPlanningPage();
+        }
+
+        void SaveDatePlanningCallback(DateTime dateSelected) {
+            if (Current.MainWindow.Content is not PlanningPage) {
+                MessageBox.Show("Callback only use by the PlanningPage");
+                return;
+            }
+
+            PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
+            List<Slot> freeSlotFromDate = controller.Planning.GetFreeSlotFromDate(dateSelected);
+            planningPage.AddAvailableSlots(freeSlotFromDate);
         }
     }
 }
