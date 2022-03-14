@@ -128,8 +128,12 @@ namespace GigaBike
         private void SelectedDateChanged(object sender, RoutedEventArgs e) {
             DatePicker dpick = sender as DatePicker;
             DateTime selectedDate = dpick.SelectedDate.Value.Date;
+            PlanningRow selectedPlanningRow = DataGridPlanning.SelectedItem as PlanningRow;
 
             if (saveDateCallback is not null) saveDateCallback(selectedDate);
+
+            selectedPlanningRow.DeliveryDate = selectedDate;
+            selectedPlanningRow.SlotAvailable = GetFreeSlotNumbersByDate(selectedDate);
         }
 
         private List<int> GetFreeSlotNumbersByDate(DateTime date) {
