@@ -77,24 +77,23 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetStock() {
-            //PartModel,Part
             /*idpartModel = reader.GetInt(0)
              *IdPart = reader.GetInt(1)
-             * NamePart =  reader.GetString(2)
-             * threshold = reader.GetInt(3)
-             * IdModel = reader.GetInt(4)
-             * IdPartColor = reader.GetInt(5)
-             * Colorname =  reader.GetString(6)
+             *IdModel = reader.GetInt(2)
+             *NumbrForBike = reader.GetInt(3)
+             * NamePart =  reader.GetString(5)
+             * IdPartColor = reader.GetInt(6)
              * IdPartSize = reader.GetInt(7)
-             * Sizename =  reader.GetString(8)
-             * NumbrForBike = reader.GetInt(9)
-             * NumberPartInStock = reader.GetInt(10)
-             * Location = reader.GetInt(11)
+             * NumberPartInStock = reader.GetInt(8)
+             * threshold = reader.GetInt(9)
+             * Location = reader.GetInt(10)
+             * Colorname =  reader.GetString(11)
+             * Sizename =  reader.GetString(12)
             */
-            MySqlCommand command = SendCommand("SELECT PartModel.IdPartModel,PartModel.IdPart,Part.NamePart,Part.Threshold,PartModel.IdModel,Color.IdColor,Color.NameColor,Size.IdSize,Size.NameSize,PartModel.NumberForBike,PartModel.NumberPartInStock,PartModel.Location FROM PartModel " +
-                                                "INNER JOIN Color ON Color.IdColor = PartModel.IdPartColor " +
-                                                "INNER JOIN Size ON Size.IdSize = PartModel.IdPartSize " +
-                                                "INNER JOIN Part ON Part.IdPart = PartModel.IdPart" );
+            MySqlCommand command = SendCommand("SELECT PartModel.*, Part.*, Color.NameColor, Size.NameSize From PartModel " +
+                                                "Inner Join Part ON Part.IdPart = PartModel.IdPart " +
+                                                "Inner Join Color ON Color.IdColor = Part.IdPartColor " +
+                                                "Inner Join Size ON Size.IdSize = Part.IdPartSize" );
             return command.ExecuteReader();
         }
 
@@ -146,12 +145,12 @@ namespace GigaBike {
               IdPart  =  reader.GetInt(1)
               IdModel  =  reader.GetInt(2)
               NumberForBike  =  reader.GetInt(3)
-              IdPartColor  =  reader.GetInt(4)
-              IdPartSize  =  reader.GetInt(5)
-              NumberPartsInStock  =  reader.GetInt(6)
-              location  =  reader.GetInt(7)
-              NamePart  =  reader.GetString(8)
-              Threshold  =  reader.GetInt(9)
+              NamePart  =  reader.GetString(4)
+              IdPartColor  =  reader.GetInt(5)
+              IdPartSize  =  reader.GetInt(6)
+              NumberPartsInStock  =  reader.GetInt(7)
+              Threshold  =  reader.GetInt(8)
+              location  =  reader.GetInt(9)
             */
             MySqlCommand command = SendCommand("SELECT * FROM PartModel INNER JOIN Part ON Part.IdPart = PartModel.IdPart");
             return command.ExecuteReader();
@@ -162,11 +161,11 @@ namespace GigaBike {
             MySqlCommand command = SendCommand("UPDATE Planning SET IsReady = " + State + " where IdPlanning = "+IdPlanning);
             return command.ExecuteReader();
         }
-        public MySqlDataReader AddPartModelToStock(int IdPartModel, int QuantityToAdd)
+        public MySqlDataReader AddPartModelToStock(int IdPart, int QuantityToAdd)
         {
             //add a quantity to Part.NumberPartInStock
-            //!!!!!!!!!!!!!!Warning the NumberPart is changed to NumberPartInStock and move this variable in the table "partModel"
-            MySqlCommand command = SendCommand("UPDATE PartModel set NumberPartInStock = NumberPartInStock+" + QuantityToAdd+ " WHERE IdPartModel=" + IdPartModel);
+            
+            MySqlCommand command = SendCommand("UPDATE Part set NumberPartInStock = NumberPartInStock+" + QuantityToAdd+ " WHERE IdPart=" + IdPart);
             return command.ExecuteReader();
         }
 
