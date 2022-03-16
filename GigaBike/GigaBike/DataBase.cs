@@ -41,11 +41,11 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetUniqueModel(int modelId) {
-            /*IdModel  =  reader.GetString(0)
-              IdBkie  =  reader.GetString(1)
+            /*IdModel  =  reader.GetInt(0)
+              IdBkie  =  reader.GetInt(1)
               IdColor  =  reader.GetString(2)
-              IdSize  =  reader.GetString(3)
-              Price  =  reader.GetString(4)
+              IdSize  =  reader.GetInt(3)
+              Price  =  reader.GetInt(4)
               PicturePath  =  reader.GetString(5)*/
             MySqlCommand command = SendCommand("SELECT * FROM BikeModel WHERE IdModel =" + modelId);
             return command.ExecuteReader();
@@ -60,7 +60,7 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetOrders() {
-            MySqlCommand command = SendCommand("SELECT OrderInfo.IdOrder, OrderModel.IdModelBike, OrderInfo.DeliveryDate,Customer.NameCustomer, Customer.Address, Customer.TVA, Customer.Phone FROM OrderInfo " +
+            MySqlCommand command = SendCommand("SELECT OrderInfo.IdOrder, OrderModel.IdModelBike, OrderInfo.DeliveryDate,Customer.NameCustomer, Customer.AddressCustomer, Customer.TVA, Customer.PhoneCustomer FROM OrderInfo " +
                                                "INNER JOIN Customer ON Customer.TVA = OrderInfo.TvaCustomer " +
                                                "INNER JOIN OrderModel ON OrderModel.IdOrder = OrderInfo.IdOrder");
             return command.ExecuteReader();
@@ -77,12 +77,23 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetStock() {
-            /*IdPart =  reader.GetString(0)
-              NamePart =  reader.GetString(1)
-              NumberPart  =  reader.GetString(2)
-              Threshold  =  reader.GetString(3)
+            /*idpartModel = reader.GetInt(0)
+             *IdPart = reader.GetInt(1)
+             *IdModel = reader.GetInt(2)
+             *NumbrForBike = reader.GetInt(3)
+             * NamePart =  reader.GetString(5)
+             * IdPartColor = reader.GetInt(6)
+             * IdPartSize = reader.GetInt(7)
+             * NumberPartInStock = reader.GetInt(8)
+             * threshold = reader.GetInt(9)
+             * Location = reader.GetInt(10)
+             * Colorname =  reader.GetString(11)
+             * Sizename =  reader.GetString(12)
             */
-            MySqlCommand command = SendCommand("SELECT * FROM Part");
+            MySqlCommand command = SendCommand("SELECT PartModel.*, Part.*, Color.NameColor, Size.NameSize From PartModel " +
+                                                "Inner Join Part ON Part.IdPart = PartModel.IdPart " +
+                                                "Inner Join Color ON Color.IdColor = Part.IdPartColor " +
+                                                "Inner Join Size ON Size.IdSize = Part.IdPartSize" );
             return command.ExecuteReader();
         }
 
@@ -116,13 +127,13 @@ namespace GigaBike {
         }
         public MySqlDataReader GetPlanning()
         {
-            /*IdPlanning =  reader.GetString(0)
+            /*IdPlanning =  reader.GetInt(0)
               PlanningDate =  reader.GetString(1)
-              Slot  =  reader.GetString(2)
-              OrderModel  =  reader.GetString(3)
+              Slot  =  reader.GetInt(2)
+              OrderModel  =  reader.GetInt(3)
               IsReady  =  reader.GetString(4)
-              IdOrder  =  reader.GetString(5)
-              IdModelBike  =  reader.GetString(6)
+              IdOrder  =  reader.GetInt(5)
+              IdModelBike  =  reader.GetInt(6)
             */
             MySqlCommand command = SendCommand("SELECT Planning.*, OrderModel.IdOrder, OrderModel.IdModelBike FROM Planning " +
                                                 "INNER JOIN OrderModel ON OrderModel.IdOrderModel = Planning.OrderModel");
@@ -130,16 +141,18 @@ namespace GigaBike {
         }
         public MySqlDataReader GetPartModel()
         {
-            /*IdPartModel  =  reader.GetString(0)
-              IdPart  =  reader.GetString(1)
-              IdModel  =  reader.GetString(2)
-              Number  =  reader.GetString(3)
-              NamePart  =  reader.GetString(5)
-              NumberParts  =  reader.GetString(6)
-              Threshold  =  reader.GetString(7)
-              location  =  reader.GetString(8)
+            /*IdPartModel  =  reader.GetInt(0)
+              IdPart  =  reader.GetInt(1)
+              IdModel  =  reader.GetInt(2)
+              NumberForBike  =  reader.GetInt(3)
+              NamePart  =  reader.GetString(4)
+              IdPartColor  =  reader.GetInt(5)
+              IdPartSize  =  reader.GetInt(6)
+              NumberPartsInStock  =  reader.GetInt(7)
+              Threshold  =  reader.GetInt(8)
+              location  =  reader.GetInt(9)
             */
-            MySqlCommand command = SendCommand("SELECT * FROM PartModel INNER JOIN Part ON Part.IdPart = PartModel.IdPartModel");
+            MySqlCommand command = SendCommand("SELECT * FROM PartModel INNER JOIN Part ON Part.IdPart = PartModel.IdPart");
             return command.ExecuteReader();
         }
         public MySqlDataReader SetPlanningState(int IdPlanning, bool State)
@@ -148,12 +161,14 @@ namespace GigaBike {
             MySqlCommand command = SendCommand("UPDATE Planning SET IsReady = " + State + " where IdPlanning = "+IdPlanning);
             return command.ExecuteReader();
         }
-        public MySqlDataReader AddPartModelToStock(int IdModel, int QuantityToAdd)
+        public MySqlDataReader AddPartModelToStock(int IdPart, int QuantityToAdd)
         {
-            //add a quantity to Part.NumberParts
-            MySqlCommand command = SendCommand("UPDATE Part set NumberParts = NumberParts +" +QuantityToAdd+ " WHERE IdPart="+ IdModel);
+            //add a quantity to Part.NumberPartInStock
+            
+            MySqlCommand command = SendCommand("UPDATE Part set NumberPartInStock = NumberPartInStock+" + QuantityToAdd+ " WHERE IdPart=" + IdPart);
             return command.ExecuteReader();
         }
+
     }
 }
 
