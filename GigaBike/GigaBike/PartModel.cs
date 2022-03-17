@@ -26,9 +26,9 @@ namespace GigaBike
             //this.Price = Price; //A ajouter?
         }
 
-        public bool ArePartingStockSufficient(int NumberPart, int Threshold)
+        public bool ArePartStockSufficient(int NumberPart, int NumberPartForBike)
         {
-            return NumberPart <= Threshold; //à ajouter la vérif
+            return NumberPart >= NumberPartForBike; //à ajouter la vérif
         }
         public bool AreComponant(int IdBike, int IdPartBike)
         {

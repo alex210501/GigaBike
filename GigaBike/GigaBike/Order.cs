@@ -54,13 +54,13 @@ namespace GigaBike {
                 bikeOrderReader.Close();
                 foreach (PartModel currentPiece in pieceList)
                 {
-                    if(currentBikeOrder.Bike.IdBike == currentPiece.IdModelBike) //PartModel.AreComponant(
+                    if(currentPiece.AreComponant(currentBikeOrder.Bike.IdBike, currentPiece.IdModelBike)) 
                     {
-                        if (currentPiece.NumberPart >= currentPiece.NumberForBike) //PartModel.ArePartingStockSufficient
+                        if (currentPiece.ArePartStockSufficient(currentPiece.NumberPart, currentPiece.NumberForBike)) 
                         {
-                            //int numberPart = currentPiece.NumberPart - currentPiece.NumberForBike;
-                            //MySqlDataReader pieceLinkerReader = database.SaveChangeNumberPart(currentPiece.IdPart, numberPart);
-                            //pieceLinkerReader.Close();
+                            int numberPart = currentPiece.NumberPart - currentPiece.NumberForBike;
+                            MySqlDataReader pieceLinkerReader = database.AddPartModelToStock(currentPiece.IdPart, numberPart);
+                            pieceLinkerReader.Close();
                         }
                         else
                         {
