@@ -85,6 +85,24 @@ namespace GigaBike {
             return slots;
         }
 
+        public List<Slot> GetAllFreeSlot() {
+            List<Slot> freeSlots = new List<Slot>();
+
+            foreach (Week week in weeks) freeSlots.AddRange(week.GetAllFreeSlot());
+
+            return freeSlots;
+        }
+
+        public List<Slot> GetFreeSlotFromDate(DateTime currentDate) {
+            List<Slot> freeSlotFromDate = new List<Slot>();
+            int weekNumber = DateCalculator.GetWeekOfYear(currentDate);
+
+            Week currentWeek = GetWeek(weekNumber, currentDate.Year);
+            WeekDay day = currentWeek.Days.Find(day => day.Date == currentDate);
+
+            return day.GetFreeSlots(0);
+        }
+
         public void BindBikeOrderToExistingSlot(BikeOrder bikeOrder) {
             List<Slot> slotOfBikeOrder = GetSlotByIdOrderModel(bikeOrder.IdOrderModel);
 
@@ -124,6 +142,25 @@ namespace GigaBike {
                     MySqlDataReader reader = database.SetPlanningState(slot.IdPlanning, slot.IsReady);
                     reader.Close();
                 }
+            }
+        }
+
+        public void UnbindSlotByIdOrderModel(int idOrderModel) {
+            List<Slot> slotToUnbind = GetSlotByIdOrderModel(idOrderModel);
+
+            slotToUnbind.ForEach(s => s.UnbindSlotFromOrder());
+        }
+
+
+        // TODO: throw exception if not found
+        public void BindSlotToIdOrderModelByDuration(int idOrder, int idOrderModel, DateTime date, int slotNumber, int duration =1) {
+            for (int i = 0; i < duration; i++) {
+                Slot slot = GetSlotByDateAndSlotNumber(date, slotNumber + i);
+
+                if (slot is null || slot.StateSlot == StateSlot.BUSY)
+                    throw new Exception("The slot is not found or is busy !");
+
+                slot.BindSlotWithOrder(idOrder, idOrderModel);
             }
         }
 
@@ -167,7 +204,7 @@ namespace GigaBike {
             return slotOfOrder;
         }
 
-        private Slot GetSlotByDateAndSlotNumber(DateTime date, int slotNumber) {
+        public Slot GetSlotByDateAndSlotNumber(DateTime date, int slotNumber) {
             int weekOfYear = DateCalculator.GetWeekOfYear(date);
 
             Week currentWeek = GetWeek(weekOfYear, date.Year);

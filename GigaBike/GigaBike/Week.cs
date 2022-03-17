@@ -65,6 +65,18 @@ namespace GigaBike {
             return currentDay.Slots.Find(slot => slot.SlotNumber == slotNumber);
         }
 
+        public List<Slot> GetFreeSlot(int duration=1) {
+            List<Slot> freeSlots = new List<Slot>();
+
+            foreach (WeekDay day in days) freeSlots.AddRange(day.GetFreeSlots(duration));
+
+            return freeSlots;
+        }
+
+        public List<Slot> GetAllFreeSlot() {
+            return GetFreeSlot(0);
+        }
+
         private void CreateDaysList(int weekOfYear, int year) {
             DateTime currentWeek = DateCalculator.GetDateFromWeekOfYear(weekOfYear, year);
 

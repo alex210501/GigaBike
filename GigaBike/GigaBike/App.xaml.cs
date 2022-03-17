@@ -118,7 +118,7 @@ namespace GigaBike {
         }
 
         public void GoToPlanningPage() {
-            PlanningPage planningPage = new PlanningPage(controller.OrdersRegistered);
+            PlanningPage planningPage = new PlanningPage(controller.OrdersRegistered, controller.Planning.GetAllFreeSlot());
 
             // Create PlanningPage instance
             Current.MainWindow.Content = planningPage;
@@ -126,6 +126,11 @@ namespace GigaBike {
             // Define callback
             planningPage.GoBackToOrderListCallback = GoToOrderListPage;
             planningPage.SavePlanningCallback = SavePlanningCallback;
+            planningPage.SaveDateCallback = SetSlotForBikeInPlanningPage;
+            planningPage.SetSlotForEveryBikeCallback = SetSlotForEveryPlanningDate;
+            planningPage.SlotChangedCallback = SlotChangedOnPlanningPage;
+
+            planningPage.ShowPlanning();
         }
 
         public void GoToOrderListPage() {
@@ -303,6 +308,47 @@ namespace GigaBike {
             Trace.WriteLine(timespan.TotalMilliseconds);
 
             GoToPlanningPage();
+        }
+
+        void SetSlotForEveryPlanningDate() {
+            if (Current.MainWindow.Content is not PlanningPage) {
+                MessageBox.Show("Callback only use by the PlanningPage");
+                return;
+            }
+
+            PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
+
+            foreach (PlanningRow currentPlanningRow in planningPage.PlanningRows) {
+                DateTime deliveryDate = currentPlanningRow.DeliveryDate;
+                List<Slot> freeSlotFromDate = controller.Planning.GetFreeSlotFromDate(deliveryDate);
+                currentPlanningRow.SlotAvailable = freeSlotFromDate.Select(s => s.SlotNumber).ToList();
+            }
+        }
+
+        void SetSlotForBikeInPlanningPage(DateTime dateSelected) {
+            if (Current.MainWindow.Content is not PlanningPage) {
+                MessageBox.Show("Callback only use by the PlanningPage");
+                return;
+            }
+
+            PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
+            PlanningRow selectedPlanningRow = planningPage.DataGridPlanning.SelectedItem as PlanningRow;
+            List<Slot> freeSlotFromDate = controller.Planning.GetFreeSlotFromDate(dateSelected);
+            selectedPlanningRow.SlotAvailable = freeSlotFromDate.Select(s => s.SlotNumber).ToList();
+        }
+
+        void SlotChangedOnPlanningPage(int slotNumber) {
+            if (Current.MainWindow.Content is not PlanningPage) {
+                MessageBox.Show("Callback only use by the PlanningPage");
+                return;
+            }
+
+            PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
+            PlanningRow planningRow = planningPage.GetCurrentPlanningRow();
+
+            controller.BindBikeToNewSLot(planningRow.IdOrder, planningRow.IdOrderModel, planningRow.DeliveryDate, slotNumber);
+
+            planningPage.ShowPlanning();
         }
     }
 }

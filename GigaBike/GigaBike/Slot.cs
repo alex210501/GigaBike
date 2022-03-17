@@ -24,6 +24,9 @@ namespace GigaBike {
             this.SlotNumber = slotNumber;
             this.Date = date;
             StateSlot = StateSlot.FREE;
+            IdPlanning = 0;
+            IdOrder = 0;
+            IdOrderModel = 0;
         }
 
         public Slot(Slot otherSlot) {
@@ -39,6 +42,12 @@ namespace GigaBike {
             IdOrder = idOrder;
             IdOrderModel = idOrderModel;
             StateSlot = StateSlot.BUSY;
+        }
+
+        public void UnbindSlotFromOrder() {
+            IdOrder = 0;
+            IdOrderModel = 0;
+            StateSlot = StateSlot.FREE;
         }
     }
 }
