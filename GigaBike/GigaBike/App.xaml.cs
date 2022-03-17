@@ -26,7 +26,7 @@ namespace GigaBike {
             }
         }
 
-		protected override  void OnStartup(StartupEventArgs e) {
+        protected override  void OnStartup(StartupEventArgs e) {
             // Create LoginWindow instance
             Current.MainWindow = new MainWindow();
             
@@ -112,6 +112,7 @@ namespace GigaBike {
 
             // Create PiecesStockPage instance
             Current.MainWindow.Content = piecesStockPage;
+            piecesStockPage.SetStockList(controller.Stock); //à retirer après imlémentation
 
             // Define callback
             piecesStockPage.GoBackToStockCallback = GoToStockPage;
@@ -172,7 +173,7 @@ namespace GigaBike {
             // Define callback
             stockPage.GoBackToRessourcesCallback = GoToRessoucesPage;
             stockPage.GoToBikeStockCallback = GoToBikeStockPage;
-            stockPage.GoToPiecesStockCallback = GoToPiecesStockPage;
+            stockPage.GoToPiecesStockCallback = GoToStockPageCallback;
         }
 
         public void GoToAddBikeToStockPage() {
@@ -349,6 +350,11 @@ namespace GigaBike {
             controller.BindBikeToNewSLot(planningRow.IdOrder, planningRow.IdOrderModel, planningRow.DeliveryDate, slotNumber);
 
             planningPage.ShowPlanning();
+        }
+
+        void GoToStockPageCallback() {
+            controller.Stock.GetStockFromDataBase();
+            GoToPiecesStockPage();
         }
     }
 }

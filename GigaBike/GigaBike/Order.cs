@@ -39,6 +39,19 @@ namespace GigaBike {
             SaveBikesOrderInDatabase();
         }
 
+        // Changement validate pour rajouter la liaison des pièces aux vélos
+        public void Validate() {
+            MySqlDataReader reader = database.SaveCommand(this);
+            reader.Read();
+            IdOrder = reader.GetInt32(0);
+            reader.Close();
+
+            foreach (BikeOrder currentBikeOrder in bikes) {
+                MySqlDataReader bikeOrderReader = database.SaveCommandModels(IdOrder, currentBikeOrder.Bike);
+                bikeOrderReader.Close();
+            }
+        }
+
         public void Clear() {
             bikes.Clear();
         }

@@ -15,6 +15,7 @@ namespace GigaBike {
         public DataBase DataBase { get; }
         public Planning Planning { get; }
         private List<Order> ordersRegistered;
+        public Stock Stock { get; }
 
         public Controller() {
             this.DataBase = new DataBase();
@@ -23,6 +24,7 @@ namespace GigaBike {
             this.Order = new Order(this.DataBase);
             this.Planning = new Planning(this.DataBase);
             ordersRegistered = new List<Order>();
+            this.Stock = new Stock(this.DataBase);
         }
 
         public void Init() {
