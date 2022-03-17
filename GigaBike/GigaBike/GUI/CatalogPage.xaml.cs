@@ -88,10 +88,5 @@ namespace GigaBike {
                 checkModelCallback = value;
             }
         }
-
-        private void NameBike_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }

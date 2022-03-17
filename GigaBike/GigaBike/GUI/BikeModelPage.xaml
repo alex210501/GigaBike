@@ -84,7 +84,7 @@
 
             <ListBox Margin="596,123,24,226" ScrollViewer.VerticalScrollBarVisibility="Hidden" Name="BikeSize" DisplayMemberPath="Name" SelectedIndex="0" SelectionChanged="SizeSelectionChangedCallback"/>
             <Label Content="Quantity :" HorizontalAlignment="Left" Height="23" Margin="596,290,0,0" VerticalAlignment="Top" Width="162" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" />
-            <TextBox x:Name="QuantityText" HorizontalAlignment="Left" Height="30" Margin="596,313,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" TextChanged="Text_Input_Quantity" Text="" Background="White">
+            <TextBox x:Name="QuantityText" HorizontalAlignment="Left" Height="22" Margin="596,313,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" TextChanged="Text_Input_Quantity" Text="" Background="White">
                 <TextBox.Style>
                     <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                         <Style.Resources>
