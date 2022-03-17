@@ -334,5 +334,14 @@ namespace GigaBike {
             List<Slot> freeSlotFromDate = controller.Planning.GetFreeSlotFromDate(dateSelected);
             selectedPlanningRow.SlotAvailable = freeSlotFromDate.Select(s => s.SlotNumber).ToList();
         }
+
+        void SlotChangedOnPlanningPage() {
+            if (Current.MainWindow.Content is not PlanningPage) {
+                MessageBox.Show("Callback only use by the PlanningPage");
+                return;
+            }
+
+            PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
+        }
     }
 }

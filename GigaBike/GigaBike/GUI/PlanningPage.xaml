@@ -92,7 +92,7 @@
                     <DataGridTemplateColumn Header="Slot">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox IsEditable="True" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding Path=SlotAvailable}"  SelectedValue="{Binding SelectedSlot, Mode=TwoWay}" SelectedItem="{Binding Path=SelectedSlot}" Text="{Binding Path=SelectedSlot}" Validation.ErrorTemplate="{x:Null}"/>
+                                <ComboBox IsEditable="True" IsSynchronizedWithCurrentItem="False" ItemsSource="{Binding Path=SlotAvailable}"  SelectedValue="{Binding SelectedSlot, Mode=TwoWay}" SelectedItem="{Binding Path=SelectedSlot}" Text="{Binding Path=SelectedSlot}" Validation.ErrorTemplate="{x:Null}" SelectionChanged="OnSlotChanged" PreviewMouseDown="OnPreviewMouseDown" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

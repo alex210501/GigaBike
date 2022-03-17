@@ -28,6 +28,8 @@ namespace GigaBike
         private Action savePlanningCallback = null;
         private Action setSlotForEveryBikeCallback = null;
         private Action<DateTime> saveDateCallback = null;
+        private Action<int> slotChangedCallback = null;
+        private bool comboboxInteraction = false;
 
         public PlanningPage(List<Order> ordersToShow, List<Slot> slotAvailable) {
             InitializeComponent();
@@ -56,6 +58,12 @@ namespace GigaBike
         public Action SetSlotForEveryBikeCallback {
             set {
                 setSlotForEveryBikeCallback = value;
+            }
+        }
+
+        public Action<int> SlotChangedCallback {
+            set {
+                slotChangedCallback = value;
             }
         }
 
@@ -137,16 +145,35 @@ namespace GigaBike
             PlanningRow selectedPlanningRow = DataGridPlanning.SelectedItem as PlanningRow;
 
             if (selectedPlanningRow.DeliveryDate != selectedDate) {
-                selectedPlanningRow.DeliveryDate = selectedDate;
                 if (saveDateCallback is not null) saveDateCallback(selectedDate);
+
+                selectedPlanningRow.DeliveryDate = selectedDate;
                 DataGridPlanning.ItemsSource = new List<int>();
                 DataGridPlanning.ItemsSource = planningRows;
                 DataGridPlanning.IsReadOnly = false;
             }
         }
 
+        private void OnSlotChanged(object sender, RoutedEventArgs e) {
+            if (comboboxInteraction) {
+                ComboBox slotCombobox = sender as ComboBox;
+                int slotNumberSelected = Convert.ToInt32(slotCombobox.SelectedItem);
+                PlanningRow selectedPlanningRow = DataGridPlanning.SelectedItem as PlanningRow;
+
+                if (slotNumberSelected > 0) {
+                    if (slotChangedCallback is not null) slotChangedCallback(slotNumberSelected);
+                }
+
+                comboboxInteraction = false;
+            }
+        }
+
         private void DataGridPlanning_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
+        }
+
+        private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            comboboxInteraction = true;
         }
     }
 
