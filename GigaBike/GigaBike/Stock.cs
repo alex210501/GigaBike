@@ -29,18 +29,18 @@ namespace GigaBike
         
         public void GetStockFromDataBase()
         {
-            MySqlDataReader reader = database.GetStock();
+            MySqlDataReader reader = database.GetPartStock();
 
             while (reader.Read())
             {
                 int IdPart = reader.GetInt32(0);
                 string NamePart = reader.GetString(1);
-                int NumberPart = reader.GetInt32(2);
-                int Threshold = reader.GetInt32(3);
-                int Location = reader.GetInt32(4);
+                int NumberPart = reader.GetInt32(4);
+                int Threshold = reader.GetInt32(5);
+                int Location = reader.GetInt32(6);
 
-                Part currentPieceOrder = new Part(IdPart, NamePart, NumberPart, Threshold, Location);
-                pieceList.Add(currentPieceOrder);
+                Part currentPieceStock = new Part(IdPart, NamePart, NumberPart, Threshold, Location);
+                pieceList.Add(currentPieceStock);
             }
             reader.Close();
         }
@@ -48,5 +48,7 @@ namespace GigaBike
         {
             return NumberPart >= NumberPartCommand;// check if there are enougth part for the command
         }
+
+
     }
 }

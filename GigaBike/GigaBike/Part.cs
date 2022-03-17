@@ -14,6 +14,7 @@ namespace GigaBike
         public int NumberPart { get; }
         public int Threshold { get; }
         public int Location { get; }
+        
 
         public Part(int IdPart, string NamePart, int NumberPart, int Threshold, int Location)
         {
@@ -23,11 +24,6 @@ namespace GigaBike
             this.Threshold = Threshold;
             this.Location = Location;
             //this.Price = Price; //A ajouter?
-        }
-
-        public bool ArePartingStockSufficient(int NumberPart, int Threshold) 
-        {
-            return NumberPart <= Threshold; //à ajouter la vérif
         }
 
     }

@@ -77,7 +77,7 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetStock() {
-            /*idpartModel = reader.GetInt(0)
+            /*IdpartModelidpartModel = reader.GetInt(0)
              *IdPart = reader.GetInt(1)
              *IdModel = reader.GetInt(2)
              *NumbrForBike = reader.GetInt(3)
@@ -94,6 +94,19 @@ namespace GigaBike {
                                                 "Inner Join Part ON Part.IdPart = PartModel.IdPart " +
                                                 "Inner Join Color ON Color.IdColor = Part.IdPartColor " +
                                                 "Inner Join Size ON Size.IdSize = Part.IdPartSize" );
+            return command.ExecuteReader();
+        }
+        public MySqlDataReader GetPartStock()
+        {
+            /*IdPart = reader.GetInt(0)
+             *NamePart = reader.GetInt(1)
+             *IdPartColor = reader.GetInt(2)
+             *IdPartSize = reader.GetInt(3)
+             *NumberPartInStock =  reader.GetString(4)
+             *Threshold = reader.GetInt(5)
+             *Location = reader.GetInt(6)
+            */
+            MySqlCommand command = SendCommand("SELECT * From Part ");
             return command.ExecuteReader();
         }
 
