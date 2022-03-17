@@ -23,7 +23,7 @@ namespace GigaBike
     /// </summary>
     public partial class PlanningPage : Page {
         private List<Order> ordersToShow;
-        private ObservableCollection<PlanningRow> planningRows;
+        private List<PlanningRow> planningRows;
         private Action goBackToOrderListCallback = null;
         private Action savePlanningCallback = null;
         private Action setSlotForEveryBikeCallback = null;
@@ -34,7 +34,7 @@ namespace GigaBike
         public PlanningPage(List<Order> ordersToShow, List<Slot> slotAvailable) {
             InitializeComponent();
             this.ordersToShow = ordersToShow;
-            this.planningRows = new ObservableCollection<PlanningRow>();
+            this.planningRows = new List<PlanningRow>();
         }
 
         public PlanningRow GetCurrentPlanningRow() {
@@ -77,14 +77,14 @@ namespace GigaBike
             }
         }
 
-        public ObservableCollection<PlanningRow> PlanningRows {
+        public List<PlanningRow> PlanningRows {
             get {
                 return planningRows;
             }
         }
 
         public void ShowPlanning() {
-            planningRows = new ObservableCollection<PlanningRow>();
+            planningRows = new List<PlanningRow>();
 
             foreach (Order currentOrder in ordersToShow) {
                 foreach (BikeOrder currentBikeOrder in currentOrder.Bikes) {
@@ -109,7 +109,8 @@ namespace GigaBike
 
             if (setSlotForEveryBikeCallback is not null) setSlotForEveryBikeCallback();
 
-            DataGridPlanning.ItemsSource = planningRows.OrderBy(row => row.DeliveryDate).ThenBy(row => row.SelectedSlot).ToList();
+            planningRows = planningRows.OrderBy(row => row.DeliveryDate).ThenBy(row => row.SelectedSlot).ToList();
+            DataGridPlanning.ItemsSource = planningRows;
         }
 
         private void DataGridOrderList(object sender, SelectionChangedEventArgs e) {
@@ -154,7 +155,7 @@ namespace GigaBike
                 selectedPlanningRow.DeliveryDate = selectedDate;
                 DataGridPlanning.ItemsSource = new List<int>();
                 DataGridPlanning.ItemsSource = planningRows;
-                DataGridPlanning.IsReadOnly = false;
+                // DataGridPlanning.IsReadOnly = false;
             }
         }
 

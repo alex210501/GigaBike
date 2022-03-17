@@ -68,6 +68,8 @@ namespace GigaBike {
         public void UpdatePlanningAfterUserUpdate(List<Order> ordersShown) {
             foreach (Order currentOrder in ordersShown)
                 currentOrder.Bikes.ForEach(bike => Planning.UpdateSlotsInDatabaseByBikeOrder(bike));
+
+            Planning.DeleteTheSlotUnusedFromTheDatabase();
         }
 
         public List<Order> OrdersRegistered {

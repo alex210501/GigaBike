@@ -10,10 +10,12 @@ namespace GigaBike {
     public class Planning {
         private List<Week> weeks;
         private DataBase database;
+        private List<Slot> slotToDeleteFromDB;
 
         public Planning(DataBase database) {
             weeks = new List<Week>();
             this.database = database;
+            slotToDeleteFromDB = new List<Slot>();
         }
 
         public void RefreshFromDatabase() {
@@ -139,7 +141,14 @@ namespace GigaBike {
             if (slotBindToOrder is not null) {
                 foreach(Slot slot in slotBindToOrder) {
                     slot.IsReady = currentBikeOrder.SlotOfBike[0].IsReady;
-                    MySqlDataReader reader = database.SetPlanningState(slot.IdPlanning, slot.IsReady);
+                    MySqlDataReader reader;
+
+                    if (slot.IdPlanning > 0)
+                        reader = database.SetPlanningState(slot.IdPlanning, slot.IsReady);
+                    else {
+                        reader = database.AddSlotToPlanning(slot, slot.IdOrderModel);
+                        if (reader.Read()) slot.IdPlanning = reader.GetInt32(0);
+                    }
                     reader.Close();
                 }
             }
@@ -149,6 +158,7 @@ namespace GigaBike {
             List<Slot> slotToUnbind = GetSlotByIdOrderModel(idOrderModel);
 
             slotToUnbind.ForEach(s => s.UnbindSlotFromOrder());
+            slotToDeleteFromDB.AddRange(slotToUnbind);
         }
 
 
@@ -161,7 +171,17 @@ namespace GigaBike {
                     throw new Exception("The slot is not found or is busy !");
 
                 slot.BindSlotWithOrder(idOrder, idOrderModel);
+
+                if (slotToDeleteFromDB.Contains(slot)) slotToDeleteFromDB.Remove(slot);
             }
+        }
+
+        public void DeleteTheSlotUnusedFromTheDatabase() {
+            MySqlDataReader reader = database.DeleteSeveralSlotFromPlanning(slotToDeleteFromDB);
+            reader.Close();
+
+            slotToDeleteFromDB.Clear();
+
         }
 
         private bool IsWeekRegistered(int weekOfYear, int year) {

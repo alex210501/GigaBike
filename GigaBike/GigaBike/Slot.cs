@@ -45,6 +45,7 @@ namespace GigaBike {
         }
 
         public void UnbindSlotFromOrder() {
+            IdPlanning = 0;
             IdOrder = 0;
             IdOrderModel = 0;
             StateSlot = StateSlot.FREE;

@@ -333,7 +333,7 @@ namespace GigaBike {
             }
 
             PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
-            PlanningRow selectedPlanningRow = planningPage.DataGridPlanning.SelectedItem as PlanningRow;
+            PlanningRow selectedPlanningRow = planningPage.GetCurrentPlanningRow();
             List<Slot> freeSlotFromDate = controller.Planning.GetFreeSlotFromDate(dateSelected);
             selectedPlanningRow.SlotAvailable = freeSlotFromDate.Select(s => s.SlotNumber).ToList();
         }

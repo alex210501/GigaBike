@@ -235,8 +235,8 @@ namespace GigaBike {
         }
 
         public MySqlDataReader AddSlotToPlanning(Slot slot, int IdOrderModel) {
-            string commandToSend = string.Format(string.Format("INSERT INTO Planning (PlanningDate, Slot, OrderModel) VALUES(\"{0}\",{1},{2});",
-                                                               slot.Date.ToString("yyyy-MM-dd"), slot.SlotNumber, IdOrderModel));
+            string commandToSend = string.Format(string.Format("INSERT INTO Planning (PlanningDate, Slot, OrderModel) VALUES(\"{0}\",{1},{2});" +
+                                                                "SELECT @@IDENTITY;", slot.Date.ToString("yyyy-MM-dd"), slot.SlotNumber, IdOrderModel));
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
@@ -248,6 +248,17 @@ namespace GigaBike {
             foreach (Slot slot in slotsToAdd) values.Add(string.Format("(\"{0}\",{1},{2})", slot.Date.ToString("yyyy-MM-dd"), slot.SlotNumber, slot.IdOrderModel));
 
             commandToSend += string.Join(",", values);
+            MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
+
+        public MySqlDataReader DeleteSeveralSlotFromPlanning(List<Slot> slotToDelete) {
+            string commandToSend = "DELETE FROM Planning WHERE (PlanningDate, Slot) IN ";
+            List<string> values = new List<string>();
+
+            foreach (Slot slot in slotToDelete) values.Add(string.Format("(\"{0}\", {1})", slot.Date.ToString("yyyy-MM-dd"), slot.SlotNumber));
+
+            commandToSend += '(' + string.Join(",", values) + ')';
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
