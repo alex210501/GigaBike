@@ -58,12 +58,23 @@
             </Setter>
         </Style>
     </Page.Resources>
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFF4F4F4" Offset="0"/>
+            <GradientStop Color="#FF1B4C93" Offset="0.849"/>
+        </LinearGradientBrush>
+    </Page.Background>
     <Viewbox>
-        <Grid>
-            <Button x:Name="Next" Panel.ZIndex="2" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonCommandNext" FontSize="25" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="45" Width="180" Margin="596,353,0,0" Content="Next" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+
+        <Grid Height="414" Width="788">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="379*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="Next" Panel.ZIndex="2" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonCommandNext" FontSize="25" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="45" Width="180" Margin="596,353,0,0" Content="Next" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" />
             <Label Content="Size :" HorizontalAlignment="Left" Height="25" Margin="596,93,0,0" VerticalAlignment="Top" Width="162" FontFamily="Arial Rounded MT Bold" />
 
-            <ListBox Margin="596,221,42,152" SelectionChanged="ColorSelectionChangedCallback" Name="BikeColor" SelectedIndex="0" DisplayMemberPath="Name">
+            <ListBox Margin="596,221,24,129" SelectionChanged="ColorSelectionChangedCallback" Name="BikeColor" SelectedIndex="0" DisplayMemberPath="Name">
                 <ListBox.BindingGroup>
                     <BindingGroup/>
                 </ListBox.BindingGroup>
@@ -71,9 +82,9 @@
             </ListBox>
             <Label Content="Color :" HorizontalAlignment="Left" Height="23" Margin="596,193,0,0" VerticalAlignment="Top" Width="162" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" />
 
-            <ListBox Margin="596,123,42,244" ScrollViewer.VerticalScrollBarVisibility="Hidden" Name="BikeSize" DisplayMemberPath="Name" SelectedIndex="0" SelectionChanged="SizeSelectionChangedCallback"/>
+            <ListBox Margin="596,123,24,226" ScrollViewer.VerticalScrollBarVisibility="Hidden" Name="BikeSize" DisplayMemberPath="Name" SelectedIndex="0" SelectionChanged="SizeSelectionChangedCallback"/>
             <Label Content="Quantity :" HorizontalAlignment="Left" Height="23" Margin="596,290,0,0" VerticalAlignment="Top" Width="162" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" />
-            <TextBox x:Name="QuantityText" HorizontalAlignment="Left" Height="22" Margin="596,318,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="162" TextChanged="Text_Input_Quantity" Text="">
+            <TextBox x:Name="QuantityText" HorizontalAlignment="Left" Height="22" Margin="596,313,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" TextChanged="Text_Input_Quantity" Text="" Background="White">
                 <TextBox.Style>
                     <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                         <Style.Resources>
@@ -98,11 +109,11 @@
                 </TextBox.Style>
             </TextBox>
             <Image x:Name="BikePicture" HorizontalAlignment="Left" Height="300" Margin="10,73,0,0" VerticalAlignment="Top" Width="482" Source="/MyImage.jpg" />
-            <Label x:Name="BikeName" Content="..." Panel.ZIndex="1" HorizontalAlignment="Center" Height="72" VerticalAlignment="Top" Width="411" FontSize="50" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            <Label x:Name="BikeName" Content="..." Panel.ZIndex="1" HorizontalAlignment="Center" Height="72" VerticalAlignment="Top" Width="412" FontSize="50" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
             <Image HorizontalAlignment="Left" Height="100" Margin="357,277,0,0" VerticalAlignment="Top" Width="100" />
             <Button x:Name="Check_Copy" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonBackToCatalog" FontSize="12" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="37" Width="73" Margin="3,7,0,0" Content="Back" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <Label x:Name="PriceLabel" Content="Price :" HorizontalAlignment="Left" Height="25" Margin="596,39,0,0" VerticalAlignment="Top" Width="162" FontFamily="Arial Rounded MT Bold" />
-            <TextBox x:Name="PriceTextBox" HorizontalAlignment="Left" Margin="596,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="135" Foreground="#FF911717"/>
+            <TextBox x:Name="PriceTextBox" HorizontalAlignment="Left" Margin="596,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" Foreground="#FF911717" IsReadOnly="True" Height="24"/>
         </Grid>
     </Viewbox>
 </Page>

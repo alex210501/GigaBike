@@ -4,8 +4,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-
-        Title="Login">
+        
+        Title="Login" Foreground="{x:Null}">
     <Page.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -59,13 +59,19 @@
             </Setter>
         </Style>
     </Page.Resources>
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFF4F4F4" Offset="0"/>
+            <GradientStop Color="#FF1B4C93" Offset="0.849"/>
+        </LinearGradientBrush>
+    </Page.Background>
     <Viewbox VerticalAlignment="Center" HorizontalAlignment="Left">
-        <Grid Height="450">
+        <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="800" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="ButtonLogin1" Style="{DynamicResource RoundedButtonStyle}" Content="Login" Click="ButtonLogin" FontSize="20" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Center" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="49" Width="200" Margin="0,331,0,0" />
-            <TextBox x:Name="UsernameInput" HorizontalAlignment="Left" Height="36" Margin="400,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="169" FontSize="25">
+            <Button x:Name="ButtonLogin1" Style="{DynamicResource RoundedButtonStyle}" Content="Login" Click="ButtonLogin" FontSize="25" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" SnapsToDevicePixels="True" Background="#FFD0D4D4" Margin="300,331,300,70" />
+            <TextBox x:Name="UsernameInput" HorizontalAlignment="Left" Margin="375,162,0,0" TextWrapping="Wrap" Width="169" FontSize="25" Height="36" VerticalAlignment="Top">
                 <TextBox.Style>
                     <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                         <Style.Resources>
@@ -89,10 +95,11 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <Label Content="Username :" HorizontalAlignment="Left" Height="48" Margin="242,150,0,0" VerticalAlignment="Top" Width="158" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-            <Label Content="Password :" HorizontalAlignment="Left" Height="48" Margin="242,228,0,0" VerticalAlignment="Top" Width="158" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-            <Label Content="Please register yourself" HorizontalAlignment="Center" Height="88" VerticalAlignment="Top" Width="800" FontSize="50" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-            <PasswordBox x:Name="PasswordInput" Width="169" Height="36" SelectionTextBrush="White" Margin="400,234,231,180" CaretBrush="{DynamicResource Button.Static.Background}" FontSize="25"/>
+            <Label Content="Username :" Margin="212,150,430,0" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" Height="48" VerticalAlignment="Top" />
+            <Label Content="Password :" HorizontalAlignment="Left" Height="48" Margin="212,225,0,0" VerticalAlignment="Top" Width="158" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" />
+            <Label Content="Please register yourself" VerticalAlignment="Top" FontSize="50" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="107,0,106,0" HorizontalAlignment="Center" />
+            <PasswordBox x:Name="PasswordInput" Width="169" Height="36" SelectionTextBrush="White" Margin="375,231,256,0" CaretBrush="{DynamicResource Button.Static.Background}" FontSize="25" VerticalAlignment="Top"/>
+            <Rectangle HorizontalAlignment="Left" Height="36" Margin="375,162,0,0" Stroke="Black" VerticalAlignment="Top" Width="169" Fill="White" Panel.ZIndex="-3"/>
         </Grid>
     </Viewbox>
 </Page>
