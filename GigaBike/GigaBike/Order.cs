@@ -47,7 +47,7 @@ namespace GigaBike {
                 PartModel currentPieceStock = new PartModel(IdPart, IdModelBike, NumberForBike, NumberPart, Threshold);
                 pieceList.Add(currentPieceStock);
             }
-            reader.Close();
+            reader2.Close();
 
             foreach (BikeOrder currentBikeOrder in bikes) {
                 MySqlDataReader bikeOrderReader = database.SaveCommandModels(IdOrder, currentBikeOrder);
