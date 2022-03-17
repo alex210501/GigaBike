@@ -59,6 +59,12 @@
             </Setter>
         </Style>
     </Page.Resources>
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFF4F4F4" Offset="0"/>
+            <GradientStop Color="#FF1B4C93" Offset="0.849"/>
+        </LinearGradientBrush>
+    </Page.Background>
     <Viewbox>
         <Grid Height="404">
             <Grid.RowDefinitions>
@@ -74,7 +80,6 @@
             <DataGrid x:Name="TableRecap" ColumnWidth="*" Grid.ColumnSpan="2" Height="188" Margin="15,88,5,0" VerticalAlignment="Top" SelectionChanged="TableRecapCommand" MaxColumnWidth="150" CanUserSortColumns="False" MinColumnWidth="30"/>
             <Label Content="Delivery Date :" HorizontalAlignment="Left" Margin="15,291,0,0" VerticalAlignment="Top" Height="33" Width="108" FontSize="14" Foreground="White"/>
             <Label x:Name="DeliveryDateLabel" Content="Label" HorizontalAlignment="Left" Margin="111,291,0,0" VerticalAlignment="Top" Width="129" FontSize="14" Foreground="White"/>
-            <Image Panel.ZIndex="-5" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/GUI/Background_CC1.png" Stretch="Fill" Grid.ColumnSpan="2" StretchDirection="UpOnly"/>
         </Grid>
     </Viewbox>
 </Page>

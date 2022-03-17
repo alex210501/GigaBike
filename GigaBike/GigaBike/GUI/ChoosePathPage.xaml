@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="ChoosePath">
+        Title="ChoosePath" Height="621">
     <Page.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -58,6 +58,12 @@
             </Setter>
         </Style>
     </Page.Resources>
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFF4F4F4" Offset="0"/>
+            <GradientStop Color="#FF1B4C93" Offset="0.849"/>
+        </LinearGradientBrush>
+    </Page.Background>
     <Viewbox Height="450">
         <Grid>
             <Grid.RowDefinitions>

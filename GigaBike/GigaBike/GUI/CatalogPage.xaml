@@ -59,6 +59,12 @@
             </Setter>
         </Style>
     </Page.Resources>
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFF4F4F4" Offset="0"/>
+            <GradientStop Color="#FF1B4C93" Offset="0.849"/>
+        </LinearGradientBrush>
+    </Page.Background>
     <Viewbox>
         <Grid Height="507">
             <Grid.RowDefinitions>
@@ -81,7 +87,6 @@
                     <ImageBrush/>
                 </TextBox.BorderBrush>
             </TextBox>
-            <Image Panel.ZIndex="-5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Source="/GUI/Background_CC1.png" Stretch="Uniform" Grid.ColumnSpan="2" Height="523" Margin="0,0,0,-16" Grid.RowSpan="3" StretchDirection="UpOnly"/>
 
         </Grid>
     </Viewbox>

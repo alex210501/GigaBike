@@ -60,6 +60,12 @@
             </Setter>
         </Style>
     </Page.Resources>
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFF4F4F4" Offset="0"/>
+            <GradientStop Color="#FF1B4C93" Offset="0.849"/>
+        </LinearGradientBrush>
+    </Page.Background>
     <Viewbox>
         <Grid Width="871" Height="494">
             <Grid.ColumnDefinitions>

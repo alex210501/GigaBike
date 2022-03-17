@@ -58,6 +58,12 @@
             </Setter>
         </Style>
     </Page.Resources>
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFF4F4F4" Offset="0"/>
+            <GradientStop Color="#FF1B4C93" Offset="0.849"/>
+        </LinearGradientBrush>
+    </Page.Background>
     <Viewbox>
 
         <Grid Height="414" Width="788">
@@ -108,7 +114,6 @@
             <Button x:Name="Check_Copy" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonBackToCatalog" FontSize="12" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="37" Width="73" Margin="3,7,0,0" Content="Back" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <Label x:Name="PriceLabel" Content="Price :" HorizontalAlignment="Left" Height="25" Margin="596,39,0,0" VerticalAlignment="Top" Width="162" FontFamily="Arial Rounded MT Bold" />
             <TextBox x:Name="PriceTextBox" HorizontalAlignment="Left" Margin="596,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" Foreground="#FF911717" IsReadOnly="True" Height="24"/>
-            <Image Panel.ZIndex="-5" VerticalAlignment="Center" HorizontalAlignment="Left" Source="/GUI/Background_CC1.png" Stretch="Fill" Grid.ColumnSpan="2"/>
         </Grid>
     </Viewbox>
 </Page>
