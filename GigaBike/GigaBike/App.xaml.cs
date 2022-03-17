@@ -347,9 +347,11 @@ namespace GigaBike {
             PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
             PlanningRow planningRow = planningPage.GetCurrentPlanningRow();
 
-            controller.BindBikeToNewSLot(planningRow.IdOrder, planningRow.IdOrderModel, planningRow.DeliveryDate, slotNumber);
+            if (planningRow is not null) {
+                controller.BindBikeToNewSLot(planningRow.IdOrder, planningRow.IdOrderModel, planningRow.DeliveryDate, slotNumber);
 
-            planningPage.ShowPlanning();
+                planningPage.ShowPlanning();
+            }
         }
 
         void GoToStockPageCallback() {
