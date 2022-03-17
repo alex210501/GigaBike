@@ -145,6 +145,25 @@ namespace GigaBike {
             }
         }
 
+        public void UnbindSlotByIdOrderModel(int idOrderModel) {
+            List<Slot> slotToUnbind = GetSlotByIdOrderModel(idOrderModel);
+
+            slotToUnbind.ForEach(s => s.UnbindSlotFromOrder());
+        }
+
+
+        // TODO: throw exception if not found
+        public void BindSlotToIdOrderModelByDuration(int idOrder, int idOrderModel, DateTime date, int slotNumber, int duration =1) {
+            for (int i = 0; i < duration; i++) {
+                Slot slot = GetSlotByDateAndSlotNumber(date, slotNumber + i);
+
+                if (slot is null || slot.StateSlot == StateSlot.BUSY)
+                    throw new Exception("The slot is not found or is busy !");
+
+                slot.BindSlotWithOrder(idOrder, idOrderModel);
+            }
+        }
+
         private bool IsWeekRegistered(int weekOfYear, int year) {
             foreach (Week currentWeek in weeks) {
                 if ((currentWeek.WeekNumber == weekOfYear) && (currentWeek.Year == year))
@@ -185,7 +204,7 @@ namespace GigaBike {
             return slotOfOrder;
         }
 
-        private Slot GetSlotByDateAndSlotNumber(DateTime date, int slotNumber) {
+        public Slot GetSlotByDateAndSlotNumber(DateTime date, int slotNumber) {
             int weekOfYear = DateCalculator.GetWeekOfYear(date);
 
             Week currentWeek = GetWeek(weekOfYear, date.Year);

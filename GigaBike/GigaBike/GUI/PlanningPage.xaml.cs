@@ -37,6 +37,10 @@ namespace GigaBike
             this.planningRows = new ObservableCollection<PlanningRow>();
         }
 
+        public PlanningRow GetCurrentPlanningRow() {
+            return DataGridPlanning.SelectedItem as PlanningRow;
+        }
+
         public Action GoBackToOrderListCallback {
             set {
                 goBackToOrderListCallback = value;
@@ -129,7 +133,7 @@ namespace GigaBike
         }
 
         private void OnValueReadyStateChanged(object sender, RoutedEventArgs e) {
-            PlanningRow selectedPlanningRow = DataGridPlanning.SelectedItem as PlanningRow;
+            PlanningRow selectedPlanningRow = GetCurrentPlanningRow();
             int idOrder = selectedPlanningRow.IdOrder;
             int idOrderModel = selectedPlanningRow.IdOrderModel;
             bool isSlotReady = selectedPlanningRow.SelectedReadyState;
@@ -142,7 +146,7 @@ namespace GigaBike
         private void SelectedDateChanged(object sender, RoutedEventArgs e) {
             DatePicker dpick = sender as DatePicker;
             DateTime selectedDate = dpick.SelectedDate.Value.Date; 
-            PlanningRow selectedPlanningRow = DataGridPlanning.SelectedItem as PlanningRow;
+            PlanningRow selectedPlanningRow = GetCurrentPlanningRow();
 
             if (selectedPlanningRow.DeliveryDate != selectedDate) {
                 if (saveDateCallback is not null) saveDateCallback(selectedDate);
@@ -158,7 +162,7 @@ namespace GigaBike
             if (comboboxInteraction) {
                 ComboBox slotCombobox = sender as ComboBox;
                 int slotNumberSelected = Convert.ToInt32(slotCombobox.SelectedItem);
-                PlanningRow selectedPlanningRow = DataGridPlanning.SelectedItem as PlanningRow;
+                PlanningRow selectedPlanningRow = GetCurrentPlanningRow();
 
                 if (slotNumberSelected > 0) {
                     if (slotChangedCallback is not null) slotChangedCallback(slotNumberSelected);

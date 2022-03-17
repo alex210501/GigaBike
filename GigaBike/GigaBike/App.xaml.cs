@@ -128,6 +128,8 @@ namespace GigaBike {
             planningPage.SavePlanningCallback = SavePlanningCallback;
             planningPage.SaveDateCallback = SetSlotForBikeInPlanningPage;
             planningPage.SetSlotForEveryBikeCallback = SetSlotForEveryPlanningDate;
+            planningPage.SlotChangedCallback = SlotChangedOnPlanningPage;
+
             planningPage.ShowPlanning();
         }
 
@@ -335,13 +337,18 @@ namespace GigaBike {
             selectedPlanningRow.SlotAvailable = freeSlotFromDate.Select(s => s.SlotNumber).ToList();
         }
 
-        void SlotChangedOnPlanningPage() {
+        void SlotChangedOnPlanningPage(int slotNumber) {
             if (Current.MainWindow.Content is not PlanningPage) {
                 MessageBox.Show("Callback only use by the PlanningPage");
                 return;
             }
 
             PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
+            PlanningRow planningRow = planningPage.GetCurrentPlanningRow();
+
+            controller.BindBikeToNewSLot(planningRow.IdOrder, planningRow.IdOrderModel, planningRow.DeliveryDate, slotNumber);
+
+            planningPage.ShowPlanning();
         }
     }
 }

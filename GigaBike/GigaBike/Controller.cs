@@ -74,6 +74,23 @@ namespace GigaBike {
             }
         }
 
+        public void BindBikeToNewSLot(int idOrder, int idOrderModel, DateTime deliveryDate, int numberSlot) {
+            Order currentOrder = ordersRegistered.Find(o => o.IdOrder == idOrder);
+
+            if (currentOrder is null) return;
+
+            BikeOrder currentBikeOrder = currentOrder.Bikes.Find(b => b.IdOrderModel == idOrderModel);
+
+            if (currentBikeOrder is null) return;
+
+            List<Slot> slotToBind = new List<Slot>();
+
+            Planning.UnbindSlotByIdOrderModel(idOrderModel);
+
+            Planning.BindSlotToIdOrderModelByDuration(idOrder, idOrderModel, deliveryDate, numberSlot);
+            Planning.BindBikeOrderToExistingSlot(currentBikeOrder);
+        }
+
         // TODO: Clean
         private void GetOrdersFromDatabase() {
             MySqlDataReader reader = DataBase.GetOrders();
