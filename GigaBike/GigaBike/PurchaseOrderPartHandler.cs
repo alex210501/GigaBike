@@ -13,6 +13,27 @@ namespace GigaBike {
         public PurchaseOrderPartHandler(DataBase database) {
             this.database = database;
             currentPurchase = new PurchaseOrderPart();
+            purchases = new List<PurchaseOrderPart>();
+        }
+
+        public void ClearCurrentPurchase() {
+            currentPurchase = new PurchaseOrderPart();
+        }
+
+        public void ClearPurchases() {
+            purchases.Clear();
+        }
+
+        public void AddPartToCurrentPurchase(Part part, int quantityToOrder) {
+            currentPurchase.AddOrderPartWithQuantity(part, quantityToOrder);
+        }
+
+        public void RefreshPurchasesFromDatabase() {
+            // Get the purchases from the database
+        }
+
+        public void SaveCurrentPurchaseToDatabase() {
+
         }
     }
 }
