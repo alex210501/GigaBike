@@ -112,12 +112,16 @@ namespace GigaBike {
             /*IdPart = reader.GetInt(0)
              *NamePart = reader.GetInt(1)
              *IdPartColor = reader.GetInt(2)
-             *IdPartSize = reader.GetInt(3)
-             *NumberPartInStock =  reader.GetString(4)
-             *Threshold = reader.GetInt(5)
-             *Location = reader.GetInt(6)
+             *NamePartColor = reader.GetString(3)
+             *IdPartSize = reader.GetInt(4)
+             *NamePartSize = reader.GetString(5)
+             *NumberPartInStock =  reader.GetInt(6)
+             *Threshold = reader.GetInt(7)
+             *Location = reader.GetInt(8)
             */
-            MySqlCommand command = SendCommand("SELECT * From Part ");
+            MySqlCommand command = SendCommand("SELECT IdPart, NamePart, IdPartColor, Color.NameColor, IdPartSize, Size.NameSize, NumberPartInStock, Threshold, Location From Part "+
+                                               "INNER JOIN Color on Color.IdColor = IdPartColor " +
+                                               "INNER JOIN Size on Size.IdSize = IdPartSize");
             return command.ExecuteReader();
         }
 

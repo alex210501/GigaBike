@@ -55,7 +55,6 @@ namespace GigaBike {
                 ordersRecap.Add(currentOrderRecapGrid);
             }
 
-
             TableRecap.ItemsSource = ordersRecap;
         }
 

@@ -31,21 +31,24 @@ namespace GigaBike
         {
             MySqlDataReader reader = database.GetPartStock();
 
-            while (reader.Read())
-            {
-                int IdPart = reader.GetInt32(0);
-                string NamePart = reader.GetString(1);
-                int NumberPart = reader.GetInt32(4);
-                int Threshold = reader.GetInt32(5);
-                int Location = reader.GetInt32(6);
+            while (reader.Read()) {
+                int idPart = reader.GetInt32(0);
+                string namePart = reader.GetString(1);
+                int idColor = reader.GetInt32(2);
+                string nameColor = reader.GetString(3);
+                int idSize = reader.GetInt32(4);
+                string nameSize = reader.GetString(5);
+                int numberPart = reader.GetInt32(6);
+                int threshold = reader.GetInt32(7);
+                int location = reader.GetInt32(8);
 
-                Part currentPieceStock = new Part(IdPart, NamePart, NumberPart, Threshold, Location);
+                Part currentPieceStock = new Part(idPart, namePart, numberPart, threshold, location, new Color(idColor, nameColor), new Size(idSize, nameSize));
                 pieceList.Add(currentPieceStock);
             }
             reader.Close();
         }
-        public bool IsThereEnoughPartsInStock(int NumberPart, int NumberPartCommand) //NumberPartCommand n'existe pas se sera le nombre de pièces besoin pour la commande
-        {
+
+        public bool IsThereEnoughPartsInStock(int NumberPart, int NumberPartCommand) {
             return NumberPart >= NumberPartCommand;// check if there are enougth part for the command
         }
 
