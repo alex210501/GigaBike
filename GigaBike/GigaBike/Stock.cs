@@ -13,9 +13,11 @@ namespace GigaBike
         public int IdOrder { get; set; }
         private List<Part> pieceList;
         private DataBase database;
+        private PartToModelLinker partToModelLinker;
         public Stock(DataBase database)
         {
             pieceList = new List<Part>();
+            partToModelLinker = new PartToModelLinker();
             this.database = database;
         }
 
@@ -45,6 +47,27 @@ namespace GigaBike
                 Part currentPieceStock = new Part(idPart, namePart, numberPart, threshold, location, new Color(idColor, nameColor), new Size(idSize, nameSize));
                 pieceList.Add(currentPieceStock);
             }
+            reader.Close();
+        }
+
+
+        public void GetPartPerBikeFromDatabase() {
+            MySqlDataReader reader = database.GetPartModel();
+
+            while (reader.Read()) {
+                int idPartModel = reader.GetInt32(0);
+                int idPart = reader.GetInt32(1);
+                int idModel = reader.GetInt32(2);
+                int numberForBike = reader.GetInt32(3);
+
+                Part currentPart = pieceList.Find(part => part.IdPart == idPart);
+
+                if (currentPart is null) throw new Exception("The part has not been found in the Stock !");
+
+                BikePart currentBikePart = new BikePart(currentPart, numberForBike);
+                partToModelLinker.AddPartForIdModel(idModel, currentBikePart);
+            }
+
             reader.Close();
         }
 

@@ -356,6 +356,7 @@ namespace GigaBike {
 
         void GoToStockPageCallback() {
             controller.Stock.GetStockFromDataBase();
+            controller.Stock.GetPartPerBikeFromDatabase();
             GoToPiecesStockPage();
         }
     }

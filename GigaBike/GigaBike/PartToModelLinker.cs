@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace GigaBike {
     class PartToModelLinker {
         private Dictionary<int, List<BikePart>> partsPerBike;
+
         public PartToModelLinker() {
             partsPerBike = new Dictionary<int, List<BikePart>>();
         }
 
-        public List<BikePart> GetPartsForIdOrderModel(int idOrderModel) {
-            if (partsPerBike.ContainsKey(idOrderModel))
-                return new List<BikePart>(partsPerBike[idOrderModel]);
+        public List<BikePart> GetPartsForIdModel(int idModel) {
+            if (partsPerBike.ContainsKey(idModel))
+                return new List<BikePart>(partsPerBike[idModel]);
             return new List<BikePart>();
         }
 
-        public void AddPartForIdOrderModel(int idOrderModel, BikePart part) {
+        public void AddPartForIdModel(int idModel, BikePart part) {
             // If the dictionnary doesn't contain the key, create an empty list
-            if (!partsPerBike.ContainsKey(idOrderModel))
-                partsPerBike.Add(idOrderModel, new List<BikePart>());
-            partsPerBike[idOrderModel].Add(part);
+            if (!partsPerBike.ContainsKey(idModel))
+                partsPerBike.Add(idModel, new List<BikePart>());
+            partsPerBike[idModel].Add(part);
         }
 
         public void ClearParts() {
@@ -29,10 +31,10 @@ namespace GigaBike {
             partsPerBike.Clear();
         }
 
-        public void ClearPartsForIdOrderModel(int idOrderModel) {
+        public void ClearPartsForIdModel(int idModel) {
             // Clear the part for only a bike model
-            if (partsPerBike.ContainsKey(idOrderModel))
-                partsPerBike[idOrderModel].Clear();
+            if (partsPerBike.ContainsKey(idModel))
+                partsPerBike[idModel].Clear();
         }
     }
 }
