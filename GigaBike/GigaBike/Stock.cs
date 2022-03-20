@@ -54,6 +54,7 @@ namespace GigaBike
         public void GetPartPerBikeFromDatabase() {
             MySqlDataReader reader = database.GetPartModel();
 
+            partToModelLinker.ClearParts();
             while (reader.Read()) {
                 int idPartModel = reader.GetInt32(0);
                 int idPart = reader.GetInt32(1);
