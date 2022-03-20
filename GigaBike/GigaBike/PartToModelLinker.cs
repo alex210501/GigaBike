@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace GigaBike {
     class PartToModelLinker {
-        private Dictionary<int, List<Part>> partsPerBike;
+        private Dictionary<int, List<BikePart>> partsPerBike;
         public PartToModelLinker() {
-            partsPerBike = new Dictionary<int, List<Part>>();
+            partsPerBike = new Dictionary<int, List<BikePart>>();
         }
 
-        public List<Part> GetPartsForIdOrderModel(int idOrderModel) {
+        public List<BikePart> GetPartsForIdOrderModel(int idOrderModel) {
             if (partsPerBike.ContainsKey(idOrderModel))
-                return new List<Part>(partsPerBike[idOrderModel]);
-            return new List<Part>();
+                return new List<BikePart>(partsPerBike[idOrderModel]);
+            return new List<BikePart>();
         }
 
-        public void AddPartForIdOrderModel(int idOrderModel, Part part) {
+        public void AddPartForIdOrderModel(int idOrderModel, BikePart part) {
             // If the dictionnary doesn't contain the key, create an empty list
             if (!partsPerBike.ContainsKey(idOrderModel))
-                partsPerBike.Add(idOrderModel, new List<Part>());
+                partsPerBike.Add(idOrderModel, new List<BikePart>());
             partsPerBike[idOrderModel].Add(part);
         }
 
