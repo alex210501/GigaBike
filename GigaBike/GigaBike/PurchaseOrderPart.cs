@@ -15,7 +15,7 @@ namespace GigaBike {
 
         public List<OrderPart> OrderParts {
             get {
-                return new List(orderParts);
+                return new List<OrderPart>(orderParts);
             }
         }
 

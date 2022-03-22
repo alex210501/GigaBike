@@ -177,11 +177,13 @@ namespace GigaBike {
         }
 
         public void DeleteTheSlotUnusedFromTheDatabase() {
-            MySqlDataReader reader = database.DeleteSeveralSlotFromPlanning(slotToDeleteFromDB);
-            reader.Close();
+            if (slotToDeleteFromDB.Count > 0)
+            {
+                MySqlDataReader reader = database.DeleteSeveralSlotFromPlanning(slotToDeleteFromDB);
+                reader.Close();
 
-            slotToDeleteFromDB.Clear();
-
+                slotToDeleteFromDB.Clear();
+            }
         }
 
         private bool IsWeekRegistered(int weekOfYear, int year) {

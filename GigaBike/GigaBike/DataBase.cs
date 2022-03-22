@@ -252,6 +252,7 @@ namespace GigaBike {
             foreach (Slot slot in slotToDelete) values.Add(string.Format("(\"{0}\", {1})", slot.Date.ToString("yyyy-MM-dd"), slot.SlotNumber));
 
             commandToSend += '(' + string.Join(",", values) + ')';
+
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
@@ -293,7 +294,7 @@ namespace GigaBike {
         }
         public MySqlDataReader SetReadyStatePurchaseOrderPart(int IdPurchaseOrder, bool isReceived)
         {
-            //change the state of PurchaseOrder.IsReceived
+            //change the state of PurchaseOrderPart.IsReceived
             string commandToSend = string.Format("UPDATE PurchaseOrderPart SET IsReceived = " + isReceived + " where IdPurchaseOrderPart = " + IdPurchaseOrder);
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
