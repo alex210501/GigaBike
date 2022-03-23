@@ -8,8 +8,8 @@ namespace GigaBike
 {
     public class BikePart
     {
-        private Part Part;
-        private int QuantityForBike { get; } = 0;
+        public Part Part { get; }
+        public int QuantityForBike { get; set; } = 0;
 
 
         public BikePart(Part part, int quantityForBike) {

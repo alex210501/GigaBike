@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 
 namespace GigaBike {
-    class PartToModelLinker {
+    public class PartToModelLinker {
         private Dictionary<int, List<BikePart>> partsPerBike;
 
         public PartToModelLinker() {

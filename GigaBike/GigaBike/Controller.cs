@@ -102,9 +102,19 @@ namespace GigaBike {
             foreach(Slot slot in busySlots) {
                 Order order = ordersRegistered.Find(o => o.IdOrder == slot.IdOrder);
                 BikeOrder bikeOrder = order.Bikes.Find(b => b.IdOrderModel == slot.IdOrderModel);
-
-                Trace.WriteLine(bikeOrder.Bike.Name);
+                int idBike = bikeOrder.Bike.IdBike;
+                List<BikePart> partsOfBike = Stock.PartToModelLinker.GetPartsForIdModel(idBike);
+                
+                partsOfBike.ForEach(bikePart => Stock.PurchaseOrderPartHandler.AddPartToCurrentPurchase(bikePart.Part, bikePart.QuantityForBike));
+                /*foreach (BikePart bikePart in partsOfBike) {
+                    Stock.PurchaseOrderPartHandler.AddPartToCurrentPurchase(bikePart.Part, bikePart.QuantityForBike);
+                    /* if (!partNeededDict.ContainsKey(bikePart.Part.IdPart))
+                        partNeededDict.Add(bikePart.Part.IdPart, bikePart.QuantityForBike);
+                    else
+                        partNeededDict[bikePart.Part.IdPart] += bikePart.QuantityForBike;*/
+                // }
             }
+            Trace.WriteLine("j'ai faim");
         }
 
         // TODO: Clean

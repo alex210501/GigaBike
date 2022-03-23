@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GigaBike {
-    class PurchaseOrderPartHandler {
+    public class PurchaseOrderPartHandler {
         private DataBase database;
         private PurchaseOrderPart currentPurchase;
         private List<PurchaseOrderPart> purchases;
