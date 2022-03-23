@@ -71,6 +71,7 @@ namespace GigaBike
                 goToOrderPiecesCallback = value;
             }
         }
+
         public class StockListGrid
         {
             // public int IdPart { get; set; }

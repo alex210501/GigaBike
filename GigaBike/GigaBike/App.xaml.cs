@@ -116,6 +116,7 @@ namespace GigaBike {
 
             // Define callback
             piecesStockPage.GoBackToStockCallback = GoToStockPage;
+            piecesStockPage.GoToOrderPiecesCallback = GoToOrderPartPage;
         }
 
         public void GoToPlanningPage() {
@@ -200,6 +201,12 @@ namespace GigaBike {
             bikeStockPage.GoBackToStockCallback = GoToStockPage;
         }
 
+        public void GoToOrderPartPage() {
+            OrderPartPage orderPartPage = new OrderPartPage();
+
+            // Create the BikeStockPage instance
+            Current.MainWindow.Content = orderPartPage;
+        }
         public void LoginButtonCallback() {
             if (Current.MainWindow.Content is not LoginPage)
                 throw new FormatException("The current page is not a LoginPage");
