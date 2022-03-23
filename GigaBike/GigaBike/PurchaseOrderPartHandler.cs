@@ -16,6 +16,12 @@ namespace GigaBike {
             purchases = new List<PurchaseOrderPart>();
         }
 
+        public PurchaseOrderPart CurrentPurchase {
+            get {
+                return currentPurchase;
+            }
+        }
+
         public void ClearCurrentPurchase() {
             currentPurchase = new PurchaseOrderPart();
         }

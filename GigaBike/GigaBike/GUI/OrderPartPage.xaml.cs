@@ -18,15 +18,15 @@ namespace GigaBike
     /// <summary>
     /// Logique d'interaction pour OrderPartPage.xaml
     /// </summary>
-    public partial class OrderPartPage : Page
-    {
+    public partial class OrderPartPage : Page {
         private Action createPurchaseCallback = null;
         private Action orderPartCallback = null;
         private Action buttonBackCallback = null;
 
-        public OrderPartPage()
-        {
+        private PurchaseOrderPart currentPurchase;
+        public OrderPartPage(PurchaseOrderPart currentPurchase) {
             InitializeComponent();
+            this.currentPurchase = currentPurchase;
         }
 
         public Action CreatePurchaseCallback {
@@ -47,6 +47,23 @@ namespace GigaBike
             }
         }
 
+        public void RefreshPartGrid() {
+            List<PartRow> partRows = new List<PartRow>();
+
+            foreach(OrderPart orderPart in currentPurchase.OrderParts) {
+                PartRow currentPartRow = new PartRow();
+
+                currentPartRow.PartName = orderPart.Part.NamePart;
+                currentPartRow.PartColor = orderPart.Part.Color;
+                currentPartRow.PartSize = orderPart.Part.Size;
+                currentPartRow.QuantityToOrder = orderPart.QuantityToOrder;
+
+                partRows.Add(currentPartRow);
+            }
+
+            DataGridParts.ItemsSource = partRows;
+        }
+
         private void ButtonCreateNewPurchases(object sender, RoutedEventArgs e) {
             if (createPurchaseCallback is not null) createPurchaseCallback();
         }
@@ -58,5 +75,14 @@ namespace GigaBike
         private void ButtonBack(object sender, RoutedEventArgs e) {
             if (buttonBackCallback is not null) buttonBackCallback();
         }
+    }
+
+    public class PartRow {
+
+        public string PartName { get; set; }
+        public Color PartColor { get; set; }
+        public Size PartSize { get; set; }
+        public int QuantityToOrder { get; set; }
+        // public int Location { get; set; }
     }
 }

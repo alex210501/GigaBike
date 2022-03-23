@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GigaBike {
-    class PurchaseOrderPart {
+    public class PurchaseOrderPart {
         private int IdPurchaseOrderPart { get; set; } = 0;
         private List<OrderPart> orderParts;
 

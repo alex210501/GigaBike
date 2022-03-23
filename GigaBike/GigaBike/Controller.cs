@@ -96,9 +96,13 @@ namespace GigaBike {
         }
 
         public void SetPartsToOrder() {
-            Dictionary<int, int> partNeededDict = new Dictionary<int, int>();
+            // Get every busy slots
             List<Slot> busySlots = Planning.GetAllBusySlot();
 
+            // Clear the current order purchase
+            Stock.PurchaseOrderPartHandler.ClearCurrentPurchase();
+
+            // Get the bike for every busy slot
             foreach(Slot slot in busySlots) {
                 Order order = ordersRegistered.Find(o => o.IdOrder == slot.IdOrder);
                 BikeOrder bikeOrder = order.Bikes.Find(b => b.IdOrderModel == slot.IdOrderModel);
@@ -106,15 +110,7 @@ namespace GigaBike {
                 List<BikePart> partsOfBike = Stock.PartToModelLinker.GetPartsForIdModel(idBike);
                 
                 partsOfBike.ForEach(bikePart => Stock.PurchaseOrderPartHandler.AddPartToCurrentPurchase(bikePart.Part, bikePart.QuantityForBike));
-                /*foreach (BikePart bikePart in partsOfBike) {
-                    Stock.PurchaseOrderPartHandler.AddPartToCurrentPurchase(bikePart.Part, bikePart.QuantityForBike);
-                    /* if (!partNeededDict.ContainsKey(bikePart.Part.IdPart))
-                        partNeededDict.Add(bikePart.Part.IdPart, bikePart.QuantityForBike);
-                    else
-                        partNeededDict[bikePart.Part.IdPart] += bikePart.QuantityForBike;*/
-                // }
             }
-            Trace.WriteLine("j'ai faim");
         }
 
         // TODO: Clean

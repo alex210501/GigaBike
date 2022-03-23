@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GigaBike {
-    class OrderPart {
+    public class OrderPart {
         public Part Part { get; }
         public int QuantityToOrder { get; set; }
 

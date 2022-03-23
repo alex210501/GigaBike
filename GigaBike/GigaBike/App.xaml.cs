@@ -202,13 +202,15 @@ namespace GigaBike {
         }
 
         public void GoToOrderPartPage() {
-            OrderPartPage orderPartPage = new OrderPartPage();
+            OrderPartPage orderPartPage = new OrderPartPage(controller.Stock.PurchaseOrderPartHandler.CurrentPurchase);
 
             // Create the BikeStockPage instance
             Current.MainWindow.Content = orderPartPage;
 
             // Define callback
             orderPartPage.ButtonBackCallback = GoToPiecesStockPage;
+
+            orderPartPage.RefreshPartGrid();
         }
         public void LoginButtonCallback() {
             if (Current.MainWindow.Content is not LoginPage)

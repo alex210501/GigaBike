@@ -76,7 +76,14 @@
             <Label x:Name="PartsLabel" Content="Parts" Height="85" Margin="10,10,-10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontSize="50" Grid.Column="1"/>
             <Label x:Name="Label" Content="Purchase" Height="85" Margin="21,10,42,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontSize="50"/>
             <DataGrid x:Name="DataGridPurchase" ColumnWidth="*" Height="216" Margin="10,86,30,0" VerticalAlignment="Top" MaxColumnWidth="150" CanUserSortColumns="True" MinColumnWidth="30"/>
-            <DataGrid x:Name="DataGridParts" ColumnWidth="*" Height="216" Margin="30,86,11,0" VerticalAlignment="Top" MaxColumnWidth="150" CanUserSortColumns="True" MinColumnWidth="30" Grid.Column="1"/>
+            <DataGrid x:Name="DataGridParts" ColumnWidth="*" Height="216" Margin="30,86,11,0" VerticalAlignment="Top" MaxColumnWidth="150" CanUserSortColumns="True" MinColumnWidth="30" Grid.Column="1" FontSize="10" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Part" Binding="{Binding PartName}"/>
+                    <DataGridTextColumn Header="Color" Binding="{Binding PartColor.Name}"/>
+                    <DataGridTextColumn Header="Size" Binding="{Binding PartSize.Name}"/>
+                    <DataGridTextColumn Header="Quantity to order" Binding="{Binding QuantityToOrder}"/>
+                </DataGrid.Columns>
+            </DataGrid>
             <Button x:Name="ButtonCreateNewPurchases_" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonCreateNewPurchases" FontSize="24" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="47" Width="290" Content="Create New Purchases" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="30,325,0,0" Grid.Column="1" />
             <Button x:Name="ButtonOrderPart_" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonOrderPart" FontSize="24" FontFamily="Arial" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="47" Width="156" Margin="30,393,0,0" Content="Order Part" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="1" />
             <Button x:Name="ButtonBack__" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonBack" FontSize="12" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="37" Width="73" Margin="3,7,0,0" Content="Back" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
