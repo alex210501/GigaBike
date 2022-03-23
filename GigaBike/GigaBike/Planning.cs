@@ -95,6 +95,14 @@ namespace GigaBike {
             return freeSlots;
         }
 
+        public List<Slot> GetAllBusySlot() {
+            List<Slot> busySlots = new List<Slot>();
+
+            foreach (Week week in weeks) busySlots.AddRange(week.GetAllBusySlot());
+
+            return busySlots;
+        }
+
         public List<Slot> GetFreeSlotFromDate(DateTime currentDate) {
             List<Slot> freeSlotFromDate = new List<Slot>();
             int weekNumber = DateCalculator.GetWeekOfYear(currentDate);

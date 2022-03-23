@@ -73,8 +73,17 @@ namespace GigaBike {
             return freeSlots;
         }
 
+
         public List<Slot> GetAllFreeSlot() {
             return GetFreeSlot(0);
+        }
+
+        public List<Slot> GetAllBusySlot() {
+            List<Slot> busySlots = new List<Slot>();
+
+            foreach (WeekDay day in days) busySlots.AddRange(day.GetBusySlots());
+
+            return busySlots;
         }
 
         private void CreateDaysList(int weekOfYear, int year) {

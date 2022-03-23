@@ -95,6 +95,18 @@ namespace GigaBike {
             Planning.BindBikeOrderToExistingSlot(currentBikeOrder);
         }
 
+        public void SetPartsToOrder() {
+            Dictionary<int, int> partNeededDict = new Dictionary<int, int>();
+            List<Slot> busySlots = Planning.GetAllBusySlot();
+
+            foreach(Slot slot in busySlots) {
+                Order order = ordersRegistered.Find(o => o.IdOrder == slot.IdOrder);
+                BikeOrder bikeOrder = order.Bikes.Find(b => b.IdOrderModel == slot.IdOrderModel);
+
+                Trace.WriteLine(bikeOrder.Bike.Name);
+            }
+        }
+
         // TODO: Clean
         private void GetOrdersFromDatabase() {
             MySqlDataReader reader = DataBase.GetOrders();

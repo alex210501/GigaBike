@@ -20,24 +20,43 @@ namespace GigaBike
     /// </summary>
     public partial class OrderPartPage : Page
     {
+        private Action createPurchaseCallback = null;
+        private Action orderPartCallback = null;
+        private Action buttonBackCallback = null;
+
         public OrderPartPage()
         {
             InitializeComponent();
         }
 
-        private void ButtonCreateNewPurchases(object sender, RoutedEventArgs e)
-        {
-
+        public Action CreatePurchaseCallback {
+            set {
+                createPurchaseCallback = value;
+            }
         }
 
-        private void ButtonOrderPart(object sender, RoutedEventArgs e)
-        {
-
+        public Action OrderPartCallback {
+            set {
+                orderPartCallback = value;
+            }
         }
 
-        private void ButtonBack(object sender, RoutedEventArgs e)
-        {
+        public Action ButtonBackCallback {
+            set {
+                buttonBackCallback = value;
+            }
+        }
 
+        private void ButtonCreateNewPurchases(object sender, RoutedEventArgs e) {
+            if (createPurchaseCallback is not null) createPurchaseCallback();
+        }
+
+        private void ButtonOrderPart(object sender, RoutedEventArgs e) {
+            if (orderPartCallback is not null) orderPartCallback();
+        }
+
+        private void ButtonBack(object sender, RoutedEventArgs e) {
+            if (buttonBackCallback is not null) buttonBackCallback();
         }
     }
 }

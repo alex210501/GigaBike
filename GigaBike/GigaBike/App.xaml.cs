@@ -116,7 +116,7 @@ namespace GigaBike {
 
             // Define callback
             piecesStockPage.GoBackToStockCallback = GoToStockPage;
-            piecesStockPage.GoToOrderPiecesCallback = GoToOrderPartPage;
+            piecesStockPage.GoToOrderPiecesCallback = GoToOrderPartPageCallback;
         }
 
         public void GoToPlanningPage() {
@@ -206,6 +206,9 @@ namespace GigaBike {
 
             // Create the BikeStockPage instance
             Current.MainWindow.Content = orderPartPage;
+
+            // Define callback
+            orderPartPage.ButtonBackCallback = GoToPiecesStockPage;
         }
         public void LoginButtonCallback() {
             if (Current.MainWindow.Content is not LoginPage)
@@ -365,6 +368,12 @@ namespace GigaBike {
             controller.Stock.GetStockFromDataBase();
             controller.Stock.GetPartPerBikeFromDatabase();
             GoToPiecesStockPage();
+        }
+
+        void GoToOrderPartPageCallback() {
+            controller.RefreshOrderAndPlanningFromDatabase();
+            controller.SetPartsToOrder();
+            GoToOrderPartPage();
         }
     }
 }
