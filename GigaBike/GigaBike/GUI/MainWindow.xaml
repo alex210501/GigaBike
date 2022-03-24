@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GigaBike"
         mc:Ignorable="d"
         WindowState="Maximized"
-        WindowStyle="None"
+        
         Title="MainWindow" Height="450" Width="800">
 
     <Grid Height="450">
