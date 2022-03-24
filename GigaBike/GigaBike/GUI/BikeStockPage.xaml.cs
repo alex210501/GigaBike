@@ -20,9 +20,22 @@ namespace GigaBike
     /// </summary>
     public partial class BikeStockPage : Page {
         private Action goBackToStockCallback = null;
+        private Action goToAddBikeToStockCallback = null;
 
         public BikeStockPage() {
             InitializeComponent();
+        }
+
+        public Action GoBackToStockCallback {
+            set {
+                goBackToStockCallback = value;
+            }
+        }
+
+        public Action GoToAddBikeToStockCallback {
+            set {
+                goToAddBikeToStockCallback = value;
+            }
         }
 
         private void DataGridBikeStock(object sender, SelectionChangedEventArgs e) {
@@ -33,10 +46,8 @@ namespace GigaBike
             if (goBackToStockCallback is not null) goBackToStockCallback();
         }
 
-        public Action GoBackToStockCallback {
-            set {
-                goBackToStockCallback = value;
-            }
+        private void AddBikeToStockButton(object sender, RoutedEventArgs e) {
+            if (goToAddBikeToStockCallback is not null) goToAddBikeToStockCallback();
         }
     }
 }

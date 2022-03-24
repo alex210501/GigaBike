@@ -177,13 +177,6 @@ namespace GigaBike {
             stockPage.GoToPiecesStockCallback = GoToStockPageCallback;
         }
 
-        public void GoToAddBikeToStockPage() {
-            W_AddBikeToStockPage addBikeToStockPage = new W_AddBikeToStockPage();
-
-            // Create the AddBikeToStockPage instance
-            Current.MainWindow.Content = addBikeToStockPage;
-        }
-
         public void GoToChoosePathWorkerPage() {
             ChoosePathWorkerPage choosePathWorkerPage = new ChoosePathWorkerPage();
 
@@ -199,6 +192,7 @@ namespace GigaBike {
 
             // Define callback
             bikeStockPage.GoBackToStockCallback = GoToStockPage;
+            bikeStockPage.GoToAddBikeToStockCallback = GoToAddBikeToStockPage;
         }
 
         public void GoToOrderPartPage() {
@@ -212,6 +206,18 @@ namespace GigaBike {
 
             orderPartPage.RefreshPartGrid();
         }
+
+        public void GoToAddBikeToStockPage() {
+            AddBikeStockPage addBikeStockPage = new AddBikeStockPage();
+
+            // Create the AddBikeStockPage instance
+            Current.MainWindow.Content = addBikeStockPage;
+
+            // Define callback
+            addBikeStockPage.GoBackToChooseCallback = GoToBikeStockPage;
+            // addBikeStockPage.AddBikeToStockCallback = ... Put your callback here
+        }
+
         public void LoginButtonCallback() {
             if (Current.MainWindow.Content is not LoginPage)
                 throw new FormatException("The current page is not a LoginPage");
