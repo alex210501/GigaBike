@@ -116,6 +116,7 @@ namespace GigaBike {
 
             // Define callback
             piecesStockPage.GoBackToStockCallback = GoToStockPage;
+            piecesStockPage.GoToOrderPiecesCallback = GoToOrderPartPageCallback;
         }
 
         public void GoToPlanningPage() {
@@ -200,6 +201,17 @@ namespace GigaBike {
             bikeStockPage.GoBackToStockCallback = GoToStockPage;
         }
 
+        public void GoToOrderPartPage() {
+            OrderPartPage orderPartPage = new OrderPartPage(controller.Stock.PurchaseOrderPartHandler.CurrentPurchase);
+
+            // Create the BikeStockPage instance
+            Current.MainWindow.Content = orderPartPage;
+
+            // Define callback
+            orderPartPage.ButtonBackCallback = GoToPiecesStockPage;
+
+            orderPartPage.RefreshPartGrid();
+        }
         public void LoginButtonCallback() {
             if (Current.MainWindow.Content is not LoginPage)
                 throw new FormatException("The current page is not a LoginPage");
@@ -356,7 +368,14 @@ namespace GigaBike {
 
         void GoToStockPageCallback() {
             controller.Stock.GetStockFromDataBase();
+            controller.Stock.GetPartPerBikeFromDatabase();
             GoToPiecesStockPage();
+        }
+
+        void GoToOrderPartPageCallback() {
+            controller.RefreshOrderAndPlanningFromDatabase();
+            controller.SetPartsToOrder();
+            GoToOrderPartPage();
         }
     }
 }

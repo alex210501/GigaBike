@@ -38,15 +38,16 @@ namespace GigaBike
             {
                 StockListGrid currentStockRecapGrid = new StockListGrid();
 
-                currentStockRecapGrid.IdPart = currentPiece.IdPart;
-                currentStockRecapGrid.NamePart = currentPiece.NamePart;
-                currentStockRecapGrid.NumberPart = currentPiece.NumberPart;
-                currentStockRecapGrid.Threshold = currentPiece.Threshold;
+                // currentStockRecapGrid.IdPart = currentPiece.IdPart;
+                currentStockRecapGrid.Name = currentPiece.NamePart;
+                currentStockRecapGrid.QuantityInStock = currentPiece.QuantityInStock;
+                currentStockRecapGrid.Color = currentPiece.Color;
+                currentStockRecapGrid.Size = currentPiece.Size;
+                // currentStockRecapGrid.Threshold = currentPiece.Threshold;
                 currentStockRecapGrid.Location = currentPiece.Location;
 
                 stockRecap.Add(currentStockRecapGrid);
             }
-
 
             TableRecap.ItemsSource = stockRecap;
         }
@@ -70,12 +71,15 @@ namespace GigaBike
                 goToOrderPiecesCallback = value;
             }
         }
+
         public class StockListGrid
         {
-            public int IdPart { get; set; }
-            public string NamePart { get; set; }
-            public int NumberPart { get; set; }
-            public int Threshold { get; set; }
+            // public int IdPart { get; set; }
+            public string Name { get; set; }
+            public int QuantityInStock { get; set; }
+            public Color Color { get; set; }
+            public Size Size { get; set; }
+            // public int Threshold { get; set; }
             public int Location { get; set; }
 
         }

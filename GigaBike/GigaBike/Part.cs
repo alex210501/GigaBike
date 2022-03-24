@@ -6,23 +6,24 @@ using System.Threading.Tasks;
 
 namespace GigaBike
 {
-    public class Part
-    {
+    public class Part {
         public int IdPart { get; }
-        //public int Price { get; } //A rajouter
         public string NamePart { get; }
-        public int NumberPart { get; }
+        public int QuantityInStock { get; }
         public int Threshold { get; }
         public int Location { get; }
+        public Color Color { get; }
+        public Size Size { get; }
         
 
-        public Part(int IdPart, string NamePart, int NumberPart, int Threshold, int Location)
-        {
-            this.IdPart = IdPart;
-            this.NamePart = NamePart;
-            this.NumberPart = NumberPart;
-            this.Threshold = Threshold;
-            this.Location = Location;
+        public Part(int idPart, string namePart, int quantityInStock, int threshold, int location, Color color, Size size) {
+            this.IdPart = idPart;
+            this.NamePart = namePart;
+            this.QuantityInStock = quantityInStock;
+            this.Threshold = threshold;
+            this.Location = location;
+            this.Color = color;
+            this.Size = size;
             //this.Price = Price; //A ajouter?
             // //??
         }
@@ -32,5 +33,8 @@ namespace GigaBike
             return true; //à ajouter la vérif
         }
 
+        public bool ArePartInStockSufficient() {
+            return Threshold <= QuantityInStock;
+        }
     }
 }

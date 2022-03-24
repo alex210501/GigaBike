@@ -48,6 +48,10 @@ namespace GigaBike {
             return freeSlots;
         }
 
+        public List<Slot> GetBusySlots() {
+            return slots.FindAll(slot => slot.StateSlot == StateSlot.BUSY);
+        }
+
         public List<Slot> GetSlotByIdOrder(int idOrder) {
             return slots.FindAll(currentSlot => currentSlot.IdOrder == idOrder);
         }

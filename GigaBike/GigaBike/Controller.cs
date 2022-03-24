@@ -95,6 +95,27 @@ namespace GigaBike {
             Planning.BindBikeOrderToExistingSlot(currentBikeOrder);
         }
 
+        public void SetPartsToOrder() {
+            // Get every busy slots
+            List<Slot> busySlots = Planning.GetAllBusySlot();
+
+            // Clear the current order purchase
+            Stock.PurchaseOrderPartHandler.ClearCurrentPurchase();
+
+            // Get the bike for every busy slot
+            foreach(Slot slot in busySlots) {
+                Order order = ordersRegistered.Find(o => o.IdOrder == slot.IdOrder);
+
+                if (order is not null) {
+                    BikeOrder bikeOrder = order.Bikes.Find(b => b.IdOrderModel == slot.IdOrderModel);
+                    int idBike = bikeOrder.Bike.IdBike;
+                    List<BikePart> partsOfBike = Stock.PartToModelLinker.GetPartsForIdModel(idBike);
+
+                    partsOfBike.ForEach(bikePart => Stock.PurchaseOrderPartHandler.AddPartToCurrentPurchase(bikePart.Part, bikePart.QuantityForBike));
+                }
+            }
+        }
+
         // TODO: Clean
         private void GetOrdersFromDatabase() {
             MySqlDataReader reader = DataBase.GetOrders();

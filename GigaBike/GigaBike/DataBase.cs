@@ -88,23 +88,12 @@ namespace GigaBike {
         }
 
         public MySqlDataReader GetStock() {
-            /*IdpartModelidpartModel = reader.GetInt(0)
+            /*idPartModel = reader.GetInt(0)
              *IdPart = reader.GetInt(1)
              *IdModel = reader.GetInt(2)
              *NumbrForBike = reader.GetInt(3)
-             * NamePart =  reader.GetString(5)
-             * IdPartColor = reader.GetInt(6)
-             * IdPartSize = reader.GetInt(7)
-             * NumberPartInStock = reader.GetInt(8)
-             * threshold = reader.GetInt(9)
-             * Location = reader.GetInt(10)
-             * Colorname =  reader.GetString(11)
-             * Sizename =  reader.GetString(12)
             */
-            MySqlCommand command = SendCommand("SELECT PartModel.*, Part.*, Color.NameColor, Size.NameSize From PartModel " +
-                                                "Inner Join Part ON Part.IdPart = PartModel.IdPart " +
-                                                "Inner Join Color ON Color.IdColor = Part.IdPartColor " +
-                                                "Inner Join Size ON Size.IdSize = Part.IdPartSize" );
+            MySqlCommand command = SendCommand("SELECT * From PartModel");
             return command.ExecuteReader();
         }
         public MySqlDataReader GetPartStock()
@@ -112,12 +101,16 @@ namespace GigaBike {
             /*IdPart = reader.GetInt(0)
              *NamePart = reader.GetInt(1)
              *IdPartColor = reader.GetInt(2)
-             *IdPartSize = reader.GetInt(3)
-             *NumberPartInStock =  reader.GetString(4)
-             *Threshold = reader.GetInt(5)
-             *Location = reader.GetInt(6)
+             *NamePartColor = reader.GetString(3)
+             *IdPartSize = reader.GetInt(4)
+             *NamePartSize = reader.GetString(5)
+             *NumberPartInStock =  reader.GetInt(6)
+             *Threshold = reader.GetInt(7)
+             *Location = reader.GetInt(8)
             */
-            MySqlCommand command = SendCommand("SELECT * From Part ");
+            MySqlCommand command = SendCommand("SELECT IdPart, NamePart, IdPartColor, Color.NameColor, IdPartSize, Size.NameSize, NumberPartInStock, Threshold, Location From Part "+
+                                               "INNER JOIN Color on Color.IdColor = IdPartColor " +
+                                               "INNER JOIN Size on Size.IdSize = IdPartSize");
             return command.ExecuteReader();
         }
 
@@ -180,10 +173,10 @@ namespace GigaBike {
         public MySqlDataReader GetPlanning()
         {
             /*IdPlanning =  reader.GetInt(0)
-              PlanningDate =  reader.GetString(1)
+              PlanningDate =  reader.GetDateTime(1)
               Slot  =  reader.GetInt(2)
               OrderModel  =  reader.GetInt(3)
-              IsReady  =  reader.GetString(4)
+              IsReady  =  reader.GetInt(4)
               IdOrder  =  reader.GetInt(5)
               IdModelBike  =  reader.GetInt(6)
             */
@@ -259,6 +252,50 @@ namespace GigaBike {
             foreach (Slot slot in slotToDelete) values.Add(string.Format("(\"{0}\", {1})", slot.Date.ToString("yyyy-MM-dd"), slot.SlotNumber));
 
             commandToSend += '(' + string.Join(",", values) + ')';
+
+            MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
+        public MySqlDataReader GetPurchaseOrder()
+        {
+            /*
+             * IdPurchaseOrder = reader.GetInt(0)
+             * PurchaseDate = reader.GetDateTime(1)
+            */
+            MySqlCommand command = SendCommand("SELECT * FROM PurchaseOrder");
+            return command.ExecuteReader();
+        }
+        public MySqlDataReader AddPurchaseOrder(DateTime date)
+        {   //add a time in the table PurchaseOrder
+            MySqlCommand command = SendCommand(string.Format("INSERT INTO PurchaseOrder (PurchaseDate) VALUES(\"{0}\");" +
+                                   "SELECT @@IDENTITY;", date.ToString("yyyy-MM-dd")));
+            return command.ExecuteReader();
+        }
+        public MySqlDataReader GetPurchaseOrderPart()
+        {
+            /*
+             * IdPurchaseOrderPart = reader.GetInt(0)
+             * IdPurchaseOrder = reader.GetInt(1)
+             * IdPart = reader.GetInt(2)
+             * QuantityToOrder = reader.GetInt(3)
+             * IsReceived = reader.GetInt(4)
+             */
+            string commandToSend = string.Format("SELECT * FROM PurchaseOrderPart");
+            MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
+        public MySqlDataReader AddPurchaseOrderPart(int IdPurchaseOrder , int IdPart, int QuantityToOrder, bool IsReceived = false)
+        {
+            //insert a new element to the table PurchaseOrderPart
+            string commandToSend = string.Format("INSERT INTO PurchaseOrderPart (IdPurchaseOrder, IdPart,QuantityToOrder,IsReceived ) VALUES ({0},{1},{2},{3});" +
+                                                 "SELECT @@IDENTITY;", IdPurchaseOrder, IdPart,QuantityToOrder,IsReceived);
+            MySqlCommand command = SendCommand(commandToSend);
+            return command.ExecuteReader();
+        }
+        public MySqlDataReader SetReadyStatePurchaseOrderPart(int IdPurchaseOrder, bool isReceived)
+        {
+            //change the state of PurchaseOrderPart.IsReceived
+            string commandToSend = string.Format("UPDATE PurchaseOrderPart SET IsReceived = " + isReceived + " where IdPurchaseOrderPart = " + IdPurchaseOrder);
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
