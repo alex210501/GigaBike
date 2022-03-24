@@ -8,8 +8,8 @@ using System.Globalization;
 
 namespace GigaBike {
     static class DateCalculator {
-        private static readonly CultureInfo cultureInfo = CultureInfo.CurrentCulture;
-        private static readonly Calendar calendar = cultureInfo.Calendar;
+        private static readonly CultureInfo cultureInfo = new CultureInfo("es-ES", false);
+        private static readonly Calendar calendar = new GregorianCalendar(); // cultureInfo.Calendar;
 
         static public DateTime GetNextDay(DateTime today) {
             today = today.AddDays(1);

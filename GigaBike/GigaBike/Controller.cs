@@ -105,11 +105,14 @@ namespace GigaBike {
             // Get the bike for every busy slot
             foreach(Slot slot in busySlots) {
                 Order order = ordersRegistered.Find(o => o.IdOrder == slot.IdOrder);
-                BikeOrder bikeOrder = order.Bikes.Find(b => b.IdOrderModel == slot.IdOrderModel);
-                int idBike = bikeOrder.Bike.IdBike;
-                List<BikePart> partsOfBike = Stock.PartToModelLinker.GetPartsForIdModel(idBike);
-                
-                partsOfBike.ForEach(bikePart => Stock.PurchaseOrderPartHandler.AddPartToCurrentPurchase(bikePart.Part, bikePart.QuantityForBike));
+
+                if (order is not null) {
+                    BikeOrder bikeOrder = order.Bikes.Find(b => b.IdOrderModel == slot.IdOrderModel);
+                    int idBike = bikeOrder.Bike.IdBike;
+                    List<BikePart> partsOfBike = Stock.PartToModelLinker.GetPartsForIdModel(idBike);
+
+                    partsOfBike.ForEach(bikePart => Stock.PurchaseOrderPartHandler.AddPartToCurrentPurchase(bikePart.Part, bikePart.QuantityForBike));
+                }
             }
         }
 
