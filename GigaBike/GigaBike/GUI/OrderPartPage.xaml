@@ -78,9 +78,10 @@
             <DataGrid x:Name="DataGridPurchase" ColumnWidth="*" Height="216" Margin="10,86,30,0" VerticalAlignment="Top" MaxColumnWidth="150" CanUserSortColumns="True" MinColumnWidth="30" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding IdPurchase}"/>
+                    <DataGridTextColumn Header="Order Date" Binding="{Binding DatePurchase, StringFormat='dd/MM/yyyy'}" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid x:Name="DataGridParts" ColumnWidth="*" Height="216" Margin="30,86,11,0" VerticalAlignment="Top" MaxColumnWidth="150" CanUserSortColumns="True" MinColumnWidth="30" Grid.Column="1" FontSize="10" AutoGenerateColumns="False">
+            <DataGrid x:Name="DataGridParts" ColumnWidth="*" Height="216" Margin="30,86,11,0" VerticalAlignment="Top" MaxColumnWidth="150" CanUserSortColumns="True" MinColumnWidth="30" Grid.Column="1" FontSize="10" AutoGenerateColumns="False" SelectionChanged="DataGridParts_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Part" Binding="{Binding PartName}"/>
                     <DataGridTextColumn Header="Color" Binding="{Binding PartColor.Name}"/>

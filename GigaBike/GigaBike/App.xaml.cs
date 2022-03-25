@@ -205,6 +205,7 @@ namespace GigaBike {
             orderPartPage.ButtonBackCallback = GoToPiecesStockPage;
             orderPartPage.CreatePurchaseCallback = CreatePurchaseCallback;
             orderPartPage.OrderPartCallback = registerCommandDataBase;
+            orderPartPage.purchases = controller.Stock.PurchaseOrderPartHandler.purchases;
 
             orderPartPage.RefreshPurchaseGrid();
         }
@@ -383,6 +384,7 @@ namespace GigaBike {
         void GoToOrderPartPageCallback() {
             controller.RefreshOrderAndPlanningFromDatabase();
             controller.Stock.GetStockFromDataBase();
+            controller.Stock.PurchaseOrderPartHandler.GetPurchaseFromDataBase();
             GoToOrderPartPage();
         }
 

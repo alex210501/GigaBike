@@ -9,7 +9,7 @@ namespace GigaBike {
     public class PurchaseOrderPartHandler {
         private DataBase database;
         private PurchaseOrderPart currentPurchase;
-        private List<PurchaseOrderPart> purchases;
+        public List<PurchaseOrderPart> purchases { get; private set; }
 
         public PurchaseOrderPartHandler(DataBase database) {
             this.database = database;
@@ -61,8 +61,23 @@ namespace GigaBike {
                     reader2.Close();
                 }
                 
-            }
+            } 
+        }
 
+        public void GetPurchaseFromDataBase()
+        {
+            purchases.Clear();
+            MySqlDataReader reader = database.GetPurchaseOrder();
+            while (reader.Read())
+            {
+                int IdPurchaseOrder = reader.GetInt32(0);
+                DateTime PurchaseDate = reader.GetDateTime(1);
+                PurchaseOrderPart currentPurchaseOrder = new PurchaseOrderPart();
+                currentPurchaseOrder.IdPurchaseOrderPart = IdPurchaseOrder;
+                currentPurchaseOrder.orderDate = PurchaseDate;
+                purchases.Add(currentPurchaseOrder);
+            }
+            reader.Close();
             
         }
     }
