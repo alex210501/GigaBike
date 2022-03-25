@@ -71,7 +71,7 @@
             </Grid.ColumnDefinitions>
             <Label Content="Choose use :" Height="102" VerticalAlignment="Top" FontSize="50" FontWeight="Bold" FontFamily="Arial Rounded MT Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" />
             <Button x:Name="ButtonCatalog" Style="{DynamicResource RoundedButtonStyle}" Content="Catalog" Click="ButtonToCatalog" FontSize="40" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" SnapsToDevicePixels="True" Background="#FFD0D4D4" Margin="690,234,100,0" Height="75" VerticalAlignment="Top" Width="300" />
-            <Button x:Name="ButtonBack" Style="{DynamicResource RoundedButtonStyle}" Content="Back" Click="ButtonBackToLogin" FontSize="40" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" SnapsToDevicePixels="True" Background="#FFD0D4D4" Margin="0,323,0,89" HorizontalAlignment="Center" Width="200" />
+            <Button x:Name="ButtonBack" Style="{DynamicResource RoundedButtonStyle}" Content="Back" Click="ButtonBackToLogin" FontSize="40" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" SnapsToDevicePixels="True" Background="#FFD0D4D4" Margin="0,323,0,89" HorizontalAlignment="Center" Width="200" Visibility="Hidden" />
             <Button x:Name="ButtonRessource" Style="{DynamicResource RoundedButtonStyle}" Content="Ressources" Click="ButtonToRessource" FontSize="40" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" SnapsToDevicePixels="True" Background="#FFD0D4D4" Margin="100,234,690,0" Height="75" VerticalAlignment="Top" Width="300" />
         </Grid>
     </Viewbox>
