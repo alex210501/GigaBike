@@ -23,10 +23,12 @@ namespace GigaBike
         private Action orderPartCallback = null;
         private Action buttonBackCallback = null;
 
+        List<PurchaseRow> purchasesRows;
         private PurchaseOrderPart currentPurchase;
-        public OrderPartPage(PurchaseOrderPart currentPurchase) {
+        public OrderPartPage() {
             InitializeComponent();
-            this.currentPurchase = currentPurchase;
+            this.currentPurchase = null;
+            purchasesRows = new List<PurchaseRow>();
         }
 
         public Action CreatePurchaseCallback {
@@ -47,21 +49,52 @@ namespace GigaBike
             }
         }
 
-        public void RefreshPartGrid() {
+        public void SetCurrentPurchase(PurchaseOrderPart currentPurchase) {
+            this.currentPurchase = currentPurchase;
+        }
+
+        public void SelectCurrentPurchasePart() {
+            // If there's no current purchases registered, don't search through the list
+            if (currentPurchase is null) return;
+
+            PurchaseRow currentPurchaseRow = purchasesRows.Find(p => p.IdPurchase == currentPurchase.IdPurchaseOrderPart);
+
+            if (currentPurchaseRow is not null)
+                RefreshPartGrid(currentPurchaseRow.PartToOrder);
+        }
+
+        public void RefreshPurchaseGrid() {
+            // Clear the purchases rows
+            purchasesRows.Clear();
+
+            // Add the current purchase if it's not null
+            if (currentPurchase is not null) {
+                PurchaseRow currentPurchaseRow = new PurchaseRow();
+
+                currentPurchaseRow.IdPurchase = currentPurchase.IdPurchaseOrderPart;
+                currentPurchaseRow.PartToOrder = new List<OrderPart>(currentPurchase.OrderParts);
+                purchasesRows.Add(currentPurchaseRow);
+            }
+
+            DataGridPurchase.ItemsSource = purchasesRows;
+        }
+
+        public void RefreshPartGrid(List<OrderPart> orderParts) {
             List<PartRow> partRows = new List<PartRow>();
 
-            foreach(OrderPart orderPart in currentPurchase.OrderParts) {
+            foreach (OrderPart currentOrderPart in orderParts) {
                 PartRow currentPartRow = new PartRow();
 
-                currentPartRow.PartName = orderPart.Part.NamePart;
-                currentPartRow.PartColor = orderPart.Part.Color;
-                currentPartRow.PartSize = orderPart.Part.Size;
-                currentPartRow.QuantityToOrder = orderPart.QuantityToOrder;
+                currentPartRow.PartName = currentOrderPart.Part.NamePart;
+                currentPartRow.PartColor = currentOrderPart.Part.Color;
+                currentPartRow.PartSize = currentOrderPart.Part.Size;
+                currentPartRow.QuantityToOrder = currentOrderPart.QuantityToOrder;
 
                 partRows.Add(currentPartRow);
             }
 
             DataGridParts.ItemsSource = partRows;
+            DataGridParts.Items.Refresh();
         }
 
         private void ButtonCreateNewPurchases(object sender, RoutedEventArgs e) {
@@ -77,8 +110,13 @@ namespace GigaBike
         }
     }
 
-    public class PartRow {
+    public class PurchaseRow {
+        public int IdPurchase { get; set; }
+        public List<OrderPart> PartToOrder { get; set; }
+        public DateTime DatePurchase { get; set; }
+    }
 
+    public class PartRow {
         public string PartName { get; set; }
         public Color PartColor { get; set; }
         public Size PartSize { get; set; }

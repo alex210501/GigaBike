@@ -79,7 +79,5 @@ namespace GigaBike
         public bool IsThereEnoughPartsInStock(int NumberPart, int NumberPartCommand) {
             return NumberPart >= NumberPartCommand;// check if there are enougth part for the command
         }
-
-
     }
 }

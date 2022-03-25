@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GigaBike {
     public class PurchaseOrderPart {
-        private int IdPurchaseOrderPart { get; set; } = 0;
+        public int IdPurchaseOrderPart { get; set; } = 0;
         private List<OrderPart> orderParts;
 
         public PurchaseOrderPart() {

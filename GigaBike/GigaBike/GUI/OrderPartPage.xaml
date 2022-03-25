@@ -75,7 +75,11 @@
             </Grid.ColumnDefinitions>
             <Label x:Name="PartsLabel" Content="Parts" Height="85" Margin="10,10,-10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontSize="50" Grid.Column="1"/>
             <Label x:Name="Label" Content="Purchase" Height="85" Margin="21,10,42,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontSize="50"/>
-            <DataGrid x:Name="DataGridPurchase" ColumnWidth="*" Height="216" Margin="10,86,30,0" VerticalAlignment="Top" MaxColumnWidth="150" CanUserSortColumns="True" MinColumnWidth="30"/>
+            <DataGrid x:Name="DataGridPurchase" ColumnWidth="*" Height="216" Margin="10,86,30,0" VerticalAlignment="Top" MaxColumnWidth="150" CanUserSortColumns="True" MinColumnWidth="30" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding IdPurchase}"/>
+                </DataGrid.Columns>
+            </DataGrid>
             <DataGrid x:Name="DataGridParts" ColumnWidth="*" Height="216" Margin="30,86,11,0" VerticalAlignment="Top" MaxColumnWidth="150" CanUserSortColumns="True" MinColumnWidth="30" Grid.Column="1" FontSize="10" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Part" Binding="{Binding PartName}"/>

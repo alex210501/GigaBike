@@ -196,15 +196,16 @@ namespace GigaBike {
         }
 
         public void GoToOrderPartPage() {
-            OrderPartPage orderPartPage = new OrderPartPage(controller.Stock.PurchaseOrderPartHandler.CurrentPurchase);
+            OrderPartPage orderPartPage = new OrderPartPage();
 
             // Create the BikeStockPage instance
             Current.MainWindow.Content = orderPartPage;
 
             // Define callback
             orderPartPage.ButtonBackCallback = GoToPiecesStockPage;
+            orderPartPage.CreatePurchaseCallback = CreatePurchaseCallback;
 
-            orderPartPage.RefreshPartGrid();
+            orderPartPage.RefreshPurchaseGrid();
         }
 
         public void GoToAddBikeToStockPage() {
@@ -380,8 +381,28 @@ namespace GigaBike {
 
         void GoToOrderPartPageCallback() {
             controller.RefreshOrderAndPlanningFromDatabase();
-            controller.SetPartsToOrder();
             GoToOrderPartPage();
+        }
+
+        void CreatePurchaseCallback() {
+            if (Current.MainWindow.Content is not OrderPartPage) {
+                MessageBox.Show("Callback only use by the OrderPartPage");
+                return;
+            }
+
+            OrderPartPage orderPartPage = Current.MainWindow.Content as OrderPartPage;
+
+            // Set the part to order
+            controller.SetPartsToOrder();
+
+            // Set the current purchase to the GUI
+            orderPartPage.SetCurrentPurchase(controller.Stock.PurchaseOrderPartHandler.CurrentPurchase);
+
+            // Refresh the purchase datagrid
+            orderPartPage.RefreshPurchaseGrid();
+
+            // Select the current purchase to display it's part
+            orderPartPage.SelectCurrentPurchasePart();
         }
     }
 }
