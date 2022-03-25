@@ -35,6 +35,9 @@ namespace GigaBike
 
         public void GetStockFromDataBase()
         {
+            // Clear the pieces list
+            pieceList.Clear();
+
             MySqlDataReader reader = database.GetPartStock();
 
             while (reader.Read()) {
@@ -78,6 +81,15 @@ namespace GigaBike
 
         public bool IsThereEnoughPartsInStock(int NumberPart, int NumberPartCommand) {
             return NumberPart >= NumberPartCommand;// check if there are enougth part for the command
+        }
+
+        public int GetQuantityInStockForPart(Part part) {
+            Part partSearched = pieceList.Find(p => p.IdPart == part.IdPart);
+
+            if (partSearched is null)
+                throw new Exception("Part not found in stock !");
+
+            return part.QuantityInStock;
         }
     }
 }

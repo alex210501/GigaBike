@@ -94,7 +94,6 @@ namespace GigaBike
             }
 
             DataGridParts.ItemsSource = partRows;
-            DataGridParts.Items.Refresh();
         }
 
         private void ButtonCreateNewPurchases(object sender, RoutedEventArgs e) {

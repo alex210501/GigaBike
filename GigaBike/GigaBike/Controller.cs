@@ -114,6 +114,12 @@ namespace GigaBike {
                     partsOfBike.ForEach(bikePart => Stock.PurchaseOrderPartHandler.AddPartToCurrentPurchase(bikePart.Part, bikePart.QuantityForBike));
                 }
             }
+
+            // Substract the quantity to order with the parts in stock
+            foreach(OrderPart orderPart in Stock.PurchaseOrderPartHandler.CurrentPurchase.OrderParts) {
+                int quantityInStock = Stock.GetQuantityInStockForPart(orderPart.Part);
+                orderPart.QuantityToOrder = Math.Max(0, orderPart.QuantityToOrder - quantityInStock);
+            }
         }
 
         // TODO: Clean

@@ -381,6 +381,7 @@ namespace GigaBike {
 
         void GoToOrderPartPageCallback() {
             controller.RefreshOrderAndPlanningFromDatabase();
+            controller.Stock.GetStockFromDataBase();
             GoToOrderPartPage();
         }
 
