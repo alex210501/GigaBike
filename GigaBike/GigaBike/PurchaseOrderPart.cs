@@ -8,6 +8,7 @@ namespace GigaBike {
     public class PurchaseOrderPart {
         public int IdPurchaseOrderPart { get; set; } = 0;
         private List<OrderPart> orderParts;
+        public DateTime orderDate { get; set; }
 
         public PurchaseOrderPart() {
             orderParts = new List<OrderPart>();

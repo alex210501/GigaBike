@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace GigaBike {
     public class PurchaseOrderPartHandler {
@@ -40,6 +41,29 @@ namespace GigaBike {
 
         public void SaveCurrentPurchaseToDatabase() {
 
+        }
+        public void SetDateForCurrentPurchase()
+        {
+            currentPurchase.orderDate = DateTime.Now.Date;
+        }
+        public void SaveCurrentOrderToDataBase()
+        {
+            SetDateForCurrentPurchase();
+            MySqlDataReader reader = database.AddPurchaseOrder(currentPurchase.orderDate);
+            reader.Read();
+            int idPurchase = reader.GetInt32(0);
+            reader.Close();
+            foreach(OrderPart orderPart in currentPurchase.OrderParts)
+            {
+                if (orderPart.QuantityToOrder > 0)
+                {
+                    MySqlDataReader reader2 = database.AddPurchaseOrderPart(idPurchase, orderPart.Part.IdPart, orderPart.QuantityToOrder);
+                    reader2.Close();
+                }
+                
+            }
+
+            
         }
     }
 }
