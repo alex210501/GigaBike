@@ -18,7 +18,7 @@ namespace GigaBike {
     /// Interaction logic for OrderPage.xaml
     /// </summary>
     public partial class CustomerRegistrationPage : Page {
-        private Action backToCatalogWindow = null;
+        //private Action backToCatalogWindow = null;
         private Action cancelOrderCallback = null;
         private Action saveOrderCallback = null;
 
@@ -51,19 +51,23 @@ namespace GigaBike {
             if (saveOrderCallback is not null) saveOrderCallback();
         }
 
+        /*
         private void ButtonBackToModels(object sender, RoutedEventArgs e) {
             if (backToCatalogWindow is not null) backToCatalogWindow();
         }
+        */
 
         private void ButtonCancel(object sender, RoutedEventArgs e) {
             if (cancelOrderCallback is not null) cancelOrderCallback();
         }
 
+        /*
         public Action BackToCatalogWindow {
             set {
                 backToCatalogWindow = value;
             }
         }
+        */
 
         public Action CancelOrderCallback {
             set {

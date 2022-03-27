@@ -83,7 +83,7 @@ namespace GigaBike {
             Current.MainWindow.Content = customerRegistrationPage;
 
             // Define callback
-            customerRegistrationPage.BackToCatalogWindow = GoToCatalogWindow;
+            //customerRegistrationPage.BackToCatalogWindow = GoToCatalogWindow;
             customerRegistrationPage.CancelOrderCallback = CancelOrderCallback;
             customerRegistrationPage.SaveOrderCallback = SaveOrderCallback;
         }
