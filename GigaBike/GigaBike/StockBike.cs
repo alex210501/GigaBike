@@ -9,9 +9,11 @@ namespace GigaBike {
     {
         public Bike Bike { get; }
         public int Quantity { get; set; }
-        public StockBike(Bike bike, int quantity)
+        public int IdModel { get; set; }
+        public StockBike(Bike bike, int Model,int quantity)
         {
             Bike = bike;
+            IdModel = Model;
             Quantity = quantity;
         }
     }

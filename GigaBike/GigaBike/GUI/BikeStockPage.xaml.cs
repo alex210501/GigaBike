@@ -64,11 +64,10 @@ namespace GigaBike
                 currentStockRecapGrid.Color = bike.Bike.Color;
                 currentStockRecapGrid.Size = bike.Bike.Size;
                 currentStockRecapGrid.Price = bike.Bike.Price;
-
-                stockRecap.Add(currentStockRecapGrid); 
-                
+                //add bikes rows to currentStockRecapGrid
+                stockRecap.Add(currentStockRecapGrid);
             }
-            DataGridBikeStock_.ItemsSource = stockRecap;
+            DataGridBikeStock_.ItemsSource = stockRecap;//add bikes to dataGrid
             AllBikesInStock.Clear();
         }
         public class StockBikeGrid

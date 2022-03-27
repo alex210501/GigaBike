@@ -96,9 +96,11 @@ namespace GigaBike
             get
             {
                 MySqlDataReader reader = database.GetBikeStock();
+                stockBikes.Clear();
 
                 while (reader.Read())
-                {
+                {   //read all from GetBikeStock method
+                    int IdModel = reader.GetInt32(0);
                     int IdBike = reader.GetInt32(1);
                     int idColor = reader.GetInt32(2);
                     int idSize = reader.GetInt32(3);
@@ -110,9 +112,9 @@ namespace GigaBike
                     string nameSize = reader.GetString(9);
                     string nameBike = reader.GetString(10);
 
-
+                    
                     Bike bike = new Bike(IdBike, nameBike, price, new Color(idColor, nameColor), new Size(idSize, nameSize), imagePath, slotDuration);
-                    StockBike currentBikeStock = new StockBike(bike, quantity);
+                    StockBike currentBikeStock = new StockBike(bike, IdModel,quantity);//create a bike before to create a StockBike
                     stockBikes.Add(currentBikeStock);
                 }
                 reader.Close();

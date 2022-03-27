@@ -317,6 +317,14 @@ namespace GigaBike {
                                                             "INNER JOIN Size ON Size.IdSize = BikeModel.IdSize"));
             return command.ExecuteReader();
         }
+        public MySqlDataReader AddBikeInStock(int ModelId, int QuantityToAdd)
+        {
+            //add bike quantity to stock by ModelId
+
+            MySqlCommand command = SendCommand("UPDATE BikeModel set StockQuantity = StockQuantity + " + QuantityToAdd + " WHERE IdModel = " + ModelId);
+
+            return command.ExecuteReader();
+        }
     }
 }
 
