@@ -115,6 +115,8 @@ namespace GigaBike
                 //TODO: Change the class name
                 PurchaseOrderPartHandler.AddPartToPurchaseOrderById(idPurchaseOrder, purchasePart, quantityToOrder);
             }
+
+            reader.Close();
         }
     }
 }
