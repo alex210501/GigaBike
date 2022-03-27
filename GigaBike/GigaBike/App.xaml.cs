@@ -262,7 +262,8 @@ namespace GigaBike {
                 controller.Order.AddBikeByQuantity(new Bike(currentBikeModel), quantity);
 
                 // Go to the Order Window
-                GoToRegistrationCustomerWindow();
+                //GoToRegistrationCustomerWindow();
+                GoToOrderConfirmationWindow();
             }
             catch (FormatException) {
                 MessageBox.Show("The quantity must be an integer !");
@@ -299,13 +300,15 @@ namespace GigaBike {
 
             controller.SaveOrderInformation(orderCustomer);
 
-            GoToOrderConfirmationWindow();
+            //GoToOrderConfirmationWindow();
+            GoToCatalogWindow();
         }
 
         void ValidateOrderCallback() {
             controller.SaveOrderAndSlotInDatabase();
             controller.Order.Clear();
-            GoToCatalogWindow();
+            //GoToCatalogWindow();
+            GoToRegistrationCustomerWindow();
         }
 
         void GoToOrderListCallback() {
