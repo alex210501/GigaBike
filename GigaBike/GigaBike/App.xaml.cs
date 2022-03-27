@@ -300,14 +300,18 @@ namespace GigaBike {
 
             controller.SaveOrderInformation(orderCustomer);
 
-            //GoToOrderConfirmationWindow();
+            controller.SaveOrderAndSlotInDatabase();
+            controller.Order.Clear();
             GoToCatalogWindow();
+            //GoToOrderConfirmationWindow();
         }
 
         void ValidateOrderCallback() {
+            /*
             controller.SaveOrderAndSlotInDatabase();
             controller.Order.Clear();
-            //GoToCatalogWindow();
+            GoToCatalogWindow();
+            */
             GoToRegistrationCustomerWindow();
         }
 
