@@ -52,6 +52,7 @@ namespace GigaBike
                 pieceList.Add(currentPieceStock);
             }
             reader.Close();
+            
         }
 
 
@@ -79,7 +80,45 @@ namespace GigaBike
         public bool IsThereEnoughPartsInStock(int NumberPart, int NumberPartCommand) {
             return NumberPart >= NumberPartCommand;// check if there are enougth part for the command
         }
+    }
+    public class BikeInStock
+    {
+        private List<StockBike> stockBikes;
+        private DataBase database;
+        public BikeInStock(DataBase database)
+        {
+            stockBikes = new List<StockBike>();
+            this.database = database;
+        }
+
+        public List<StockBike> getBikeStock
+        {
+            get
+            {
+                MySqlDataReader reader = database.GetBikeStock();
+
+                while (reader.Read())
+                {
+                    int IdBike = reader.GetInt32(1);
+                    int idColor = reader.GetInt32(2);
+                    int idSize = reader.GetInt32(3);
+                    int price = reader.GetInt32(4);
+                    string imagePath = reader.GetString(5);
+                    int slotDuration = reader.GetInt32(6);
+                    int quantity = reader.GetInt32(7);
+                    string nameColor = reader.GetString(8);
+                    string nameSize = reader.GetString(9);
+                    string nameBike = reader.GetString(10);
 
 
+                    Bike bike = new Bike(IdBike, nameBike, price, new Color(idColor, nameColor), new Size(idSize, nameSize), imagePath, slotDuration);
+                    StockBike currentBikeStock = new StockBike(bike, quantity);
+                    stockBikes.Add(currentBikeStock);
+                }
+                reader.Close();
+                return stockBikes;
+                
+            }
+        }
     }
 }

@@ -185,7 +185,9 @@ namespace GigaBike {
         }
 
         public void GoToBikeStockPage() {
-            BikeStockPage bikeStockPage = new BikeStockPage();
+            
+            BikeStockPage bikeStockPage = new BikeStockPage(controller.BikeInStock.getBikeStock);
+            
 
             // Create the BikeStockPage instance
             Current.MainWindow.Content = bikeStockPage;
