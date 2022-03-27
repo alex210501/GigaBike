@@ -89,21 +89,25 @@ namespace GigaBike
             foreach (Order currentOrder in ordersToShow) {
                 foreach (BikeOrder currentBikeOrder in currentOrder.Bikes) {
                     PlanningRow currentPlanningRow = new PlanningRow();
-                    Slot currentSlot = currentBikeOrder.SlotOfBike[0];
 
-                    currentPlanningRow.IdOrder = currentOrder.IdOrder;
-                    currentPlanningRow.IdOrderModel = currentBikeOrder.IdOrderModel;
-                    currentPlanningRow.Bike = currentBikeOrder.Bike;
-                    currentPlanningRow.DeliveryDate = currentSlot.Date;
-                    currentPlanningRow.SelectedSlot = currentSlot.SlotNumber;
-                    currentPlanningRow.SlotAvailable = new List<int>();
-                    currentPlanningRow.IsReady = new List<bool>();
-                    currentPlanningRow.SelectedReadyState = currentSlot.IsReady;
-                    currentPlanningRow.IsReady.Add(true);
-                    currentPlanningRow.IsReady.Add(false);
+                    // If the bike have specific slots
+                    if (currentBikeOrder.SlotOfBike.Count > 0) {
+                        Slot currentSlot = currentBikeOrder.SlotOfBike[0];
 
-                    planningRows.Add(currentPlanningRow);
-                    IsOrderReady.ItemsSource = currentPlanningRow.IsReady;
+                        currentPlanningRow.IdOrder = currentOrder.IdOrder;
+                        currentPlanningRow.IdOrderModel = currentBikeOrder.IdOrderModel;
+                        currentPlanningRow.Bike = currentBikeOrder.Bike;
+                        currentPlanningRow.DeliveryDate = currentSlot.Date;
+                        currentPlanningRow.SelectedSlot = currentSlot.SlotNumber;
+                        currentPlanningRow.SlotAvailable = new List<int>();
+                        currentPlanningRow.IsReady = new List<bool>();
+                        currentPlanningRow.SelectedReadyState = currentSlot.IsReady;
+                        currentPlanningRow.IsReady.Add(true);
+                        currentPlanningRow.IsReady.Add(false);
+
+                        planningRows.Add(currentPlanningRow);
+                        IsOrderReady.ItemsSource = currentPlanningRow.IsReady;
+                    }
                 }
             }
 

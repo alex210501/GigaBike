@@ -22,9 +22,9 @@ namespace GigaBike
         private Action createPurchaseCallback = null;
         private Action orderPartCallback = null;
         private Action buttonBackCallback = null;
-        public List<PurchaseOrderPart> purchases { get; set; }
 
-        List<PurchaseRow> purchasesRows;
+        public List<PurchaseOrderPart> Purchases { get; set; }
+        private List<PurchaseRow> purchasesRows;
         private PurchaseOrderPart currentPurchase;
         public OrderPartPage() {
             InitializeComponent();
@@ -78,8 +78,8 @@ namespace GigaBike
                 purchasesRows.Add(currentPurchaseRow);
                 
             }
-            foreach (PurchaseOrderPart currentDisplayPurchase in purchases)
-            {
+
+            foreach (PurchaseOrderPart currentDisplayPurchase in Purchases) {
                 PurchaseRow currentPurchaseRow = new PurchaseRow();
 
                 currentPurchaseRow.IdPurchase = currentDisplayPurchase.IdPurchaseOrderPart;
@@ -119,9 +119,14 @@ namespace GigaBike
             if (buttonBackCallback is not null) buttonBackCallback();
         }
 
-        private void DataGridParts_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void DataGridParts_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
+        }
+
+        private void PurchaseSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            PurchaseRow purchaseRow = DataGridPurchase.SelectedItem as PurchaseRow;
+
+            RefreshPartGrid(purchaseRow.PartToOrder);
         }
     }
 

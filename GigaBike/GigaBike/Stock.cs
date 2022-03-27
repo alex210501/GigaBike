@@ -91,5 +91,30 @@ namespace GigaBike
 
             return part.QuantityInStock;
         }
+
+        public void RefreshPurchaseOrderFromDataBase() {
+            PurchaseOrderPartHandler.GetPurchaseFromDataBase();
+            GetPurchaseOrderPartFromDataBase();
+        }
+
+        private void GetPurchaseOrderPartFromDataBase() {
+            MySqlDataReader reader = database.GetPurchaseOrderPart();
+
+            while (reader.Read()) {
+                int idPurchaseOrderPart = reader.GetInt32(0);
+                int idPurchaseOrder = reader.GetInt32(1);
+                int idPart = reader.GetInt32(2);
+                int quantityToOrder = reader.GetInt32(3);
+                // IsReceived = reader.GetInt(4)
+
+                Part purchasePart = pieceList.Find(p => p.IdPart == idPart);
+
+                if (purchasePart is null)
+                    throw new Exception("Part is not found !");
+
+                //TODO: Change the class name
+                PurchaseOrderPartHandler.AddPartToPurchaseOrderById(idPurchaseOrder, purchasePart, quantityToOrder);
+            }
+        }
     }
 }
