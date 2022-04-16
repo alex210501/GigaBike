@@ -103,6 +103,7 @@ namespace GigaBike {
             // Define callback
             confirmationOrderPage.ValidateOrderCallback = ValidateOrderCallback;
             confirmationOrderPage.CancelOrderCallback = CancelOrderCallback;
+            confirmationOrderPage.BackToCatalogWindow = GoToCatalogWindow;
 
             Current.MainWindow.Show();
         }

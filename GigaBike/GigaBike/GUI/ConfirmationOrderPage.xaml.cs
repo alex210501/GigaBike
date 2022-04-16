@@ -78,6 +78,14 @@ namespace GigaBike {
                 cancelOrderCallback = value;
             }
         }
+
+        public Action BackToCatalogWindow
+        {
+            set
+            {
+                backToCatalogWindow = value;
+            }
+        }
     }
 
     public class OrderRecapGrid {
