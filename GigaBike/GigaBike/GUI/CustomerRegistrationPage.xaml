@@ -123,30 +123,12 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <TextBox x:Name="TVAInput" HorizontalAlignment="Left" Height="36" Margin="316,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="169" FontSize="25" Visibility="Visible" Grid.ColumnSpan="2">
-                <TextBox.Style>
-                    <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
-                        <Style.Resources>
-                            <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
-                                <VisualBrush.Visual>
-                                    <Label Content="Enter TVA" Foreground="LightGray" />
-                                </VisualBrush.Visual>
-                            </VisualBrush>
-                        </Style.Resources>
-                        <Style.Triggers>
-                            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                            </Trigger>
-                            <Trigger Property="Text" Value="{x:Null}">
-                                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
-                            </Trigger>
-                            <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter Property="Background" Value="White" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-            </TextBox>
+            <TextBox Padding="5, 3, 5, 3" KeyUp="TextBox_KeyUp" Name="TVAInput" Grid.ColumnSpan="2" Margin="316,115,316,58" />
+            <Border BorderThickness="1" Grid.ColumnSpan="2" Margin="316,115,316,58">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="169,0,-169,0">
+                    <StackPanel Name="resultStack"></StackPanel>
+                </ScrollViewer>
+            </Border>
             <Label Content="Address :" HorizontalAlignment="Left" Height="36" Margin="137,74,0,0" VerticalAlignment="Top" Width="158" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" />
             <Label Content="TVA :" HorizontalAlignment="Left" Height="36" Margin="137,115,0,0" VerticalAlignment="Top" Width="158" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" />
             <Label Content="Name :" HorizontalAlignment="Left" Height="36" Margin="137,33,0,0" VerticalAlignment="Top" Width="158" FontSize="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" />
