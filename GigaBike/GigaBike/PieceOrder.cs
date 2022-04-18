@@ -16,15 +16,5 @@ namespace GigaBike
             this.Piece = piece;
             this.NumberPart = numberPart;
         }
-
-        /* a faire quand le prit est definit
-        public int Price
-        {
-            get
-            {
-                return (Piece.Price * Quantity);
-            }
-        }
-        */
     }
 }

@@ -30,7 +30,7 @@ namespace GigaBike
 
         }
 
-        public void SetStockList(Stock CurrentPiece)//à faire
+        public void SetStockList(Stock CurrentPiece)
         {
             List<StockListGrid> stockRecap = new List<StockListGrid>();
 
@@ -76,6 +76,7 @@ namespace GigaBike
         {
             // public int IdPart { get; set; }
             public string Name { get; set; }
+            public int QuantityOrder { get; set; }
             public int QuantityInStock { get; set; }
             public Color Color { get; set; }
             public Size Size { get; set; }
@@ -83,8 +84,10 @@ namespace GigaBike
             public int Location { get; set; }
 
         }
-        
 
+        private void TableRecap_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
+        }
     }
 }

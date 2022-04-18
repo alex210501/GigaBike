@@ -22,16 +22,24 @@ namespace GigaBike
         private Action createPurchaseCallback = null;
         private Action orderPartCallback = null;
         private Action buttonBackCallback = null;
+        private Action addPurchaseToStock = null; //Ajout gigb-46
 
         public List<PurchaseOrderPart> Purchases { get; set; }
         private List<PurchaseRow> purchasesRows;
-        private PurchaseOrderPart currentPurchase;
+        public PurchaseOrderPart currentPurchase;
+        public PurchaseRow currentPurchase2;
         public OrderPartPage() {
             InitializeComponent();
             this.currentPurchase = null;
             purchasesRows = new List<PurchaseRow>();
         }
-
+        public PurchaseRow CurrentPurchase2
+        {
+            get
+            {
+                return currentPurchase2;
+            }
+        }
         public Action CreatePurchaseCallback {
             set {
                 createPurchaseCallback = value;
@@ -50,6 +58,14 @@ namespace GigaBike
             }
         }
 
+        //Ajout gigb-46
+        public Action AddPurchaseToStockCallback
+        {
+            set {
+                addPurchaseToStock = value;
+            }
+        }
+
         public void SetCurrentPurchase(PurchaseOrderPart currentPurchase) {
             this.currentPurchase = currentPurchase;
         }
@@ -59,7 +75,8 @@ namespace GigaBike
             if (currentPurchase is null) return;
 
             PurchaseRow currentPurchaseRow = purchasesRows.Find(p => p.IdPurchase == currentPurchase.IdPurchaseOrderPart);
-
+            Console.WriteLine(currentPurchaseRow);
+            //currentPurchase2 = currentPurchase(currentPurchaseRow);
             if (currentPurchaseRow is not null)
                 RefreshPartGrid(currentPurchaseRow.PartToOrder);
         }
@@ -71,7 +88,7 @@ namespace GigaBike
             // Add the current purchase if it's not null
             if (currentPurchase is not null) {
                 PurchaseRow currentPurchaseRow = new PurchaseRow();
-
+                
                 currentPurchaseRow.IdPurchase = currentPurchase.IdPurchaseOrderPart;
                 currentPurchaseRow.PartToOrder = new List<OrderPart>(currentPurchase.OrderParts);
                 currentPurchaseRow.DatePurchase = currentPurchase.orderDate;
@@ -85,14 +102,14 @@ namespace GigaBike
                 currentPurchaseRow.IdPurchase = currentDisplayPurchase.IdPurchaseOrderPart;
                 currentPurchaseRow.PartToOrder = new List<OrderPart>(currentDisplayPurchase.OrderParts);
                 currentPurchaseRow.DatePurchase = currentDisplayPurchase.orderDate;
-                purchasesRows.Add(currentPurchaseRow);
+                purchasesRows.Add(currentPurchaseRow); 
             }
             DataGridPurchase.ItemsSource = purchasesRows;
         }
 
         public void RefreshPartGrid(List<OrderPart> orderParts) {
             List<PartRow> partRows = new List<PartRow>();
-
+            
             foreach (OrderPart currentOrderPart in orderParts) {
                 PartRow currentPartRow = new PartRow();
 
@@ -119,17 +136,25 @@ namespace GigaBike
             if (buttonBackCallback is not null) buttonBackCallback();
         }
 
+        //Ajout gigb-46
+        private void ButtonAddPurchaseToStock(object sender, RoutedEventArgs e)
+        {
+            //check if there is a purchase selected and if the button is pushed currentPurchaseRow.PartToOrder
+            if (currentPurchase2 is not null && addPurchaseToStock is not null) addPurchaseToStock();
+           
+        }
+
         private void DataGridParts_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
         }
 
         private void PurchaseSelectionChanged(object sender, SelectionChangedEventArgs e) {
             PurchaseRow purchaseRow = DataGridPurchase.SelectedItem as PurchaseRow;
-
+            currentPurchase2 = purchaseRow;
             RefreshPartGrid(purchaseRow.PartToOrder);
         }
     }
-
+    
     public class PurchaseRow {
         public int IdPurchase { get; set; }
         public List<OrderPart> PartToOrder { get; set; }

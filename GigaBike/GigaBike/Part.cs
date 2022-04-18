@@ -24,8 +24,6 @@ namespace GigaBike
             this.Location = location;
             this.Color = color;
             this.Size = size;
-            //this.Price = Price; //A ajouter?
-            // //??
         }
 
         public Boolean ArePartingStockSufficient() // ajouter les éléments à vérif

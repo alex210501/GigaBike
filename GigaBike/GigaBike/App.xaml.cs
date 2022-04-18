@@ -205,6 +205,7 @@ namespace GigaBike {
             orderPartPage.ButtonBackCallback = GoToPiecesStockPage;
             orderPartPage.CreatePurchaseCallback = CreatePurchaseCallback;
             orderPartPage.OrderPartCallback = registerCommandDataBase;
+            orderPartPage.AddPurchaseToStockCallback = AddPurchaseToStockCallback;
             orderPartPage.Purchases = controller.Stock.PurchaseOrderPartHandler.Purchases;
 
             orderPartPage.RefreshPurchaseGrid();
@@ -410,6 +411,24 @@ namespace GigaBike {
         }
         void registerCommandDataBase() {
             controller.Stock.PurchaseOrderPartHandler.SaveCurrentOrderToDataBase(); 
+        }
+
+        void AddPurchaseToStockCallback()
+        {
+            Console.WriteLine("test AddPurchaseToStockCallback");
+            if (Current.MainWindow.Content is not OrderPartPage)
+            {
+                MessageBox.Show("Callback only use by the OrderPartPage");
+                return;
+            }
+
+            OrderPartPage orderPartPage = (Current.MainWindow.Content as OrderPartPage);
+            
+            controller.RemovePurchaseOrder(orderPartPage.CurrentPurchase2);
+            
+
+            orderPartPage.SetCurrentPurchase(controller.Stock.PurchaseOrderPartHandler.CurrentPurchase);
+            orderPartPage.RefreshPurchaseGrid();
         }
     }
 }

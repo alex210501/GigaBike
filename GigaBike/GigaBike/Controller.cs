@@ -15,7 +15,9 @@ namespace GigaBike {
         public DataBase DataBase { get; }
         public Planning Planning { get; }
         private List<Order> ordersRegistered;
+        private List<int> IdPurchaseOrderParts;
         public Stock Stock { get; }
+        public OrderPartPage OrderPartPage { get; }
 
         public Controller() {
             this.DataBase = new DataBase();
@@ -180,6 +182,30 @@ namespace GigaBike {
                 foreach (BikeOrder currentBikeOrder in currentOrder.Bikes)
                     Planning.BindBikeOrderToExistingSlot(currentBikeOrder);
             }
+        }
+
+        public void RemovePurchaseOrder(PurchaseRow CurrentPurchase2)
+        {
+
+            foreach (OrderPart currentOrderPart in CurrentPurchase2.PartToOrder) {
+
+                MySqlDataReader reader = DataBase.AddPartModelToStock(currentOrderPart.Part.IdPart, currentOrderPart.QuantityToOrder);
+                reader.Close();
+            }
+
+            MySqlDataReader reader2 = DataBase.GetPurchaseOrderPart();
+            IdPurchaseOrderParts = new List<int>();
+            while (reader2.Read() & reader2.GetInt32(1)==CurrentPurchase2.IdPurchase)
+            {
+                IdPurchaseOrderParts.Add(reader2.GetInt32(0));
+            }
+            reader2.Close();
+            foreach(int IdPurchaseOrderPart in IdPurchaseOrderParts)
+            {
+                MySqlDataReader reader3 = DataBase.SetReadyStatePurchaseOrderPart(IdPurchaseOrderPart, true);
+                reader3.Close();
+            }
+            
         }
     }
 }
