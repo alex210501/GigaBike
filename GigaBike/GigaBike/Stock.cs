@@ -48,15 +48,15 @@ namespace GigaBike
                 int idSize = reader.GetInt32(4);
                 string nameSize = reader.GetString(5);
                 int numberPart = reader.GetInt32(6);
-                int threshold = reader.GetInt32(7);
-                int location = reader.GetInt32(8);
+                int quantityOrdered = reader.GetInt32(7);
+                int threshold = reader.GetInt32(8);
+                int location = reader.GetInt32(9);
 
-                Part currentPieceStock = new Part(idPart, namePart, numberPart, threshold, location, new Color(idColor, nameColor), new Size(idSize, nameSize));
+                Part currentPieceStock = new Part(idPart, namePart, numberPart, quantityOrdered, threshold, location, new Color(idColor, nameColor), new Size(idSize, nameSize));
                 pieceList.Add(currentPieceStock);
             }
             reader.Close();
         }
-
 
         public void GetPartPerBikeFromDatabase() {
             MySqlDataReader reader = database.GetPartModel();

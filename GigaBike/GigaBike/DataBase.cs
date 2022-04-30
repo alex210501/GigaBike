@@ -108,7 +108,7 @@ namespace GigaBike {
              *Threshold = reader.GetInt(7)
              *Location = reader.GetInt(8)
             */
-            MySqlCommand command = SendCommand("SELECT IdPart, NamePart, IdPartColor, Color.NameColor, IdPartSize, Size.NameSize, NumberPartInStock, Threshold, Location From Part "+
+            MySqlCommand command = SendCommand("SELECT IdPart, NamePart, IdPartColor, Color.NameColor, IdPartSize, Size.NameSize, NumberPartInStock, NumberPartOrdered, Threshold, Location From Part "+
                                                "INNER JOIN Color on Color.IdColor = IdPartColor " +
                                                "INNER JOIN Size on Size.IdSize = IdPartSize");
             return command.ExecuteReader();

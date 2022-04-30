@@ -107,13 +107,19 @@ namespace GigaBike {
             // Get the bike for every busy slot
             foreach(Slot slot in busySlots) {
                 Order order = ordersRegistered.Find(o => o.IdOrder == slot.IdOrder);
-
+                 
                 if (order is not null) {
                     BikeOrder bikeOrder = order.Bikes.Find(b => b.IdOrderModel == slot.IdOrderModel);
                     int idBike = bikeOrder.Bike.IdBike;
                     List<BikePart> partsOfBike = Stock.PartToModelLinker.GetPartsForIdModel(idBike);
 
-                    partsOfBike.ForEach(bikePart => Stock.PurchaseOrderPartHandler.AddPartToCurrentPurchase(bikePart.Part, bikePart.QuantityForBike));
+                    // Add the part unsufficient in stock
+                    foreach(BikePart part in partsOfBike) {
+                        int partToOrder = Math.Max(0, part.QuantityForBike - part.Part.QuantityOrdered - part.Part.QuantityInStock);
+
+                        if (partToOrder > 0)
+                            Stock.PurchaseOrderPartHandler.AddPartToCurrentPurchase(part.Part, partToOrder);
+                    }
                 }
             }
 
@@ -184,24 +190,20 @@ namespace GigaBike {
             }
         }
 
-        public void RemovePurchaseOrder(PurchaseRow CurrentPurchase2)
-        {
-
+        public void RemovePurchaseOrder(PurchaseRow CurrentPurchase2) {
             foreach (OrderPart currentOrderPart in CurrentPurchase2.PartToOrder) {
-
                 MySqlDataReader reader = DataBase.AddPartModelToStock(currentOrderPart.Part.IdPart, currentOrderPart.QuantityToOrder);
                 reader.Close();
             }
 
             MySqlDataReader reader2 = DataBase.GetPurchaseOrderPart();
             IdPurchaseOrderParts = new List<int>();
-            while (reader2.Read() & reader2.GetInt32(1)==CurrentPurchase2.IdPurchase)
-            {
+            while (reader2.Read() & reader2.GetInt32(1)==CurrentPurchase2.IdPurchase) {
                 IdPurchaseOrderParts.Add(reader2.GetInt32(0));
             }
             reader2.Close();
-            foreach(int IdPurchaseOrderPart in IdPurchaseOrderParts)
-            {
+
+            foreach(int IdPurchaseOrderPart in IdPurchaseOrderParts) {
                 MySqlDataReader reader3 = DataBase.SetReadyStatePurchaseOrderPart(IdPurchaseOrderPart, true);
                 reader3.Close();
             }
