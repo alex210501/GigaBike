@@ -190,22 +190,24 @@ namespace GigaBike {
             }
         }
 
-        public void RemovePurchaseOrder(PurchaseRow CurrentPurchase2) {
-            foreach (OrderPart currentOrderPart in CurrentPurchase2.PartToOrder) {
-                MySqlDataReader reader = DataBase.AddPartModelToStock(currentOrderPart.Part.IdPart, currentOrderPart.QuantityToOrder);
+        public void OrderedReceived(PurchaseOrderPart purchase) {
+            MySqlDataReader reader;
+
+            foreach (OrderPart currentOrderPart in purchase.OrderParts) {
+                reader = DataBase.AddPartModelToStock(currentOrderPart.Part.IdPart, currentOrderPart.QuantityToOrder);
                 reader.Close();
             }
 
-            MySqlDataReader reader2 = DataBase.GetPurchaseOrderPart();
+            reader = DataBase.GetPurchaseOrderPart();
             IdPurchaseOrderParts = new List<int>();
-            while (reader2.Read() & reader2.GetInt32(1)==CurrentPurchase2.IdPurchase) {
-                IdPurchaseOrderParts.Add(reader2.GetInt32(0));
+            while (reader.Read() && reader.GetInt32(1) == purchase.IdPurchaseOrderPart) {
+                IdPurchaseOrderParts.Add(reader.GetInt32(0));
             }
-            reader2.Close();
+            reader.Close();
 
             foreach(int IdPurchaseOrderPart in IdPurchaseOrderParts) {
-                MySqlDataReader reader3 = DataBase.SetReadyStatePurchaseOrderPart(IdPurchaseOrderPart, true);
-                reader3.Close();
+                reader = DataBase.SetReadyStatePurchaseOrderPart(IdPurchaseOrderPart, true);
+                reader.Close();
             }
             
         }

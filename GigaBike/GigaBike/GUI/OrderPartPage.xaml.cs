@@ -27,19 +27,13 @@ namespace GigaBike
         public List<PurchaseOrderPart> Purchases { get; set; }
         private List<PurchaseRow> purchasesRows;
         public PurchaseOrderPart currentPurchase;
-        public PurchaseRow currentPurchase2;
+
         public OrderPartPage() {
             InitializeComponent();
             this.currentPurchase = null;
             purchasesRows = new List<PurchaseRow>();
         }
-        public PurchaseRow CurrentPurchase2
-        {
-            get
-            {
-                return currentPurchase2;
-            }
-        }
+
         public Action CreatePurchaseCallback {
             set {
                 createPurchaseCallback = value;
@@ -102,7 +96,7 @@ namespace GigaBike
                 currentPurchaseRow.IdPurchase = currentDisplayPurchase.IdPurchaseOrderPart;
                 currentPurchaseRow.PartToOrder = new List<OrderPart>(currentDisplayPurchase.OrderParts);
                 currentPurchaseRow.DatePurchase = currentDisplayPurchase.orderDate;
-                purchasesRows.Add(currentPurchaseRow); 
+                purchasesRows.Add(currentPurchaseRow);
             }
             DataGridPurchase.ItemsSource = purchasesRows;
         }
@@ -124,6 +118,10 @@ namespace GigaBike
             DataGridParts.ItemsSource = partRows;
         }
 
+        public PurchaseRow GetSelectedPurchaseRow() {
+            return DataGridPurchase.SelectedItem as PurchaseRow;
+        }
+
         private void ButtonCreateNewPurchases(object sender, RoutedEventArgs e) {
             if (createPurchaseCallback is not null) createPurchaseCallback();
         }
@@ -140,7 +138,7 @@ namespace GigaBike
         private void ButtonAddPurchaseToStock(object sender, RoutedEventArgs e)
         {
             //check if there is a purchase selected and if the button is pushed currentPurchaseRow.PartToOrder
-            if (currentPurchase2 is not null && addPurchaseToStock is not null) addPurchaseToStock();
+            if (GetSelectedPurchaseRow() is not null && addPurchaseToStock is not null) addPurchaseToStock();
            
         }
 
@@ -150,7 +148,6 @@ namespace GigaBike
 
         private void PurchaseSelectionChanged(object sender, SelectionChangedEventArgs e) {
             PurchaseRow purchaseRow = DataGridPurchase.SelectedItem as PurchaseRow;
-            currentPurchase2 = purchaseRow;
             RefreshPartGrid(purchaseRow.PartToOrder);
         }
     }

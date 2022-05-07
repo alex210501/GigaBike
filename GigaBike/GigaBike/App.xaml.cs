@@ -415,16 +415,25 @@ namespace GigaBike {
 
         void AddPurchaseToStockCallback()
         {
-            Console.WriteLine("test AddPurchaseToStockCallback");
-            if (Current.MainWindow.Content is not OrderPartPage)
-            {
+            if (Current.MainWindow.Content is not OrderPartPage) {
                 MessageBox.Show("Callback only use by the OrderPartPage");
                 return;
             }
 
             OrderPartPage orderPartPage = (Current.MainWindow.Content as OrderPartPage);
-            
-            controller.RemovePurchaseOrder(orderPartPage.CurrentPurchase2);
+
+            // Get the selected row
+            PurchaseRow puchaseRow = orderPartPage.GetSelectedPurchaseRow();
+
+            // Get the purchase selected
+            PurchaseOrderPart purchase = controller.Stock.PurchaseOrderPartHandler.GetPurchaseById(puchaseRow.IdPurchase);
+
+            if (purchase is null) {
+                MessageBox.Show("The purchase is not found !");
+                return;
+            }
+
+            controller.OrderedReceived(purchase);
             
 
             orderPartPage.SetCurrentPurchase(controller.Stock.PurchaseOrderPartHandler.CurrentPurchase);

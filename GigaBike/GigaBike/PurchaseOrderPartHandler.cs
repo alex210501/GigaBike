@@ -23,6 +23,10 @@ namespace GigaBike {
             }
         }
 
+        public PurchaseOrderPart GetPurchaseById(int id) {
+            return Purchases.Find(p => p.IdPurchaseOrderPart == id);
+        }
+
         public void ClearCurrentPurchase() {
             currentPurchase = new PurchaseOrderPart();
         }
@@ -53,7 +57,6 @@ namespace GigaBike {
                 }
             } 
         }
-
 
         public void AddPartToPurchaseOrderById(int idPurchaseOrderPart, Part part, int quantityToOrder) {
             PurchaseOrderPart purchaseOrderPart = GetPurchaseOrderPartById(idPurchaseOrderPart);
