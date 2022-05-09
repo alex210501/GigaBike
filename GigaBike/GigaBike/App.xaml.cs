@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.IO;
 using System.Diagnostics;
+using MySql.Data.MySqlClient;
 
 namespace GigaBike {
     /// <summary>
@@ -186,8 +187,8 @@ namespace GigaBike {
         }
 
         public void GoToBikeStockPage() {
-            BikeStockPage bikeStockPage = new BikeStockPage();
-
+            
+            BikeStockPage bikeStockPage = new BikeStockPage(controller.BikeInStock.getBikeStock);
             // Create the BikeStockPage instance
             Current.MainWindow.Content = bikeStockPage;
 
@@ -213,14 +214,15 @@ namespace GigaBike {
         }
 
         public void GoToAddBikeToStockPage() {
-            AddBikeStockPage addBikeStockPage = new AddBikeStockPage();
+            AddBikeStockPage addBikeStockPage = new AddBikeStockPage(controller.BikeInStock.getBikeStock);
 
             // Create the AddBikeStockPage instance
             Current.MainWindow.Content = addBikeStockPage;
 
             // Define callback
             addBikeStockPage.GoBackToChooseCallback = GoToBikeStockPage;
-            // addBikeStockPage.AddBikeToStockCallback = ... Put your callback here
+
+            addBikeStockPage.AddBikeToStockCallback = AddBikeToDataBase;
         }
 
         public void LoginButtonCallback() {
@@ -274,6 +276,34 @@ namespace GigaBike {
                 MessageBox.Show("The quantity must be an integer !");
             }
             catch (BikeNotFoundException e) {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        public void AddBikeToDataBase()
+        {
+            try
+            {
+                AddBikeStockPage addBikeStockPage = (Current.MainWindow.Content as AddBikeStockPage);
+
+                // Get information from the display
+                int quantity = addBikeStockPage.GetQuantityToAdd();
+                int modelId = addBikeStockPage.GetModelToAdd();
+
+
+                // Add the bike number to the stock in DB
+                MySqlDataReader reader = controller.DataBase.AddBikeInStock(modelId,quantity);
+                reader.Close();
+
+                // Go to the BikeStock page
+                GoToBikeStockPage();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("The quantity must be an integer !");
+            }
+            catch (BikeNotFoundException e)
+            {
                 MessageBox.Show(e.Message);
             }
         }

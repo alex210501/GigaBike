@@ -29,6 +29,7 @@ namespace GigaBike {
 
             if (orderPartRegistered is null)
                 orderParts.Add(new OrderPart(part, quantityToOrder));
+
             else
                 orderPartRegistered.QuantityToOrder += quantityToOrder;
         }

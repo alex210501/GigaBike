@@ -309,6 +309,23 @@ namespace GigaBike {
             MySqlCommand command = SendCommand("select * from Customer");
             return command.ExecuteReader();
         }
+
+        public MySqlDataReader GetBikeStock()
+        {
+            MySqlCommand command = SendCommand(string.Format("SELECT BikeModel.*, Color.NameColor, Size.NameSize, Bike.NameBike FROM BikeModel " +
+                                                            "INNER JOIN Bike ON Bike.IdBike = BikeModel.IdBike " +
+                                                            "INNER JOIN Color ON Color.IdColor = BikeModel.IdColor " +
+                                                            "INNER JOIN Size ON Size.IdSize = BikeModel.IdSize"));
+            return command.ExecuteReader();
+        }
+        public MySqlDataReader AddBikeInStock(int ModelId, int QuantityToAdd)
+        {
+            //add bike quantity to stock by ModelId
+
+            MySqlCommand command = SendCommand("UPDATE BikeModel set StockQuantity = StockQuantity + " + QuantityToAdd + " WHERE IdModel = " + ModelId);
+
+            return command.ExecuteReader();
+        }
     }
 }
 

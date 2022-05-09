@@ -22,13 +22,16 @@ namespace GigaBike
         private Action goBackToStockCallback = null;
         private Action goToAddBikeToStockCallback = null;
 
-        public BikeStockPage() {
+        public BikeStockPage(List<StockBike> AllBikesInStock) {
             InitializeComponent();
+            BikeStockList(AllBikesInStock);
         }
 
         public Action GoBackToStockCallback {
+
             set {
                 goBackToStockCallback = value;
+                
             }
         }
 
@@ -48,6 +51,33 @@ namespace GigaBike
 
         private void AddBikeToStockButton(object sender, RoutedEventArgs e) {
             if (goToAddBikeToStockCallback is not null) goToAddBikeToStockCallback();
+        }
+        public void BikeStockList(List<StockBike> AllBikesInStock)
+        {
+            List<StockBikeGrid> stockRecap = new List<StockBikeGrid>();
+            foreach (StockBike bike in AllBikesInStock)
+            {
+                StockBikeGrid currentStockRecapGrid = new StockBikeGrid();
+
+                currentStockRecapGrid.Name = bike.Bike.Name;
+                currentStockRecapGrid.QuantityInStock = bike.Quantity;
+                currentStockRecapGrid.Color = bike.Bike.Color;
+                currentStockRecapGrid.Size = bike.Bike.Size;
+                currentStockRecapGrid.Price = bike.Bike.Price;
+                //add bikes rows to currentStockRecapGrid
+                stockRecap.Add(currentStockRecapGrid);
+            }
+            DataGridBikeStock_.ItemsSource = stockRecap;//add bikes to dataGrid
+            AllBikesInStock.Clear();
+        }
+        public class StockBikeGrid
+        {
+            public string Name { get; set; }
+            public int QuantityInStock { get; set; }
+            public Color Color { get; set; }
+            public Size Size { get; set; }
+            public int Price { get; set; }
+
         }
     }
 }

@@ -8,8 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace GigaBike
 {
-    public class Stock
-    {
+    public class Stock {
         public int IdOrder { get; set; }
         private List<Part> pieceList;
         private DataBase database;
@@ -17,24 +16,20 @@ namespace GigaBike
         public PurchaseOrderPartHandler PurchaseOrderPartHandler { get; }
 
 
-        public Stock(DataBase database)
-        {
+        public Stock(DataBase database) {
             pieceList = new List<Part>();
             PartToModelLinker = new PartToModelLinker();
             PurchaseOrderPartHandler = new PurchaseOrderPartHandler(database);
             this.database = database;
         }
 
-        public List<Part> Parts
-        {
-            get
-            {
+        public List<Part> Parts {
+            get {
                 return new List<Part>(pieceList);
             }
         }
 
-        public void GetStockFromDataBase()
-        {
+        public void GetStockFromDataBase() {
             // Clear the pieces list
             pieceList.Clear();
 
@@ -56,6 +51,7 @@ namespace GigaBike
                 pieceList.Add(currentPieceStock);
             }
             reader.Close();
+
         }
 
         public void GetPartPerBikeFromDatabase() {
@@ -117,6 +113,48 @@ namespace GigaBike
             }
 
             reader.Close();
+        }
+    }
+    public class BikeInStock
+    {
+        private List<StockBike> stockBikes;
+        private DataBase database;
+        public BikeInStock(DataBase database)
+        {
+            stockBikes = new List<StockBike>();
+            this.database = database;
+        }
+
+        public List<StockBike> getBikeStock
+        {
+            get
+            {
+                MySqlDataReader reader = database.GetBikeStock();
+                stockBikes.Clear();
+
+                while (reader.Read())
+                {   //read all from GetBikeStock method
+                    int IdModel = reader.GetInt32(0);
+                    int IdBike = reader.GetInt32(1);
+                    int idColor = reader.GetInt32(2);
+                    int idSize = reader.GetInt32(3);
+                    int price = reader.GetInt32(4);
+                    string imagePath = reader.GetString(5);
+                    int slotDuration = reader.GetInt32(6);
+                    int quantity = reader.GetInt32(7);
+                    string nameColor = reader.GetString(8);
+                    string nameSize = reader.GetString(9);
+                    string nameBike = reader.GetString(10);
+
+                    
+                    Bike bike = new Bike(IdBike, nameBike, price, new Color(idColor, nameColor), new Size(idSize, nameSize), imagePath, slotDuration);
+                    StockBike currentBikeStock = new StockBike(bike, IdModel,quantity);//create a bike before to create a StockBike
+                    stockBikes.Add(currentBikeStock);
+                }
+
+                reader.Close();
+                return stockBikes;
+            }
         }
     }
 }
