@@ -299,6 +299,16 @@ namespace GigaBike {
             MySqlCommand command = SendCommand(commandToSend);
             return command.ExecuteReader();
         }
+        public MySqlDataReader GetAllCustomers()
+        {
+            /* TVA = reader.GetString(0)
+             * NameCustomer = reader.GetString(1)
+             * AdressCustomer = reader.GetString(2)
+             * PhoneCustomer = reader.GetString(3)
+             */
+            MySqlCommand command = SendCommand("select * from Customer");
+            return command.ExecuteReader();
+        }
     }
 }
 

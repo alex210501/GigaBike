@@ -83,7 +83,7 @@ namespace GigaBike {
             Current.MainWindow.Content = customerRegistrationPage;
 
             // Define callback
-            customerRegistrationPage.BackToCatalogWindow = GoToCatalogWindow;
+            //customerRegistrationPage.BackToCatalogWindow = GoToCatalogWindow;
             customerRegistrationPage.CancelOrderCallback = CancelOrderCallback;
             customerRegistrationPage.SaveOrderCallback = SaveOrderCallback;
         }
@@ -103,6 +103,7 @@ namespace GigaBike {
             // Define callback
             confirmationOrderPage.ValidateOrderCallback = ValidateOrderCallback;
             confirmationOrderPage.CancelOrderCallback = CancelOrderCallback;
+            confirmationOrderPage.BackToCatalogWindow = GoToCatalogWindow;
 
             Current.MainWindow.Show();
         }
@@ -266,7 +267,8 @@ namespace GigaBike {
                 controller.Order.AddBikeByQuantity(new Bike(currentBikeModel), quantity);
 
                 // Go to the Order Window
-                GoToRegistrationCustomerWindow();
+                //GoToRegistrationCustomerWindow();
+                GoToOrderConfirmationWindow();
             }
             catch (FormatException) {
                 MessageBox.Show("The quantity must be an integer !");
@@ -303,13 +305,19 @@ namespace GigaBike {
 
             controller.SaveOrderInformation(orderCustomer);
 
-            GoToOrderConfirmationWindow();
-        }
-
-        void ValidateOrderCallback() {
             controller.SaveOrderAndSlotInDatabase();
             controller.Order.Clear();
             GoToCatalogWindow();
+            //GoToOrderConfirmationWindow();
+        }
+
+        void ValidateOrderCallback() {
+            /*
+            controller.SaveOrderAndSlotInDatabase();
+            controller.Order.Clear();
+            GoToCatalogWindow();
+            */
+            GoToRegistrationCustomerWindow();
         }
 
         void GoToOrderListCallback() {

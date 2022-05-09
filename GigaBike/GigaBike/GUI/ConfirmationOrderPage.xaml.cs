@@ -20,6 +20,7 @@ namespace GigaBike {
     public partial class ConfirmationOrderPage : Page {
         private Action validateOrderCallback = null;
         private Action cancelOrderCallback = null;
+        private Action backToCatalogWindow = null;
 
         public ConfirmationOrderPage() {
             InitializeComponent();
@@ -67,10 +68,22 @@ namespace GigaBike {
                 validateOrderCallback = value;
             }
         }
+        private void ButtonBackToModels(object sender, RoutedEventArgs e)
+        {
+            if (backToCatalogWindow is not null) backToCatalogWindow();
+        }
 
         public Action CancelOrderCallback {
             set {
                 cancelOrderCallback = value;
+            }
+        }
+
+        public Action BackToCatalogWindow
+        {
+            set
+            {
+                backToCatalogWindow = value;
             }
         }
     }
