@@ -84,7 +84,7 @@
                 </DataGrid.Columns>
             </DataGrid>
             <Label x:Name="PlanningBikeStock" Content="Bike Stock" Grid.ColumnSpan="2" Height="85" Margin="0,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="871" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Arial Rounded MT Bold" FontSize="50"/>
-            <Button x:Name="AddBikeStockButton" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="AddBikeToStockButton" FontSize="25" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="52" Width="280" Margin="296,307,0,0" Content="Add bike to stock" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" />
+                <Button x:Name="AddBikeStockButton" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="AddBikeToStockButton" FontSize="25" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="52" Width="280" Margin="296,307,0,0" Content="Add bike to stock" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" />
         </Grid>
     </Viewbox>
 </Page>

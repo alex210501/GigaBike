@@ -73,11 +73,15 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="957"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="ButtonRight" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonLeft_Click" FontSize="50" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" SnapsToDevicePixels="True" Background="#FFD0D4D4" Margin="72,220,820,220" Content="&lt;" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Width="60" Height="60" VerticalAlignment="Top"/>
+            <Button x:Name="ButtonRight" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonLeft_Click" FontSize="50" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" SnapsToDevicePixels="True" Background="#FFD0D4D4" Margin="100,220,797,220" Content="➤" VerticalContentAlignment="Top" HorizontalContentAlignment="Right">
+                <Button.RenderTransform>
+                    <ScaleTransform ScaleX="-1" />
+                </Button.RenderTransform>
+            </Button>
             <Button x:Name="Check" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonCheck1" FontSize="25" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Center" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="49" Width="116" Margin="0,425,0,0" Content="Check" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
 
-            <Button x:Name="ButtonLeft" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonRight_Click" FontSize="50" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" SnapsToDevicePixels="True" Background="#FFD0D4D4" Margin="825,220,72,220" Content="&gt;"/>
-            <Image x:Name="BikePicture" Margin="194,85,193,85" Stretch="Uniform" Panel.ZIndex="-1" Source="/GUI/Pictures/Explorer.png" Width="570" Height="330"/>
+            <Button x:Name="ButtonLeft" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonRight_Click" FontSize="50" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" SnapsToDevicePixels="True" Background="#FFD0D4D4" Margin="857,220,40,220" Content="➤" HorizontalContentAlignment="Right"/>
+            <Image x:Name="BikePicture" Margin="127,77,127,66" Stretch="Uniform" Panel.ZIndex="-1" Source="/GUI/Pictures/Explorer.png"/>
             <Button x:Name="ButtonBack" Panel.ZIndex="1" Style="{DynamicResource RoundedButtonStyle}" Click="ButtonBackToChoose" FontSize="12" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" FontStyle="Normal" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True" Background="#FFD0D4D4" Height="37" Width="73" Margin="3,7,0,0" Content="Back" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <TextBox x:Name="NameBike" HorizontalAlignment="Center" Height="66" Text="..." TextWrapping="Wrap" VerticalAlignment="Top" Width="957" FontFamily="Arial Rounded MT Bold" FontSize="50" AcceptsTab="True" TextAlignment="Center" IsReadOnly="True" SelectionOpacity="0" SelectionBrush="{x:Null}" BorderThickness="0,0,0,0" Background="{x:Null}" Margin="0,6,0,0">
                 <TextBox.BorderBrush>
