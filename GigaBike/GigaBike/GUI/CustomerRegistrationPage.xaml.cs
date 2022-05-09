@@ -20,9 +20,11 @@ namespace GigaBike {
     public partial class CustomerRegistrationPage : Page {
         private Action cancelOrderCallback = null;
         private Action saveOrderCallback = null;
+        private List<Customer> customerList = null;
 
-        public CustomerRegistrationPage(CatalogModel currentModel) {
+        public CustomerRegistrationPage(CatalogModel currentModel, List<Customer> customerList) {
             InitializeComponent();
+            this.customerList = new List<Customer>(customerList);
         }
 
         public string GetNameCustomer() {
@@ -54,25 +56,9 @@ namespace GigaBike {
             if (cancelOrderCallback is not null) cancelOrderCallback();
         }
 
-        static public List<string> GetData()
+        public List<string> GetData()
         {
-            List<string> data = new List<string>();
-
-            data.Add("Afzaal");
-            data.Add("Ahmad");
-            data.Add("Zeeshan");
-            data.Add("Daniyal");
-            data.Add("Rizwan");
-            data.Add("John");
-            data.Add("Doe");
-            data.Add("Johanna Doe");
-            data.Add("Pakistan");
-            data.Add("Microsoft");
-            data.Add("Programming");
-            data.Add("Visual Studio");
-            data.Add("Sofiya");
-            data.Add("Rihanna");
-            data.Add("Eminem");
+            List<string> data = new List<string>(customerList.Select(c => c.TVA).ToList());
 
             return data;
         }
@@ -115,9 +101,9 @@ namespace GigaBike {
         {
             bool found = false;
             var border = (resultStack.Parent as ScrollViewer).Parent as Border;
-            var data = CustomerRegistrationPage.GetData();
+            var data = GetData();
 
-            string query = (sender as TextBox).Text;
+           string query = (sender as TextBox).Text;
 
             if (query.Length == 0)
             {

@@ -211,7 +211,25 @@ namespace GigaBike {
                 reader = DataBase.SetReadyStatePurchaseOrderPart(IdPurchaseOrderPart, true);
                 reader.Close();
             }
-            
+        }
+
+        public List<Customer> GetCustomerList() {
+            List<Customer> customerList = new List<Customer>();
+            MySqlDataReader reader = DataBase.GetAllCustomers();
+
+            while (reader.Read()) {
+                Customer currentCustomer = new Customer();
+
+                currentCustomer.Name = reader.GetString(1);
+                currentCustomer.Address = reader.GetString(2);
+                currentCustomer.TVA = reader.GetString(3);
+
+                customerList.Add(currentCustomer);
+            }
+
+            reader.Close();
+
+            return customerList;
         }
     }
 }

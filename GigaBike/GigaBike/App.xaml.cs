@@ -78,7 +78,10 @@ namespace GigaBike {
         }
 
         public void GoToRegistrationCustomerWindow() {
-            CustomerRegistrationPage customerRegistrationPage = new CustomerRegistrationPage(controller.Catalog.GetCurrentModel());
+            // Get the customer list
+            List<Customer> customerList = controller.GetCustomerList();
+
+            CustomerRegistrationPage customerRegistrationPage = new CustomerRegistrationPage(controller.Catalog.GetCurrentModel(), customerList);
 
             // Create OrderValidationWindow instance
             Current.MainWindow.Content = customerRegistrationPage;
