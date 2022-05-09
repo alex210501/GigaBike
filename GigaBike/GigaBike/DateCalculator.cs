@@ -51,7 +51,7 @@ namespace GigaBike {
             return GetNextDay(DateTime.Now.Date);
         }
 
-        static private bool IsWorkWeekDay(DateTime day) {
+        static public bool IsWorkWeekDay(DateTime day) {
             int weekDay = (int)day.DayOfWeek;
 
             return (weekDay != (int)DayOfWeek.Saturday) && (weekDay != (int)DayOfWeek.Sunday);

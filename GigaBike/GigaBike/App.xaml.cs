@@ -395,6 +395,11 @@ namespace GigaBike {
                 return;
             }
 
+            if (DateCalculator.IsWorkWeekDay(dateSelected) == false) {
+                MessageBox.Show("It's not a work day !");
+                return;
+            }
+
             PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
             PlanningRow selectedPlanningRow = planningPage.GetCurrentPlanningRow();
             List<Slot> freeSlotFromDate = controller.Planning.GetFreeSlotFromDate(dateSelected);
