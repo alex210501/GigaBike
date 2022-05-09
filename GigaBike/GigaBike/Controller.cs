@@ -215,14 +215,18 @@ namespace GigaBike {
 
         public List<Customer> GetCustomerList() {
             List<Customer> customerList = new List<Customer>();
+
+            // Get Customer from database
             MySqlDataReader reader = DataBase.GetAllCustomers();
 
+            // Create Customer instances
             while (reader.Read()) {
                 Customer currentCustomer = new Customer();
 
+                currentCustomer.TVA = reader.GetString(0);
                 currentCustomer.Name = reader.GetString(1);
                 currentCustomer.Address = reader.GetString(2);
-                currentCustomer.TVA = reader.GetString(3);
+                currentCustomer.Phone = reader.GetString(3);
 
                 customerList.Add(currentCustomer);
             }

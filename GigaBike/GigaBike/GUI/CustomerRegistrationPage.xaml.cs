@@ -78,7 +78,16 @@ namespace GigaBike {
             // Mouse events
             block.MouseLeftButtonUp += (sender, e) =>
             {
-                TVAInput.Text = (sender as TextBlock).Text;
+                string TVAEntered = (sender as TextBlock).Text;
+
+                // Get Customer by his TVA number
+                Customer currentCustomer = GetCustomerRegisteredByTVA(TVAEntered);
+
+                // Set the input box
+                TVAInput.Text = currentCustomer.TVA;
+                NameInput.Text = currentCustomer.Name;
+                AddressInput.Text = currentCustomer.Address;
+                PhoneInput.Text = currentCustomer.Phone;
                 resultStack.Children.Clear();
                 resultStack.Children.Remove(block);
                 test = 1;
@@ -134,6 +143,10 @@ namespace GigaBike {
             {
                 resultStack.Children.Add(new TextBlock() { Text = "No results found." });
             }
+        }
+
+        private Customer GetCustomerRegisteredByTVA(string TVA) {
+            return customerList.Find(c => c.TVA == TVA);
         }
 
         public Action CancelOrderCallback {
