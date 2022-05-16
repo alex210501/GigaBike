@@ -86,6 +86,7 @@ namespace GigaBike
                 currentPurchaseRow.IdPurchase = currentPurchase.IdPurchaseOrderPart;
                 currentPurchaseRow.PartToOrder = new List<OrderPart>(currentPurchase.OrderParts);
                 currentPurchaseRow.DatePurchase = currentPurchase.orderDate;
+                currentPurchaseRow.IsReceived = currentPurchase.IsReceived;
                 purchasesRows.Add(currentPurchaseRow);
                 
             }
@@ -96,6 +97,7 @@ namespace GigaBike
                 currentPurchaseRow.IdPurchase = currentDisplayPurchase.IdPurchaseOrderPart;
                 currentPurchaseRow.PartToOrder = new List<OrderPart>(currentDisplayPurchase.OrderParts);
                 currentPurchaseRow.DatePurchase = currentDisplayPurchase.orderDate;
+                currentPurchaseRow.IsReceived = currentDisplayPurchase.IsReceived;
                 purchasesRows.Add(currentPurchaseRow);
             }
             DataGridPurchase.ItemsSource = purchasesRows;
@@ -157,6 +159,7 @@ namespace GigaBike
         public int IdPurchase { get; set; }
         public List<OrderPart> PartToOrder { get; set; }
         public DateTime DatePurchase { get; set; }
+        public bool IsReceived { get; set; }
     }
 
     public class PartRow {

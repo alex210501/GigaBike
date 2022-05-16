@@ -32,6 +32,13 @@ namespace GigaBike
             QuantityOrdered += QuantityOrdered;
         }
 
+        public void DeleteQuantityOrdered(int quantityOrder) {
+            QuantityOrdered -= QuantityOrdered;
+
+            if (QuantityOrdered < 0)
+                QuantityOrdered = 0;
+        }
+
         public bool ArePartInStockSufficient() {
             return Threshold <= QuantityInStock;
         }

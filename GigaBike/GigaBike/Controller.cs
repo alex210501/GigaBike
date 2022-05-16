@@ -201,6 +201,10 @@ namespace GigaBike {
             foreach (OrderPart currentOrderPart in purchase.OrderParts) {
                 reader = DataBase.AddPartModelToStock(currentOrderPart.Part.IdPart, currentOrderPart.QuantityToOrder);
                 reader.Close();
+
+                currentOrderPart.Part.DeleteQuantityOrdered(currentOrderPart.QuantityToOrder);
+                reader = DataBase.DeletePartOrdered(currentOrderPart.Part.IdPart, currentOrderPart.QuantityToOrder);
+                reader.Close();
             }
 
             reader = DataBase.GetPurchaseOrderPart();

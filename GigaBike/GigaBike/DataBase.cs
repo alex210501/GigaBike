@@ -224,7 +224,7 @@ namespace GigaBike {
         {
             //delete a quantity to Part.NumberPartInStock
 
-            MySqlCommand command = SendCommand("UPDATE Part set NumberPartInStock = NumberPartInStock - " + QuantityToDelete + " WHERE IdPart=" + IdPart);
+            MySqlCommand command = SendCommand("UPDATE Part set NumberPartInStock = GREATEST(NumberPartInStock - " + QuantityToDelete + ", 0) WHERE IdPart=" + IdPart);
             return command.ExecuteReader();
         }
 
@@ -237,7 +237,7 @@ namespace GigaBike {
         public MySqlDataReader DeletePartOrdered(int IdPart, int quantityOrdered) {
             //delete a quantity to Part.NumberPartOrdered
 
-            MySqlCommand command = SendCommand("UPDATE Part set NumberPartOrdered = NumberPartOrdered - " + quantityOrdered + " WHERE IdPart=" + IdPart);
+            MySqlCommand command = SendCommand("UPDATE Part set NumberPartOrdered = GREATEST(NumberPartOrdered - " + quantityOrdered + ", 0) WHERE IdPart=" + IdPart);
             return command.ExecuteReader();
         }
 
