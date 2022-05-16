@@ -9,8 +9,8 @@ namespace GigaBike
     public class Part {
         public int IdPart { get; }
         public string NamePart { get; }
-        public int QuantityInStock { get; }
-        public int QuantityOrdered { get; }
+        public int QuantityInStock { get; private set; }
+        public int QuantityOrdered { get; private set; }
         public int Threshold { get; }
         public int Location { get; }
         public Color Color { get; }
@@ -27,6 +27,11 @@ namespace GigaBike
             this.Color = color;
             this.Size = size;
         }
+
+        public void AddQuantityOrdered(int quantityOrder) {
+            QuantityOrdered += QuantityOrdered;
+        }
+
         public bool ArePartInStockSufficient() {
             return Threshold <= QuantityInStock;
         }

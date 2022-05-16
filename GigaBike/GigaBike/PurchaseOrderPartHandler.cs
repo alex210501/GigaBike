@@ -51,18 +51,25 @@ namespace GigaBike {
             reader.Close();
 
             foreach(OrderPart orderPart in currentPurchase.OrderParts) {
+                // Add the quantity to Order in stock
+                orderPart.Part.AddQuantityOrdered(orderPart.QuantityToOrder);
+                reader = database.AddPartOrdered(orderPart.Part.IdPart, orderPart.QuantityToOrder);
+                reader.Close();
+
                 if (orderPart.QuantityToOrder > 0) {
-                    MySqlDataReader reader2 = database.AddPurchaseOrderPart(idPurchase, orderPart.Part.IdPart, orderPart.QuantityToOrder);
-                    reader2.Close();
+                    reader = database.AddPurchaseOrderPart(idPurchase, orderPart.Part.IdPart, orderPart.QuantityToOrder);
+                    reader.Close();
                 }
-            } 
+            }
         }
 
-        public void AddPartToPurchaseOrderById(int idPurchaseOrderPart, Part part, int quantityToOrder) {
+        public void AddPartToPurchaseOrderById(int idPurchaseOrderPart, Part part, int quantityToOrder, bool isReceived) {
             PurchaseOrderPart purchaseOrderPart = GetPurchaseOrderPartById(idPurchaseOrderPart);
 
-            if (purchaseOrderPart is not null)
+            if (purchaseOrderPart is not null) {
                 purchaseOrderPart.AddOrderPartWithQuantity(part, quantityToOrder);
+                purchaseOrderPart.IsReceived = isReceived;
+            }
         }
 
         public void GetPurchaseFromDataBase() {

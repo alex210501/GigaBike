@@ -219,11 +219,25 @@ namespace GigaBike {
             MySqlCommand command = SendCommand("UPDATE Part set NumberPartInStock = NumberPartInStock + " + QuantityToAdd + " WHERE IdPart=" + IdPart);
             return command.ExecuteReader();
         }
+
         public MySqlDataReader DeletePartModelToStock(int IdPart, int QuantityToDelete)
         {
             //delete a quantity to Part.NumberPartInStock
 
             MySqlCommand command = SendCommand("UPDATE Part set NumberPartInStock = NumberPartInStock - " + QuantityToDelete + " WHERE IdPart=" + IdPart);
+            return command.ExecuteReader();
+        }
+
+        public MySqlDataReader AddPartOrdered(int IdPart, int quantityOrdered) {
+            //add a quantity to Part.NumberPartOrdered
+
+            MySqlCommand command = SendCommand("UPDATE Part set NumberPartOrdered = NumberPartOrdered + " + quantityOrdered + " WHERE IdPart=" + IdPart);
+            return command.ExecuteReader();
+        }
+        public MySqlDataReader DeletePartOrdered(int IdPart, int quantityOrdered) {
+            //delete a quantity to Part.NumberPartOrdered
+
+            MySqlCommand command = SendCommand("UPDATE Part set NumberPartOrdered = NumberPartOrdered - " + quantityOrdered + " WHERE IdPart=" + IdPart);
             return command.ExecuteReader();
         }
 

@@ -101,7 +101,7 @@ namespace GigaBike
                 int idPurchaseOrder = reader.GetInt32(1);
                 int idPart = reader.GetInt32(2);
                 int quantityToOrder = reader.GetInt32(3);
-                // IsReceived = reader.GetInt(4)
+                bool IsReceived = reader.GetBoolean(4);
 
                 Part purchasePart = pieceList.Find(p => p.IdPart == idPart);
 
@@ -109,7 +109,7 @@ namespace GigaBike
                     throw new Exception("Part is not found !");
 
                 //TODO: Change the class name
-                PurchaseOrderPartHandler.AddPartToPurchaseOrderById(idPurchaseOrder, purchasePart, quantityToOrder);
+                PurchaseOrderPartHandler.AddPartToPurchaseOrderById(idPurchaseOrder, purchasePart, quantityToOrder, IsReceived);
             }
 
             reader.Close();

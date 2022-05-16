@@ -193,6 +193,9 @@ namespace GigaBike {
         }
 
         public void OrderedReceived(PurchaseOrderPart purchase) {
+            if (purchase.IsReceived)
+                return;
+
             MySqlDataReader reader;
 
             foreach (OrderPart currentOrderPart in purchase.OrderParts) {
@@ -201,12 +204,16 @@ namespace GigaBike {
             }
 
             reader = DataBase.GetPurchaseOrderPart();
+
             IdPurchaseOrderParts = new List<int>();
-            while (reader.Read() && reader.GetInt32(1) == purchase.IdPurchaseOrderPart) {
-                IdPurchaseOrderParts.Add(reader.GetInt32(0));
+
+            while (reader.Read()) {
+                if (purchase.IdPurchaseOrderPart == reader.GetInt32(1))
+                    IdPurchaseOrderParts.Add(reader.GetInt32(0));
             }
             reader.Close();
 
+            purchase.IsReceived = true;
             foreach(int IdPurchaseOrderPart in IdPurchaseOrderParts) {
                 reader = DataBase.SetReadyStatePurchaseOrderPart(IdPurchaseOrderPart, true);
                 reader.Close();

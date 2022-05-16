@@ -134,7 +134,6 @@ namespace GigaBike
             if (buttonBackCallback is not null) buttonBackCallback();
         }
 
-        //Ajout gigb-46
         private void ButtonAddPurchaseToStock(object sender, RoutedEventArgs e)
         {
             //check if there is a purchase selected and if the button is pushed currentPurchaseRow.PartToOrder
@@ -148,7 +147,9 @@ namespace GigaBike
 
         private void PurchaseSelectionChanged(object sender, SelectionChangedEventArgs e) {
             PurchaseRow purchaseRow = DataGridPurchase.SelectedItem as PurchaseRow;
-            RefreshPartGrid(purchaseRow.PartToOrder);
+
+            if (purchaseRow is not null)
+                RefreshPartGrid(purchaseRow.PartToOrder);
         }
     }
     

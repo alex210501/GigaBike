@@ -9,6 +9,7 @@ namespace GigaBike {
         public int IdPurchaseOrderPart { get; set; } = 0;
         private List<OrderPart> orderParts;
         public DateTime orderDate { get; set; }
+        public bool IsReceived { get; set; } = false;
 
         public PurchaseOrderPart() {
             orderParts = new List<OrderPart>();

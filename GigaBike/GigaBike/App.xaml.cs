@@ -395,6 +395,7 @@ namespace GigaBike {
                 return;
             }
 
+            // If the date selected is not a workday, put a message box and return
             if (DateCalculator.IsWorkWeekDay(dateSelected) == false) {
                 MessageBox.Show("It's not a work day !");
                 return;
@@ -455,8 +456,12 @@ namespace GigaBike {
             // Select the current purchase to display it's part
             orderPartPage.SelectCurrentPurchasePart();
         }
+
         void registerCommandDataBase() {
-            controller.Stock.PurchaseOrderPartHandler.SaveCurrentOrderToDataBase(); 
+            controller.Stock.PurchaseOrderPartHandler.SaveCurrentOrderToDataBase();
+
+            // Refresh the Stock from the Database
+            controller.Stock.RefreshPurchaseOrderFromDataBase();
         }
 
         void AddPurchaseToStockCallback()
@@ -479,8 +484,10 @@ namespace GigaBike {
                 return;
             }
 
+            // Add the order received to the Stock and refresh
             controller.OrderedReceived(purchase);
-            
+            controller.Stock.RefreshPurchaseOrderFromDataBase();
+
 
             orderPartPage.SetCurrentPurchase(controller.Stock.PurchaseOrderPartHandler.CurrentPurchase);
             orderPartPage.RefreshPurchaseGrid();
