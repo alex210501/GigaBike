@@ -119,6 +119,9 @@ namespace GigaBike {
             Current.MainWindow.Content = piecesStockPage;
             piecesStockPage.SetStockList(controller.Stock); //à retirer après imlémentation
 
+            // Refresh the stock
+            controller.Stock.GetStockFromDataBase();
+
             // Define callback
             piecesStockPage.GoBackToStockCallback = GoToStockPage;
             piecesStockPage.GoToOrderPiecesCallback = GoToOrderPartPageCallback;
@@ -341,7 +344,6 @@ namespace GigaBike {
             controller.SaveOrderAndSlotInDatabase();
             controller.Order.Clear();
             GoToCatalogWindow();
-            //GoToOrderConfirmationWindow();
         }
 
         void ValidateOrderCallback() {
@@ -451,6 +453,7 @@ namespace GigaBike {
             orderPartPage.SetCurrentPurchase(controller.Stock.PurchaseOrderPartHandler.CurrentPurchase);
 
             // Refresh the purchase datagrid
+            orderPartPage.Purchases = controller.Stock.PurchaseOrderPartHandler.Purchases;
             orderPartPage.RefreshPurchaseGrid();
 
             // Select the current purchase to display it's part
@@ -490,6 +493,7 @@ namespace GigaBike {
 
 
             orderPartPage.SetCurrentPurchase(controller.Stock.PurchaseOrderPartHandler.CurrentPurchase);
+            orderPartPage.Purchases = controller.Stock.PurchaseOrderPartHandler.Purchases;
             orderPartPage.RefreshPurchaseGrid();
         }
     }

@@ -41,6 +41,7 @@ namespace GigaBike
                 // currentStockRecapGrid.IdPart = currentPiece.IdPart;
                 currentStockRecapGrid.Name = currentPiece.NamePart;
                 currentStockRecapGrid.QuantityInStock = currentPiece.QuantityInStock;
+                currentStockRecapGrid.QuantityOrdered = currentPiece.QuantityOrdered;
                 currentStockRecapGrid.Color = currentPiece.Color;
                 currentStockRecapGrid.Size = currentPiece.Size;
                 // currentStockRecapGrid.Threshold = currentPiece.Threshold;
@@ -76,7 +77,7 @@ namespace GigaBike
         {
             // public int IdPart { get; set; }
             public string Name { get; set; }
-            public int QuantityOrder { get; set; }
+            public int QuantityOrdered { get; set; }
             public int QuantityInStock { get; set; }
             public Color Color { get; set; }
             public Size Size { get; set; }

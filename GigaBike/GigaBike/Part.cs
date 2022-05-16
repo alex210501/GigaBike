@@ -28,12 +28,23 @@ namespace GigaBike
             this.Size = size;
         }
 
+        public void AddStockQuantity(int quantityToAdd) {
+            QuantityInStock += quantityToAdd;
+        }
+
+        public void RemoveStockQuantity(int quantityToRemove) {
+            QuantityInStock -= quantityToRemove;
+            
+            if (QuantityInStock < 0)
+                QuantityInStock = 0;
+        }
+
         public void AddQuantityOrdered(int quantityOrder) {
             QuantityOrdered += QuantityOrdered;
         }
 
         public void DeleteQuantityOrdered(int quantityOrder) {
-            QuantityOrdered -= QuantityOrdered;
+            QuantityOrdered -= quantityOrder;
 
             if (QuantityOrdered < 0)
                 QuantityOrdered = 0;

@@ -81,6 +81,7 @@
                     <DataGridTextColumn Header="Color" Binding="{Binding Color.Name}"/>
                     <DataGridTextColumn Header="Size" Binding="{Binding Size.Name}"/>
                     <DataGridTextColumn Header="In stock" Binding="{Binding QuantityInStock}"/>
+                    <DataGridTextColumn Header="Ordered" Binding="{Binding QuantityOrdered}"/>
                     <DataGridTextColumn Header="Location" Binding="{Binding Location}"/>
                 </DataGrid.Columns>
             </DataGrid>

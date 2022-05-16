@@ -100,6 +100,7 @@ namespace GigaBike
                 currentPurchaseRow.IsReceived = currentDisplayPurchase.IsReceived;
                 purchasesRows.Add(currentPurchaseRow);
             }
+
             DataGridPurchase.ItemsSource = purchasesRows;
         }
 

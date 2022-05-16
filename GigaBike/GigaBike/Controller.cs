@@ -117,7 +117,7 @@ namespace GigaBike {
 
                     // Add the part unsufficient in stock
                     foreach(BikePart part in partsOfBike) {
-                        int partToOrder = Math.Max(0, part.QuantityForBike - part.Part.QuantityOrdered - part.Part.QuantityInStock);
+                        int partToOrder = Math.Max(0, part.QuantityForBike/* - part.Part.QuantityOrdered - part.Part.QuantityInStock*/);
 
                         if (partToOrder > 0)
                             Stock.PurchaseOrderPartHandler.AddPartToCurrentPurchase(part.Part, partToOrder);
@@ -128,7 +128,7 @@ namespace GigaBike {
             // Substract the quantity to order with the parts in stock
             foreach(OrderPart orderPart in Stock.PurchaseOrderPartHandler.CurrentPurchase.OrderParts) {
                 int quantityInStock = Stock.GetQuantityInStockForPart(orderPart.Part);
-                orderPart.QuantityToOrder = Math.Max(0, orderPart.QuantityToOrder - quantityInStock);
+                orderPart.QuantityToOrder = Math.Max(0, orderPart.QuantityToOrder - quantityInStock - orderPart.Part.QuantityOrdered);
             }
         }
 
@@ -203,6 +203,7 @@ namespace GigaBike {
                 reader.Close();
 
                 currentOrderPart.Part.DeleteQuantityOrdered(currentOrderPart.QuantityToOrder);
+                currentOrderPart.Part.AddStockQuantity(currentOrderPart.QuantityToOrder);
                 reader = DataBase.DeletePartOrdered(currentOrderPart.Part.IdPart, currentOrderPart.QuantityToOrder);
                 reader.Close();
             }
