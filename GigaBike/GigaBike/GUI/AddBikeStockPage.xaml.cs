@@ -56,7 +56,7 @@ namespace GigaBike
             AllBikesInStock = AllBikesInStock.OrderBy(o => o.Bike.Name).ToList(); //order bikes by their names
             foreach (StockBike bike in AllBikesInStock)
             {
-                BikeModel.Items.Add(bike.Bike.Name + new string(' ', 10) + bike.Bike.Color.Name + new string(' ', 10) + bike.Bike.Size.Name);
+                BikeModel.Items.Add(bike.Bike.Name + " | " + bike.Bike.Color.Name +  " | " + bike.Bike.Size.Name);
                 //add items to combobox
             }
             AllBikesInStock.Clear();
