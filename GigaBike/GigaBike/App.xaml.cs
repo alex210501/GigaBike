@@ -9,37 +9,44 @@ using System.IO;
 using System.Diagnostics;
 using MySql.Data.MySqlClient;
 
-namespace GigaBike {
+namespace GigaBike
+{
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application {
+    public partial class App : Application
+    {
         private Controller controller;
 
-        App() {
+        App()
+        {
             controller = new Controller();
 
-            try {
+            try
+            {
                 controller.Init();
             }
-            catch (MySql.Data.MySqlClient.MySqlException) {
+            catch (MySql.Data.MySqlClient.MySqlException)
+            {
                 Trace.WriteLine("No database connection !");
             }
         }
 
-        protected override  void OnStartup(StartupEventArgs e) {
+        protected override void OnStartup(StartupEventArgs e)
+        {
             // Create LoginWindow instance
             Current.MainWindow = new MainWindow();
-            
+
             Current.MainWindow.Content = new LoginPage();
-            
+
             // Define callback
             (Current.MainWindow.Content as LoginPage).LoginButtonCallback = LoginButtonCallback;
 
             Current.MainWindow.Show();
         }
 
-        public void GoToChoosePathWindow() {
+        public void GoToChoosePathWindow()
+        {
             // Create ChoosePathWindow instance
             Current.MainWindow.Content = new ChoosePathPage();
 
@@ -48,7 +55,8 @@ namespace GigaBike {
             (Current.MainWindow.Content as ChoosePathPage).GoToRessourcesCallback = GoToRessoucesPage;
         }
 
-        public void GoToCatalogWindow() {
+        public void GoToCatalogWindow()
+        {
             // Refresh the catalog models
             controller.Catalog.RefreshModels();
 
@@ -66,7 +74,8 @@ namespace GigaBike {
             catalogPage.PreviousModelCallback = CatalogWindowPreviousModelCallback;
         }
 
-        public void GoToBikeModelWindow() {
+        public void GoToBikeModelWindow()
+        {
             BikeModelPage bikeModelPage = new BikeModelPage(controller.Catalog.GetCurrentModel());
 
             // Create BikeModelWindow instance with a CatalogModel as parameter
@@ -77,7 +86,8 @@ namespace GigaBike {
             bikeModelPage.NextButtonCallback = AddToOrderCallback;
         }
 
-        public void GoToRegistrationCustomerWindow() {
+        public void GoToRegistrationCustomerWindow()
+        {
             // Get the customer list
             List<Customer> customerList = controller.GetCustomerList();
 
@@ -92,9 +102,10 @@ namespace GigaBike {
             customerRegistrationPage.SaveOrderCallback = SaveOrderCallback;
         }
 
-        public void GoToOrderConfirmationWindow() {
+        public void GoToOrderConfirmationWindow()
+        {
             // Get the delivery date
-            DateTime deliveryDate = controller.Order.DeliveryDate;
+            controller.SetDeliveryDateOrder();
 
             ConfirmationOrderPage confirmationOrderPage = new ConfirmationOrderPage();
 
@@ -102,7 +113,7 @@ namespace GigaBike {
             Current.MainWindow.Content = confirmationOrderPage;
 
             confirmationOrderPage.SetCurrentOrder(controller.Order);
-            confirmationOrderPage.SetDeliveryDate(deliveryDate);
+            confirmationOrderPage.SetDeliveryDate(controller.Order.DeliveryDate);
 
             // Define callback
             confirmationOrderPage.ValidateOrderCallback = ValidateOrderCallback;
@@ -112,7 +123,8 @@ namespace GigaBike {
             Current.MainWindow.Show();
         }
 
-        public void GoToPiecesStockPage() {
+        public void GoToPiecesStockPage()
+        {
             PiecesStockPage piecesStockPage = new PiecesStockPage();
 
             // Create PiecesStockPage instance
@@ -127,7 +139,8 @@ namespace GigaBike {
             piecesStockPage.GoToOrderPiecesCallback = GoToOrderPartPageCallback;
         }
 
-        public void GoToPlanningPage() {
+        public void GoToPlanningPage()
+        {
             PlanningPage planningPage = new PlanningPage(controller.OrdersRegistered, controller.Planning.GetAllFreeSlot());
 
             // Create PlanningPage instance
@@ -143,7 +156,8 @@ namespace GigaBike {
             planningPage.ShowPlanning();
         }
 
-        public void GoToOrderListPage() {
+        public void GoToOrderListPage()
+        {
             PM_OrderListPage orderListPage = new PM_OrderListPage(controller.OrdersRegistered);
 
             // Create the OrderListPage instance
@@ -154,14 +168,16 @@ namespace GigaBike {
             orderListPage.GoToPlanningCallback = GoToPlanningPage;
         }
 
-        public void GoToOrderPiecesPage() {
+        public void GoToOrderPiecesPage()
+        {
             PM_OrderPiecesPage orderPiecePage = new PM_OrderPiecesPage();
 
             // Creat the OrderPiecesPage instance
             Current.MainWindow.Content = orderPiecePage;
         }
 
-        public void GoToRessoucesPage() {
+        public void GoToRessoucesPage()
+        {
             PM_RessourcesPage ressourcePage = new PM_RessourcesPage();
 
             // Create the RessourcesPage instance
@@ -173,7 +189,8 @@ namespace GigaBike {
             ressourcePage.GoToStockCallback = GoToStockPage;
         }
 
-        public void GoToStockPage() {
+        public void GoToStockPage()
+        {
             StockPage stockPage = new StockPage();
 
             // Create the StockPage instance
@@ -185,15 +202,17 @@ namespace GigaBike {
             stockPage.GoToPiecesStockCallback = GoToStockPageCallback;
         }
 
-        public void GoToChoosePathWorkerPage() {
+        public void GoToChoosePathWorkerPage()
+        {
             ChoosePathWorkerPage choosePathWorkerPage = new ChoosePathWorkerPage();
 
             // Create the ChoosePathWorkerPage instance
             Current.MainWindow.Content = choosePathWorkerPage;
         }
 
-        public void GoToBikeStockPage() {
-            
+        public void GoToBikeStockPage()
+        {
+
             BikeStockPage bikeStockPage = new BikeStockPage(controller.BikeInStock.getBikeStock);
             // Create the BikeStockPage instance
             Current.MainWindow.Content = bikeStockPage;
@@ -203,7 +222,8 @@ namespace GigaBike {
             bikeStockPage.GoToAddBikeToStockCallback = GoToAddBikeToStockPage;
         }
 
-        public void GoToOrderPartPage() {
+        public void GoToOrderPartPage()
+        {
             OrderPartPage orderPartPage = new OrderPartPage();
 
             // Create the BikeStockPage instance
@@ -219,7 +239,8 @@ namespace GigaBike {
             orderPartPage.RefreshPurchaseGrid();
         }
 
-        public void GoToAddBikeToStockPage() {
+        public void GoToAddBikeToStockPage()
+        {
             AddBikeStockPage addBikeStockPage = new AddBikeStockPage(controller.BikeInStock.getBikeStock);
 
             // Create the AddBikeStockPage instance
@@ -231,10 +252,11 @@ namespace GigaBike {
             addBikeStockPage.AddBikeToStockCallback = AddBikeToDataBase;
         }
 
-        public void LoginButtonCallback() {
+        public void LoginButtonCallback()
+        {
             if (Current.MainWindow.Content is not LoginPage)
                 throw new FormatException("The current page is not a LoginPage");
-                
+
             LoginPage loginPage = Current.MainWindow.Content as LoginPage;
 
             string username = loginPage.GetUsername();
@@ -247,20 +269,24 @@ namespace GigaBike {
 
         }
 
-        public CatalogModel CatalogWindowNextModelCallback() {
+        public CatalogModel CatalogWindowNextModelCallback()
+        {
             controller.Catalog.NextModel();
 
             return controller.Catalog.GetCurrentModel();
         }
 
-        public CatalogModel CatalogWindowPreviousModelCallback() {
+        public CatalogModel CatalogWindowPreviousModelCallback()
+        {
             controller.Catalog.PreviousModel();
 
             return controller.Catalog.GetCurrentModel();
         }
 
-        public void AddToOrderCallback() {
-            try {
+        public void AddToOrderCallback()
+        {
+            try
+            {
                 BikeModelPage bikeModelPage = (Current.MainWindow.Content as BikeModelPage);
 
                 // Get information from the display
@@ -275,13 +301,14 @@ namespace GigaBike {
                 controller.Order.AddBikeByQuantity(new Bike(currentBikeModel), quantity);
 
                 // Go to the Order Window
-                //GoToRegistrationCustomerWindow();
                 GoToOrderConfirmationWindow();
             }
-            catch (FormatException) {
+            catch (FormatException)
+            {
                 MessageBox.Show("The quantity must be an integer !");
             }
-            catch (BikeNotFoundException e) {
+            catch (BikeNotFoundException e)
+            {
                 MessageBox.Show(e.Message);
             }
         }
@@ -298,7 +325,7 @@ namespace GigaBike {
 
 
                 // Add the bike number to the stock in DB
-                MySqlDataReader reader = controller.DataBase.AddBikeInStock(modelId,quantity);
+                MySqlDataReader reader = controller.DataBase.AddBikeInStock(modelId, quantity);
                 reader.Close();
 
                 // Go to the BikeStock page
@@ -314,25 +341,31 @@ namespace GigaBike {
             }
         }
 
-        public void CancelOrderCallback() {
+        public void CancelOrderCallback()
+        {
+            controller.Planning.UnbindSlotByIdOrder(controller.Order.IdOrder);
             controller.Order.Clear();
             GoToCatalogWindow();
         }
 
-        public void SaveOrderCallback() {
-            if (Current.MainWindow.Content is not CustomerRegistrationPage) {
+        public void SaveOrderCallback()
+        {
+            if (Current.MainWindow.Content is not CustomerRegistrationPage)
+            {
                 MessageBox.Show("This callback is for the order validation window !");
                 return;
             }
 
             CustomerRegistrationPage customerRegistrationPage = (Current.MainWindow.Content as CustomerRegistrationPage);
 
-            if (customerRegistrationPage.AreCustomerInfoValid() == false) {
+            if (customerRegistrationPage.AreCustomerInfoValid() == false)
+            {
                 MessageBox.Show("You must set all the client informations to save the order !");
                 return;
             }
 
-            Customer orderCustomer = new Customer() {
+            Customer orderCustomer = new Customer()
+            {
                 Name = customerRegistrationPage.GetNameCustomer(),
                 Address = customerRegistrationPage.GetAddressCustomer(),
                 TVA = customerRegistrationPage.GetTVACustomer(),
@@ -346,22 +379,21 @@ namespace GigaBike {
             GoToCatalogWindow();
         }
 
-        void ValidateOrderCallback() {
-            /*
-            controller.SaveOrderAndSlotInDatabase();
-            controller.Order.Clear();
-            GoToCatalogWindow();
-            */
+        void ValidateOrderCallback()
+        {
             GoToRegistrationCustomerWindow();
         }
 
-        void GoToOrderListCallback() {
+        void GoToOrderListCallback()
+        {
             controller.RefreshOrderAndPlanningFromDatabase();
             GoToOrderListPage();
         }
 
-        void SavePlanningCallback() {
-            if (Current.MainWindow.Content is not PlanningPage) {
+        void SavePlanningCallback()
+        {
+            if (Current.MainWindow.Content is not PlanningPage)
+            {
                 MessageBox.Show("Callback only use by the PlanningPage");
                 return;
             }
@@ -376,29 +408,35 @@ namespace GigaBike {
             GoToPlanningPage();
         }
 
-        void SetSlotForEveryPlanningDate() {
-            if (Current.MainWindow.Content is not PlanningPage) {
+        void SetSlotForEveryPlanningDate()
+        {
+            if (Current.MainWindow.Content is not PlanningPage)
+            {
                 MessageBox.Show("Callback only use by the PlanningPage");
                 return;
             }
 
             PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
 
-            foreach (PlanningRow currentPlanningRow in planningPage.PlanningRows) {
+            foreach (PlanningRow currentPlanningRow in planningPage.PlanningRows)
+            {
                 DateTime deliveryDate = currentPlanningRow.DeliveryDate;
                 List<Slot> freeSlotFromDate = controller.Planning.GetFreeSlotFromDate(deliveryDate);
                 currentPlanningRow.SlotAvailable = freeSlotFromDate.Select(s => s.SlotNumber).ToList();
             }
         }
 
-        void SetSlotForBikeInPlanningPage(DateTime dateSelected) {
-            if (Current.MainWindow.Content is not PlanningPage) {
+        void SetSlotForBikeInPlanningPage(DateTime dateSelected)
+        {
+            if (Current.MainWindow.Content is not PlanningPage)
+            {
                 MessageBox.Show("Callback only use by the PlanningPage");
                 return;
             }
 
             // If the date selected is not a workday, put a message box and return
-            if (DateCalculator.IsWorkWeekDay(dateSelected) == false) {
+            if (DateCalculator.IsWorkWeekDay(dateSelected) == false)
+            {
                 MessageBox.Show("It's not a work day !");
                 return;
             }
@@ -409,8 +447,10 @@ namespace GigaBike {
             selectedPlanningRow.SlotAvailable = freeSlotFromDate.Select(s => s.SlotNumber).ToList();
         }
 
-        void SlotChangedOnPlanningPage(int slotNumber) {
-            if (Current.MainWindow.Content is not PlanningPage) {
+        void SlotChangedOnPlanningPage(int slotNumber)
+        {
+            if (Current.MainWindow.Content is not PlanningPage)
+            {
                 MessageBox.Show("Callback only use by the PlanningPage");
                 return;
             }
@@ -418,28 +458,33 @@ namespace GigaBike {
             PlanningPage planningPage = Current.MainWindow.Content as PlanningPage;
             PlanningRow planningRow = planningPage.GetCurrentPlanningRow();
 
-            if (planningRow is not null) {
+            if (planningRow is not null)
+            {
                 controller.BindBikeToNewSLot(planningRow.IdOrder, planningRow.IdOrderModel, planningRow.DeliveryDate, slotNumber);
 
                 planningPage.ShowPlanning();
             }
         }
 
-        void GoToStockPageCallback() {
+        void GoToStockPageCallback()
+        {
             controller.Stock.GetStockFromDataBase();
             controller.Stock.GetPartPerBikeFromDatabase();
             GoToPiecesStockPage();
         }
 
-        void GoToOrderPartPageCallback() {
+        void GoToOrderPartPageCallback()
+        {
             controller.RefreshOrderAndPlanningFromDatabase();
             controller.Stock.GetStockFromDataBase();
             controller.Stock.RefreshPurchaseOrderFromDataBase();
             GoToOrderPartPage();
         }
 
-        void CreatePurchaseCallback() {
-            if (Current.MainWindow.Content is not OrderPartPage) {
+        void CreatePurchaseCallback()
+        {
+            if (Current.MainWindow.Content is not OrderPartPage)
+            {
                 MessageBox.Show("Callback only use by the OrderPartPage");
                 return;
             }
@@ -460,7 +505,8 @@ namespace GigaBike {
             orderPartPage.SelectCurrentPurchasePart();
         }
 
-        void registerCommandDataBase() {
+        void registerCommandDataBase()
+        {
             controller.Stock.PurchaseOrderPartHandler.SaveCurrentOrderToDataBase();
 
             // Refresh the Stock from the Database
@@ -469,7 +515,8 @@ namespace GigaBike {
 
         void AddPurchaseToStockCallback()
         {
-            if (Current.MainWindow.Content is not OrderPartPage) {
+            if (Current.MainWindow.Content is not OrderPartPage)
+            {
                 MessageBox.Show("Callback only use by the OrderPartPage");
                 return;
             }
@@ -482,7 +529,8 @@ namespace GigaBike {
             // Get the purchase selected
             PurchaseOrderPart purchase = controller.Stock.PurchaseOrderPartHandler.GetPurchaseById(puchaseRow.IdPurchase);
 
-            if (purchase is null) {
+            if (purchase is null)
+            {
                 MessageBox.Show("The purchase is not found !");
                 return;
             }

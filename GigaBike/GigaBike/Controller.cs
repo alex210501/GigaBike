@@ -7,8 +7,10 @@ using MySql.Data.MySqlClient;
 using System.Diagnostics;
 
 
-namespace GigaBike {
-    public class Controller {
+namespace GigaBike
+{
+    public class Controller
+    {
         public Login Login { get; }
         public Catalog Catalog { get; }
         public Order Order { get; }
@@ -20,7 +22,8 @@ namespace GigaBike {
         public OrderPartPage OrderPartPage { get; }
         public BikeInStock BikeInStock { get; }
 
-        public Controller() {
+        public Controller()
+        {
             this.DataBase = new DataBase();
             this.Login = new Login(this.DataBase);
             this.Catalog = new Catalog(this.DataBase);
@@ -31,26 +34,27 @@ namespace GigaBike {
             this.BikeInStock = new BikeInStock(this.DataBase);
         }
 
-        public void Init() {
+        public void Init()
+        {
             DataBase.Connect();
         }
 
-        public void SaveOrderAndSlotInDatabase() {
+        public void SaveOrderAndSlotInDatabase()
+        {
             Order.SaveInDatabase();
             Planning.SaveSlotOfIdOrderToDatabase(Order.IdOrder);
         }
 
-        public void SaveOrderInformation(Customer customer) {
-            Planning.RefreshFromDatabase();
+        public void SaveOrderInformation(Customer customer)
+        {
             Order.SaveCustomer(customer);
-            SetCurrentIdOrder();
-            SetDateForOrderBike();
-            Order.DeliveryDate = Planning.GetDeliveryDate(Order.IdOrder);
         }
 
-        public void SetCurrentIdOrder() {
+        public void SetCurrentIdOrder()
+        {
             MySqlDataReader reader = DataBase.GetNextIdOrder();
-            if (reader.Read()) {
+            if (reader.Read())
+            {
                 if (reader.IsDBNull(0) == false)
                     Order.IdOrder = reader.GetInt32(0);
                 else
@@ -58,31 +62,44 @@ namespace GigaBike {
             }
             reader.Close();
         }
+        public void SetDeliveryDateOrder()
+        {
+            Planning.RefreshFromDatabase();
+            SetCurrentIdOrder();
+            SetDateForOrderBike();
+            Order.DeliveryDate = Planning.GetDeliveryDate(Order.IdOrder);
+        }
 
-        public void SetDateForOrderBike() {
+        public void SetDateForOrderBike()
+        {
             Planning.SetSlotForBikeOrder(Order);
         }
 
-        public void RefreshOrderAndPlanningFromDatabase() {
+        public void RefreshOrderAndPlanningFromDatabase()
+        {
             Planning.RefreshFromDatabase();
             GetOrdersFromDatabase();
             GetOrderModelsFromDatabase();
         }
 
-        public void UpdatePlanningAfterUserUpdate(List<Order> ordersShown) {
+        public void UpdatePlanningAfterUserUpdate(List<Order> ordersShown)
+        {
             foreach (Order currentOrder in ordersShown)
                 currentOrder.Bikes.ForEach(bike => Planning.UpdateSlotsInDatabaseByBikeOrder(bike));
 
             Planning.DeleteTheSlotUnusedFromTheDatabase();
         }
 
-        public List<Order> OrdersRegistered {
-            get {
+        public List<Order> OrdersRegistered
+        {
+            get
+            {
                 return new List<Order>(ordersRegistered).ConvertAll(o => new Order(o));
             }
         }
 
-        public void BindBikeToNewSLot(int idOrder, int idOrderModel, DateTime deliveryDate, int numberSlot) {
+        public void BindBikeToNewSLot(int idOrder, int idOrderModel, DateTime deliveryDate, int numberSlot)
+        {
             Order currentOrder = ordersRegistered.Find(o => o.IdOrder == idOrder);
 
             if (currentOrder is null) return;
@@ -99,7 +116,8 @@ namespace GigaBike {
             Planning.BindBikeOrderToExistingSlot(currentBikeOrder);
         }
 
-        public void SetPartsToOrder() {
+        public void SetPartsToOrder()
+        {
             // Get every busy slots
             List<Slot> busySlots = Planning.GetAllBusySlot();
 
@@ -107,16 +125,19 @@ namespace GigaBike {
             Stock.PurchaseOrderPartHandler.ClearCurrentPurchase();
 
             // Get the bike for every busy slot
-            foreach(Slot slot in busySlots) {
+            foreach (Slot slot in busySlots)
+            {
                 Order order = ordersRegistered.Find(o => o.IdOrder == slot.IdOrder);
-                 
-                if (order is not null) {
+
+                if (order is not null)
+                {
                     BikeOrder bikeOrder = order.Bikes.Find(b => b.IdOrderModel == slot.IdOrderModel);
                     int idBike = bikeOrder.Bike.IdBike;
                     List<BikePart> partsOfBike = Stock.PartToModelLinker.GetPartsForIdModel(idBike);
 
                     // Add the part unsufficient in stock
-                    foreach(BikePart part in partsOfBike) {
+                    foreach (BikePart part in partsOfBike)
+                    {
                         int partToOrder = Math.Max(0, part.QuantityForBike/* - part.Part.QuantityOrdered - part.Part.QuantityInStock*/);
 
                         if (partToOrder > 0)
@@ -126,19 +147,22 @@ namespace GigaBike {
             }
 
             // Substract the quantity to order with the parts in stock
-            foreach(OrderPart orderPart in Stock.PurchaseOrderPartHandler.CurrentPurchase.OrderParts) {
+            foreach (OrderPart orderPart in Stock.PurchaseOrderPartHandler.CurrentPurchase.OrderParts)
+            {
                 int quantityInStock = Stock.GetQuantityInStockForPart(orderPart.Part);
                 orderPart.QuantityToOrder = Math.Max(0, orderPart.QuantityToOrder - quantityInStock - orderPart.Part.QuantityOrdered);
             }
         }
 
         // TODO: Clean
-        private void GetOrdersFromDatabase() {
+        private void GetOrdersFromDatabase()
+        {
             MySqlDataReader reader = DataBase.GetOrders();
 
             ordersRegistered.Clear();
 
-            while (reader.Read()) {
+            while (reader.Read())
+            {
                 int idOrder = reader.GetInt32(0);
                 DateTime deliveryDate = reader.GetDateTime(1);
                 string nameCustomer = reader.GetString(2);
@@ -163,10 +187,12 @@ namespace GigaBike {
             reader.Close();
         }
 
-        private void GetOrderModelsFromDatabase() {
+        private void GetOrderModelsFromDatabase()
+        {
             MySqlDataReader reader = DataBase.GetOrdersModel();
 
-            while (reader.Read()) {
+            while (reader.Read())
+            {
                 int idOrder = reader.GetInt32(0);
                 int idOrderModel = reader.GetInt32(1);
                 int idModelBike = reader.GetInt32(2);
@@ -186,19 +212,22 @@ namespace GigaBike {
             reader.Close();
 
             // Binding to slot
-            foreach (Order currentOrder in ordersRegistered) {
+            foreach (Order currentOrder in ordersRegistered)
+            {
                 foreach (BikeOrder currentBikeOrder in currentOrder.Bikes)
                     Planning.BindBikeOrderToExistingSlot(currentBikeOrder);
             }
         }
 
-        public void OrderedReceived(PurchaseOrderPart purchase) {
+        public void OrderedReceived(PurchaseOrderPart purchase)
+        {
             if (purchase.IsReceived)
                 return;
 
             MySqlDataReader reader;
 
-            foreach (OrderPart currentOrderPart in purchase.OrderParts) {
+            foreach (OrderPart currentOrderPart in purchase.OrderParts)
+            {
                 reader = DataBase.AddPartModelToStock(currentOrderPart.Part.IdPart, currentOrderPart.QuantityToOrder);
                 reader.Close();
 
@@ -212,27 +241,31 @@ namespace GigaBike {
 
             IdPurchaseOrderParts = new List<int>();
 
-            while (reader.Read()) {
+            while (reader.Read())
+            {
                 if (purchase.IdPurchaseOrderPart == reader.GetInt32(1))
                     IdPurchaseOrderParts.Add(reader.GetInt32(0));
             }
             reader.Close();
 
             purchase.IsReceived = true;
-            foreach(int IdPurchaseOrderPart in IdPurchaseOrderParts) {
+            foreach (int IdPurchaseOrderPart in IdPurchaseOrderParts)
+            {
                 reader = DataBase.SetReadyStatePurchaseOrderPart(IdPurchaseOrderPart, true);
                 reader.Close();
             }
         }
 
-        public List<Customer> GetCustomerList() {
+        public List<Customer> GetCustomerList()
+        {
             List<Customer> customerList = new List<Customer>();
 
             // Get Customer from database
             MySqlDataReader reader = DataBase.GetAllCustomers();
 
             // Create Customer instances
-            while (reader.Read()) {
+            while (reader.Read())
+            {
                 Customer currentCustomer = new Customer();
 
                 currentCustomer.TVA = reader.GetString(0);
