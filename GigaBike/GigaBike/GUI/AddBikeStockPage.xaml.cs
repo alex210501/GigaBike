@@ -51,39 +51,49 @@ namespace GigaBike
             if (goBackToChooseCallback is not null) goBackToChooseCallback();
         }
 
-        public void SelectBikeInStock(List<StockBike> AllBikesInStock)
-        {
+        public void SelectBikeInStock(List<StockBike> AllBikesInStock) {
             AllBikesInStock = AllBikesInStock.OrderBy(o => o.Bike.Name).ToList(); //order bikes by their names
+
+            // Add bike to the ComboBox
             foreach (StockBike bike in AllBikesInStock)
             {
-                BikeModel.Items.Add(bike.Bike.Name + " | " + bike.Bike.Color.Name +  " | " + bike.Bike.Size.Name);
-                //add items to combobox
+                AddBikeComboboxItem newItem = new AddBikeComboboxItem();
+                
+                // Assign Bike items
+                newItem.ValueToDisp = bike.Bike.Name + " | " + bike.Bike.Color.Name + " | " + bike.Bike.Size.Name;
+                newItem.BikeModelID = bike.IdModel;
+                newItem.BikeName = bike.Bike.Name;
+                newItem.BikeColor = bike.Bike.Color;
+                newItem.BikeSize= bike.Bike.Size;
+
+                // Add Bike to ComboBox
+                BikeModel.Items.Add(newItem);
             }
             AllBikesInStock.Clear();
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
         }
-        public int GetModelToAdd()
-        {
-            string model = BikeModel.SelectedItem as String;
-            //very bad technique to get the IdModel in DB
-            foreach (StockBike bike in this.AllBikesInStock)
-            {
-                string EachModel = bike.Bike.Name + new string(' ', 10) + bike.Bike.Color.Name + new string(' ', 10) + bike.Bike.Size.Name;
-                if (model == EachModel)
-                {
-                    return bike.IdModel;
 
-                }
-            }
+        public int GetModelToAdd() {
+            AddBikeComboboxItem model = BikeModel.SelectedItem as AddBikeComboboxItem;
+            if (model is not null)
+                return model.BikeModelID;
+
             return 0;
         }
-        public int GetQuantityToAdd()
-        {
+
+        public int GetQuantityToAdd() {
             return short.Parse(QuantityTextBox_.Text);//get the number of quantity input
         }
+    }
+
+    class AddBikeComboboxItem {
+        public string ValueToDisp { get; set; }
+        public int BikeModelID { get; set; }
+        public string BikeName { get; set; }
+        public Color BikeColor { get; set; }
+        public Size BikeSize { get; set; }
     }
 }
