@@ -57,6 +57,9 @@ namespace GigaBike
 
         public void GoToCatalogWindow()
         {
+            // Unbind all the order of the current order
+            controller.Planning.UnbindSlotByIdOrder(controller.Order.IdOrder);
+
             // Refresh the catalog models
             controller.Catalog.RefreshModels();
 
